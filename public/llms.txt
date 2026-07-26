@@ -1,0 +1,32 @@
+# [TODO: Nom du client]
+
+> [TODO: Description courte en 1 phrase — activité + zone + valeur principale]
+
+[TODO: Paragraphe de 3-5 phrases décrivant l'activité, qui est le client idéal, ce qui les différencie des concurrents, et la zone d'intervention.]
+
+## Pages principales
+
+- [Accueil](https://[SITE_URL]/) — Présentation du service, pourquoi choisir [TODO: Nom], avant/après ou exemples de réalisations
+- [Services](https://[SITE_URL]/services) — Détail des offres avec tarifs
+- [Contact](https://[SITE_URL]/contact) — WhatsApp, téléphone, email — premier échange gratuit
+
+## Services et tarifs
+
+- [[TODO: Service 1]](https://[SITE_URL]/services) — [TODO: Prix] — [TODO: Description courte]
+- [[TODO: Service 2]](https://[SITE_URL]/services) — [TODO: Prix] — [TODO: Description courte]
+- [[TODO: Service 3]](https://[SITE_URL]/services) — [TODO: Prix] — [TODO: Description courte]
+
+## Informations de contact
+
+- Téléphone : [TODO: 06 XX XX XX XX]
+- WhatsApp : disponible (réponse rapide)
+- Email : [TODO: client@gmail.com]
+- Zone : [TODO: Bordeaux et agglomération / France entière...]
+- SIRET : [TODO: 000 000 000 00000]
+
+## Données clés
+
+- [TODO: Premier échange : gratuit, sans engagement]
+- [TODO: Délai de réponse : sous 24h]
+- [TODO: Zone d'intervention : rayon X km autour de Ville]
+- Langue : français

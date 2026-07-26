@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <!-- ── FAVICON ──────────────────────────────────────────────────────────── -->
+  <!-- [TODO: Créer favicon.png 512×512px et l'ajouter dans public/] -->
+  <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.png" />
+
+  <!-- ── SEO : titre et description ───────────────────────────────────────── -->
+  <!-- [TODO: Remplir title, description (150 caractères max)] -->
+  <title>[TODO: Nom du site] — [TODO: Service principal] à [TODO: Ville]</title>
+  <meta name="description" content="[TODO: Description 150 caractères — ex. Conciergerie Airbnb à Bordeaux : gestion complète de votre bien, revenus garantis. Contactez-nous par WhatsApp.]" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://[SITE_URL]/" />
+
+  <!-- ── OPEN GRAPH ─────────────────────────────────────────────────────── -->
+  <!-- [TODO: Créer og-image.jpg 1200×630px et l'ajouter dans public/] -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://[SITE_URL]/" />
+  <meta property="og:title"       content="[TODO: Même que <title>]" />
+  <meta property="og:description" content="[TODO: Même que meta description]" />
+  <meta property="og:image"       content="https://[SITE_URL]/og-image.jpg" />
+  <meta property="og:locale"      content="fr_FR" />
+  <meta name="twitter:card"       content="summary_large_image" />
+
+  <!-- ── GOOGLE FONTS ──────────────────────────────────────────────────── -->
+  <!-- [TODO: Remplacer l'URL par celle générée sur fonts.google.com pour les polices choisies dans tokens.js] -->
+  <!-- Exemple Loya (Josefin Sans + Figtree) : -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- [TODO: Remplacer Josefin+Sans et Figtree par les vraies polices du client] -->
+
+  <!-- ── GA4 ────────────────────────────────────────────────────────────── -->
+  <!-- [TODO: Remplacer G-XXXXXXXXXX par le vrai GA4 ID (2 occurrences)] -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
+    // send_page_view: false — le page_view est envoyé manuellement via analytics.js
+  </script>
+
+  <!-- ── JSON-LD SCHEMA ────────────────────────────────────────────────── -->
+  <!-- [TODO: Remplir TOUTES les valeurs entre crochets] -->
+  <!-- Types business courants : LocalBusiness, HomeAndConstructionBusiness, -->
+  <!--   LodgingBusiness, FoodEstablishment, HealthAndBeautyBusiness, ProfessionalService -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["LocalBusiness", "TODO_BusinessType"],
+        "@id": "https://[SITE_URL]/#business",
+        "name": "[TODO: Nom commercial exact du client]",
+        "description": "[TODO: Description du service en 1-2 phrases]",
+        "url": "https://[SITE_URL]",
+        "telephone": "[TODO: +33600000000]",
+        "email": "[TODO: client@gmail.com]",
+        "image": "https://[SITE_URL]/og-image.jpg",
+        "logo": "https://[SITE_URL]/logo.png",
+        "priceRange": "€€",
+        "openingHours": "Mo Tu We Th Fr Sa 09:00-19:00",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "[TODO: Numéro et rue]",
+          "addressLocality": "[TODO: Ville]",
+          "addressRegion": "[TODO: Région ou département]",
+          "postalCode": "[TODO: Code postal]",
+          "addressCountry": "FR"
+        },
+        "areaServed": [
+          { "@type": "City", "name": "[TODO: Ville 1]" },
+          { "@type": "City", "name": "[TODO: Ville 2]" },
+          { "@type": "City", "name": "[TODO: Ville 3]" }
+        ],
+        "sameAs": [
+          "https://www.google.com/maps?cid=[TODO: CID Google My Business]"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://[SITE_URL]/#website",
+        "name": "[TODO: Nom du site]",
+        "url": "https://[SITE_URL]",
+        "description": "[TODO: Description courte]",
+        "inLanguage": "fr"
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://[SITE_URL]/#howto",
+        "name": "[TODO: Titre du processus — ex. 'Comment fonctionne notre service ?']",
+        "description": "[TODO: Description courte du processus]",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "[TODO: Étape 1]",
+            "text": "[TODO: Description de l'étape 1]"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "[TODO: Étape 2]",
+            "text": "[TODO: Description de l'étape 2]"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "[TODO: Étape 3]",
+            "text": "[TODO: Description de l'étape 3]"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://[SITE_URL]/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "[TODO: Question 1 ?]",
+            "acceptedAnswer": { "@type": "Answer", "text": "[TODO: Réponse complète 1]" }
+          },
+          {
+            "@type": "Question",
+            "name": "[TODO: Question 2 ?]",
+            "acceptedAnswer": { "@type": "Answer", "text": "[TODO: Réponse complète 2]" }
+          },
+          {
+            "@type": "Question",
+            "name": "[TODO: Question 3 ?]",
+            "acceptedAnswer": { "@type": "Answer", "text": "[TODO: Réponse complète 3]" }
+          },
+          {
+            "@type": "Question",
+            "name": "[TODO: Question 4 ?]",
+            "acceptedAnswer": { "@type": "Answer", "text": "[TODO: Réponse complète 4]" }
+          },
+          {
+            "@type": "Question",
+            "name": "[TODO: Question 5 ?]",
+            "acceptedAnswer": { "@type": "Answer", "text": "[TODO: Réponse complète 5]" }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+</head>
+<body>
+  <noscript>Vous devez activer JavaScript pour accéder à ce site.</noscript>
+  <div id="root"></div>
+</body>
+</html>
