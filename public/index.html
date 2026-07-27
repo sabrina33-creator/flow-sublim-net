@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <!-- ── FAVICON ──────────────────────────────────────────────────────────── -->
+  <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.png" />
+
+  <!-- ── SEO : titre et description ───────────────────────────────────────── -->
+  <title>Sublim Net — Nettoyage auto, canapé, tapis et matelas à domicile à Talence</title>
+  <meta name="description" content="Detailing auto, canapé, tapis et matelas à domicile sur Talence et alentours. Réservation en ligne immédiate, tarifs transparents. 07 79 72 60 76." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sublimnet.fr/" />
+
+  <!-- ── OPEN GRAPH ─────────────────────────────────────────────────────── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://sublimnet.fr/" />
+  <meta property="og:title"       content="Sublim Net — Nettoyage auto, canapé, tapis et matelas à domicile à Talence" />
+  <meta property="og:description" content="Detailing auto, canapé, tapis et matelas à domicile sur Talence et alentours. Réservation en ligne immédiate, tarifs transparents." />
+  <meta property="og:image"       content="https://sublimnet.fr/og-image.jpg" />
+  <meta property="og:locale"      content="fr_FR" />
+  <meta name="twitter:card"       content="summary_large_image" />
+
+  <!-- ── GOOGLE FONTS ──────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- ── GA4 ────────────────────────────────────────────────────────────── -->
+  <!-- [TODO] Propriété GA4 pas encore créée sur analytics.google.com — voir CLAUDE.md -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
+    // send_page_view: false — le page_view est envoyé manuellement via analytics.js
+  </script>
+
+  <!-- ── JSON-LD SCHEMA ────────────────────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+        "@id": "https://sublimnet.fr/#business",
+        "name": "Sublim Net",
+        "description": "Nettoyage et detailing auto, canapé, tapis et matelas à domicile sur Talence et alentours.",
+        "url": "https://sublimnet.fr",
+        "telephone": "+33779726076",
+        "email": "sublimnet33@gmail.com",
+        "image": "https://sublimnet.fr/og-image.jpg",
+        "logo": "https://sublimnet.fr/favicon.png",
+        "priceRange": "€€",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Talence",
+          "addressRegion": "Gironde",
+          "postalCode": "33400",
+          "addressCountry": "FR"
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Talence" },
+          { "@type": "City", "name": "Bordeaux" },
+          { "@type": "City", "name": "Pessac" },
+          { "@type": "City", "name": "Gradignan" },
+          { "@type": "City", "name": "Bègles" }
+        ],
+        "sameAs": [
+          "https://instagram.com/sublimnet",
+          "https://www.tiktok.com/@sublimnet"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://sublimnet.fr/#website",
+        "name": "Sublim Net",
+        "url": "https://sublimnet.fr",
+        "description": "Réservation en ligne de nettoyage auto, canapé, tapis et matelas à domicile.",
+        "inLanguage": "fr"
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://sublimnet.fr/#howto",
+        "name": "Comment réserver une prestation Sublim Net ?",
+        "description": "Trois étapes pour réserver un nettoyage à domicile.",
+        "step": [
+          { "@type": "HowToStep", "position": 1, "name": "Choisissez votre formule", "text": "Auto, canapé, tapis ou matelas — sélectionnez la prestation adaptée." },
+          { "@type": "HowToStep", "position": 2, "name": "Réservez votre créneau", "text": "07:30 ou 14:30, 7j/7 — réservation en ligne automatique et définitive." },
+          { "@type": "HowToStep", "position": 3, "name": "On vient chez vous", "text": "Intervention à domicile à l'heure convenue, sur l'adresse indiquée." }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://sublimnet.fr/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quelle est la différence entre Express et Confort ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Express nettoie l'intérieur sans les sièges. Confort inclut un nettoyage complet de l'intérieur, sièges compris." }
+          },
+          {
+            "@type": "Question",
+            "name": "Puis-je réserver le jour même ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, uniquement pour la formule Extérieur seul et les prestations phares. Toute formule avec intérieur nécessite un délai minimum de 24h." }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment sont calculés les frais de déplacement ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Un rayon de 20 km autour de notre zone d'intervention est offert. Au-delà, 0,75€/km sont appliqués uniquement sur le dépassement." }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment annuler une réservation ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "L'annulation se fait uniquement par téléphone au 07 79 72 60 76 — pas d'annulation en ligne." }
+          },
+          {
+            "@type": "Question",
+            "name": "Le tapis est-il réservable en ligne comme les autres services ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Non, le tapis est uniquement sur devis personnalisé, sans réservation automatique." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+</head>
+<body>
+  <noscript>Vous devez activer JavaScript pour accéder à ce site.</noscript>
+  <div id="root"></div>
+</body>
+</html>
