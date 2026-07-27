@@ -72,3 +72,49 @@ Historique chronologique complet du projet. Ne jamais réécrire ou supprimer un
 - `ServicesPage.jsx` mis à jour : la galerie (section "Avant / Après") utilise désormais les 17 fichiers collages (un seul `<img>` par paire) au lieu des paires brutes + badges CSS ; passée de 6 à 17 éléments affichés.
 
 **Liste des 17 paires traitées :** 1, bleu, camion-arriere, canape, coffre, matelas, phare, rail, range-gobelet, roue, siege-arriere, siege-beige, siege-gris, tapis-volant, tapis-volant2, volant, volant2.
+
+---
+
+## 2026-07-27 (suite) — Email de confirmation (Resend)
+
+**Compte Resend créé sur l'adresse de l'utilisatrice** (comme Supabase — Kenzo n'a pas besoin d'accès quotidien à Resend, l'agence gère cette brique technique).
+
+**Fonction d'envoi d'email** : `supabase/functions/send-booking-confirmation/index.ts` écrite dans le repo, puis déployée manuellement via le Dashboard Supabase (Edge Functions → Via Editor, pas de CLI utilisée). Nom technique réel de la fonction (slug d'URL) : **`bright-handler`** — l'utilisatrice l'a affichée sous le nom "sublim-net" dans le champ Name, mais Supabase conserve l'URL du slug d'origine même après renommage (`https://dyzmqnhvjydnovqfatcb.supabase.co/functions/v1/bright-handler`). Aucun problème fonctionnel, juste une source de confusion à noter.
+
+**Secrets configurés** (Edge Functions → Secrets) : `RESEND_API_KEY` (clé du compte Resend) et `WEBHOOK_SECRET` (chaîne aléatoire générée localement, `08878b3c...`, jamais commitée dans le repo) — utilisée pour vérifier que les appels à la fonction viennent bien de notre déclencheur, pas d'un tiers.
+
+**Bug rencontré — assistant "Database Webhooks" cassé sur ce projet :** la création d'un webhook via Database → Webhooks (Intégration officielle) échoue systématiquement avec `ERROR: 3F000: schema "supabase_functions" does not exist`, y compris après activation de l'extension `pg_net` (qui ne l'était pas au départ — activée en cours de route, seule extension non activée par défaut parmi celles listées). Le schéma interne `supabase_functions` que l'assistant Supabase utilise pour poser son trigger n'a jamais été initialisé sur ce projet — bug/edge case côté plateforme, pas quelque chose de réparable depuis le Dashboard.
+
+**Contournement retenu :** trigger SQL manuel utilisant directement `pg_net` (`net.http_post`), sans dépendre du schéma `supabase_functions`. Nécessite d'avoir désactivé au préalable **"Verify JWT with legacy secret"** dans Settings de la fonction (recommandé par Supabase lui-même quand on a sa propre logique d'auth) pour que l'appel HTTP du trigger n'ait pas besoin de porter un JWT — seul le header `x-webhook-secret` protège l'appel désormais. SQL exécuté avec succès :
+
+```sql
+create or replace function public.trigger_send_booking_confirmation()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  perform net.http_post(
+    url := 'https://dyzmqnhvjydnovqfatcb.supabase.co/functions/v1/bright-handler',
+    headers := jsonb_build_object(
+      'Content-Type', 'application/json',
+      'x-webhook-secret', '08878b3c52bfb47fde63e12aa07273f3'
+    ),
+    body := jsonb_build_object(
+      'type', TG_OP, 'table', TG_TABLE_NAME, 'schema', TG_TABLE_SCHEMA, 'record', to_jsonb(NEW)
+    )
+  );
+  return NEW;
+end;
+$$;
+
+create trigger send_booking_confirmation_trigger
+after insert on public.creneaux
+for each row
+execute function public.trigger_send_booking_confirmation();
+```
+
+**Limite connue :** Resend restreint l'envoi à l'adresse du compte tant qu'aucun domaine n'est vérifié (`sublimnet.fr` pas encore réservé — voir CLAUDE.md). Les emails ne partiront donc réellement que vers l'adresse ayant créé le compte Resend jusqu'à la vérification du domaine.
+
+**Point ouvert :** test de bout en bout (insertion réelle → réception email) pas encore effectué à ce stade de la conversation.
