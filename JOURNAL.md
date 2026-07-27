@@ -58,3 +58,17 @@ Historique chronologique complet du projet. Ne jamais réécrire ou supprimer un
 **Sauvegarde GitHub :** dépôt local initialisé (`git init`), remote `https://github.com/sabrina33-creator/flow-sublim-net.git` déjà existant avec un commit initial (contenu brut du template, créé automatiquement via "Use this template" sur GitHub). Historique relié avec `git merge --allow-unrelated-histories -X ours` (contenu local conservé, pas de conflit réel puisque tous les fichiers template ont été depuis remplis/remplacés). Poussé avec succès sur `master` (commit `e3f3b07`). `.claude/` (métadonnées de session locale) ajouté au `.gitignore` — jamais commité.
 
 **Point ouvert pour demain :** trier les 4 photos `src/IMG_*.jpeg` (dont un doublon à supprimer), décider si `IMG_4381.jpeg` (véhicule extérieur sale) doit rejoindre la galerie avant/après de `ServicesPage.jsx`, puis continuer sur les points ouverts déjà notés (confirmation email, reste des photos, GA4, domaine).
+
+---
+
+## 2026-07-27 (suite)
+
+**10 nouvelles paires avant/après ajoutées par l'utilisatrice** dans `src/images/` : canapé, coffre, matelas, phare, siège arrière, siège beige, siège gris, tapis-volant, tapis-volant2, volant2. Les 4 anciennes photos non triées (`src/IMG_*.jpeg`) ont été renommées/déplacées par l'utilisatrice elle-même vers `src/images/volant2-avant.jpeg` et `volant2-apres.jpeg` (doublon résolu). Contenu vérifié par échantillonnage (canapé = tissu, matelas = matelas avec filigrane "SublimNet" déjà incrusté, phare = phare avant véhicule, tapis-volant = tapis de sol auto — pas un tapis maison, à ne pas confondre avec le service Tapis/devis).
+
+**Génération de collages avant/après (demande explicite de l'utilisatrice) :**
+- Convention réelle observée sur disque : `objet-avant.jpeg` / `objet-apres.jpeg` (sans numéro, extension `.jpeg`) — différente de la convention `objet-numéro-avant.jpg` décrite dans la demande ; interprétée en conséquence sans bloquer.
+- Script PowerShell (`System.Drawing`) : repérage des paires par nom de base normalisé (accents ignorés — gère l'incohérence `canape-avant.jpeg` / `canapé-apres.jpeg`), génération d'un collage côte-à-côte (avant à gauche, après à droite, hauteur commune 900px, badges arrondis "Avant" (noir semi-transparent) / "Après" (violet `#7F4997`) en bas à gauche de chaque moitié).
+- **17 paires traitées avec succès, 0 orpheline.** Fichiers originaux dans `src/images/` non modifiés, non déplacés. Collages écrits dans `src/images/collages/*-collage.jpg` (nouveau sous-dossier, différent du `photos/collages/` mentionné dans la demande — adapté à la structure réelle du projet React, seul `src/` est surveillé par le build).
+- `ServicesPage.jsx` mis à jour : la galerie (section "Avant / Après") utilise désormais les 17 fichiers collages (un seul `<img>` par paire) au lieu des paires brutes + badges CSS ; passée de 6 à 17 éléments affichés.
+
+**Liste des 17 paires traitées :** 1, bleu, camion-arriere, canape, coffre, matelas, phare, rail, range-gobelet, roue, siege-arriere, siege-beige, siege-gris, tapis-volant, tapis-volant2, volant, volant2.
