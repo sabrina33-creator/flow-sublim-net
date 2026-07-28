@@ -117,4 +117,6 @@ execute function public.trigger_send_booking_confirmation();
 
 **Limite connue :** Resend restreint l'envoi à l'adresse du compte tant qu'aucun domaine n'est vérifié (`sublimnet.fr` pas encore réservé — voir CLAUDE.md). Les emails ne partiront donc réellement que vers l'adresse ayant créé le compte Resend jusqu'à la vérification du domaine.
 
-**Point ouvert :** test de bout en bout (insertion réelle → réception email) pas encore effectué à ce stade de la conversation.
+**Test de bout en bout réussi (2026-07-28) :** insertion manuelle d'une réservation via SQL Editor (email = adresse du compte Resend, seule adresse acceptée tant qu'aucun domaine n'est vérifié) → email "Votre réservation Sublim Net est confirmée" reçu en boîte de réception en quelques secondes, contenu correct (prestation, date, adresse, total, consignes d'annulation). Chaîne complète validée : insertion `creneaux` → trigger SQL → `net.http_post` → fonction Edge `bright-handler` → API Resend → email. Ligne de test supprimée après vérification.
+
+**Confirmation email : fonctionnelle et validée.** Reste uniquement bloquant pour les vrais clients : réservation d'un nom de domaine + vérification de ce domaine chez Resend (actuellement seule l'adresse du compte Resend peut recevoir).
