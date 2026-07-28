@@ -16,7 +16,7 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 - **Ville affichée publiquement** : Talence (33400)
 - **Adresse d'intervention réelle** : 20 rue François Rabelais, 33400 Talence — ⚠️ **NE JAMAIS AFFICHER PUBLIQUEMENT**, usage interne uniquement (calcul de distance)
 - **SIRET** : 95258635200025
-- **Réseaux sociaux** : Instagram `SUBLIMNET`, TikTok `SUBLIMNET`, Snapchat `SUBLIMNETT` (avec un T final — vérifié tel quel sur le camion, ne pas "corriger")
+- **Réseaux sociaux** : Instagram `SUBLIMNET` (compte actif, vérifié), TikTok `SUBLIMNET` (compte actif, vérifié). Snapchat `SUBLIMNETT` (avec un T final, tel qu'affiché sur le camion) — **compte introuvable** (vérifié le 2026-07-28 : ni via le lien web, ni via la recherche dans l'application Snapchat). Le pseudo venait uniquement du visuel du camion, aucun compte réel ne semble avoir été créé. Lien Snapchat retiré du site jusqu'à création effective du compte — ne pas raffiner "sublimnett" en une autre orthographe sans confirmation du client.
 - **Domaine** : [TODO — non réservé, sublimnet.fr ou .com envisagé]
 - **GA4** : [TODO — propriété à créer sur analytics.google.com]
 

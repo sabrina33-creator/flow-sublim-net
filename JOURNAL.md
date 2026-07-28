@@ -120,3 +120,19 @@ execute function public.trigger_send_booking_confirmation();
 **Test de bout en bout réussi (2026-07-28) :** insertion manuelle d'une réservation via SQL Editor (email = adresse du compte Resend, seule adresse acceptée tant qu'aucun domaine n'est vérifié) → email "Votre réservation Sublim Net est confirmée" reçu en boîte de réception en quelques secondes, contenu correct (prestation, date, adresse, total, consignes d'annulation). Chaîne complète validée : insertion `creneaux` → trigger SQL → `net.http_post` → fonction Edge `bright-handler` → API Resend → email. Ligne de test supprimée après vérification.
 
 **Confirmation email : fonctionnelle et validée.** Reste uniquement bloquant pour les vrais clients : réservation d'un nom de domaine + vérification de ce domaine chez Resend (actuellement seule l'adresse du compte Resend peut recevoir).
+
+---
+
+## 2026-07-28 (suite) — Mentions légales, politique de confidentialité, statut Snapchat
+
+**Infos collectées auprès de l'utilisatrice :** Kenzo Mendes (nom complet), statut auto-entrepreneur/micro-entreprise, adresse légale = adresse réelle d'intervention (20 rue François Rabelais, Talence — choix explicite de l'utilisatrice d'afficher l'adresse réelle dans les mentions légales, obligation légale française, distinct de la page Contact qui n'affiche que la ville), projet Supabase hébergé en Europe.
+
+**`src/pages/MentionsLegalesPage.jsx` créée** : éditeur (Kenzo Mendes, SIRET 95258635200025, adresse, TVA non applicable art. 293 B CGI), directeur de publication, hébergeur du site (Netlify — anticipé pour la publication à venir), hébergement des données (Supabase, Europe), propriété intellectuelle, crédits.
+
+**`src/pages/ConfidentialitePage.jsx` créée** (RGPD) : responsable du traitement, données collectées (formulaire de réservation uniquement — le devis tapis part par WhatsApp, non stocké), finalités, base légale (exécution du contrat), destinataires (Kenzo uniquement), sous-traitants (Supabase, Resend, Nominatim/OpenStreetMap), durée de conservation (3 ans, valeur par défaut proposée), cookies (aucun pour l'instant, section à compléter si GA4 est activé), droits RGPD + CNIL, sécurité (RLS).
+
+**Routes ajoutées** (`/mentions-legales`, `/confidentialite`) dans `App.js`, liens ajoutés en bas de `Footer.jsx`, entrées ajoutées à `sitemap.xml`.
+
+**Statut Snapchat clarifié :** compte `SUBLIMNETT` (visuel du camion) introuvable — vérifié par l'utilisatrice à la fois via le lien web et via la recherche directe dans l'application Snapchat. Le pseudo semble n'avoir jamais eu de compte réel créé derrière. Lien Snapchat retiré de `ContactPage.jsx` (Instagram et TikTok confirmés actifs et corrects). `CLAUDE.md` mis à jour en conséquence — ne pas rajouter de lien Snapchat sans confirmation explicite qu'un compte existe.
+
+**Vérifié** : compilation sans erreur, capture des deux nouvelles pages et du footer conforme.

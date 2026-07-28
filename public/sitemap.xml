@@ -30,4 +30,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://sublimnet.fr/mentions-legales</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://sublimnet.fr/confidentialite</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
 </urlset>

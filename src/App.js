@@ -11,6 +11,8 @@ import ServicesPage from './pages/ServicesPage';
 import ReservationPage from './pages/ReservationPage';
 import DevisTapisPage from './pages/DevisTapisPage';
 import ContactPage from './pages/ContactPage';
+import MentionsLegalesPage from './pages/MentionsLegalesPage';
+import ConfidentialitePage from './pages/ConfidentialitePage';
 
 // Ajouter des pages ici + dans Header.jsx NAV + dans Footer.jsx nav
 
@@ -37,6 +39,8 @@ function AppContent() {
           <Route path="/reservation"  element={<ReservationPage />} />
           <Route path="/devis-tapis"  element={<DevisTapisPage />}  />
           <Route path="/contact"      element={<ContactPage />}     />
+          <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+          <Route path="/confidentialite"  element={<ConfidentialitePage />}  />
         </Routes>
       </main>
       <Footer />

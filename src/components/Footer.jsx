@@ -89,7 +89,11 @@ export default function Footer() {
           color: 'rgba(255,255,255,0.35)',
         }}>
           <span>© {year} {SITE_NAME} — Tous droits réservés</span>
-          <span>Réalisé par <a href="https://wa.me/33783376293" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>Flōw Agency</a></span>
+          <span style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <Link to="/mentions-legales" style={{ color: 'rgba(255,255,255,0.35)' }}>Mentions légales</Link>
+            <Link to="/confidentialite" style={{ color: 'rgba(255,255,255,0.35)' }}>Politique de confidentialité</Link>
+            <span>Réalisé par <a href="https://wa.me/33783376293" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>Flōw Agency</a></span>
+          </span>
         </div>
       </div>
     </footer>

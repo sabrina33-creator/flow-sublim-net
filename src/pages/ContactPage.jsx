@@ -1,6 +1,6 @@
 // Page Avis & Contact — pas de faux avis, pas de note inventée (voir CLAUDE.md :
 // aucune fiche Google Business Profile, aucun avis client réel pour le moment).
-import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, SNAPCHAT } from '../tokens';
+import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK } from '../tokens';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
@@ -146,7 +146,7 @@ export default function ContactPage() {
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 40, flexWrap: 'wrap' }}>
               <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: C.muted, padding: '8px 16px', border: `1px solid ${C.border}`, borderRadius: 20 }}>Instagram — SUBLIMNET</a>
               <a href={TIKTOK} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: C.muted, padding: '8px 16px', border: `1px solid ${C.border}`, borderRadius: 20 }}>TikTok — SUBLIMNET</a>
-              <a href={SNAPCHAT} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: C.muted, padding: '8px 16px', border: `1px solid ${C.border}`, borderRadius: 20 }}>Snapchat — SUBLIMNETT</a>
+              {/* Snapchat retiré : compte SUBLIMNETT introuvable (ni web ni recherche in-app) — voir CLAUDE.md */}
             </div>
           </FadeIn>
         </div>
