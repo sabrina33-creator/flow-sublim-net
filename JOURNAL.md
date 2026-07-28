@@ -143,3 +143,25 @@ execute function public.trigger_send_booking_confirmation();
 - Compte utiliser les **skills CRO et AI-SEO** (mentionnées plus tôt dans la session) pour la suite des améliorations.
 
 **Point ouvert pour demain :** clarifier avec l'utilisatrice ce qu'elle entend par "plus visuel" et ce qu'elle veut changer au logo avant d'agir, plutôt que de deviner.
+
+---
+
+## 2026-07-28 (suite) — Bug logo corrigé + brief visuel roulezpropre.fr
+
+**Bug logo corrigé :** le "S" de "Sublim" était coupé en bas dans `src/images/logo-script.png` (signalé par l'utilisatrice en regardant le site rendu pour la toute première fois). Cause : premier recadrage du fichier `src/images/logo-transparent.png` (818×328) trop court en hauteur (205px), coupant la boucle basse du S. Le S descend en fait jusqu'à y≈273, ce qui chevauche verticalement le début du texte "DETAILING AUTO" (commence à x≈177, y≈230) — un simple recadrage rectangulaire ne suffisait pas. Solution : recadrage à 274px de hauteur + effacement ciblé (alpha=0) des pixels x≥163 sur les lignes y=226-273 pour retirer la bavure "DETAILING AUTO" tout en gardant la queue complète du S. `Logo.jsx` mis à jour avec le nouveau ratio (818×274). Vérifié visuellement dans le header — logo entier, propre. Commit à faire.
+
+**Brief visuel — inspiration roulezpropre.fr (référence donnée par l'utilisatrice), captures prises via Playwright :**
+- **Logo mascotte** : personnage illustré (agent d'entretien, casquette, brosse détailing + pistolet de lavage) dans un badge circulaire bleu — bien plus qu'un simple lettrage. L'utilisatrice propose une idée alternative pour Sublim Net : un siège auto + aspirateur, ou "autre chose qui montre que c'est du nettoyage" — pas encore tranché.
+- **Écran d'intro animé** : le logo apparaît seul en plein écran sur fond marine avec un effet de lueur (glow radial bleu) autour, puis le site se révèle après quelques secondes. L'utilisatrice veut un équivalent pour la section hero de l'accueil.
+- **QR code dans le hero** : petit encart "Réservation mobile" avec QR code + bouton, à côté du texte d'accroche — permet de scanner pour réserver depuis mobile. L'utilisatrice veut ce même principe.
+- **Slider avant/après interactif** : une seule photo avec curseur à glisser pour comparer avant/après, plutôt que deux images côte à côte (notre approche actuelle avec les collages `src/images/collages/`).
+- **Fond non plat** : blocs de couleur qui cassent le blanc, écho au retour de l'utilisatrice ("le fond blanc peut être plus coloré").
+- **Note Google 4.9/5 affichée** sur roulezpropre.fr — **à ne pas reproduire** : aucun avis réel n'existe encore pour Sublim Net, règle stricte de `CLAUDE.md` (jamais de fausse note/avis).
+
+**Points à trancher demain avant d'implémenter quoi que ce soit** :
+1. Mascotte du logo : quel visuel exact (siège+aspirateur ? autre ?), qui la crée (génération IA à discuter, ou fournie par le client) ?
+2. Écran d'intro animé + effet de lumière : à construire en CSS/React (faisable sans dépendance externe).
+3. QR code hero : QR code vers quelle page (probablement `/reservation`) ? Génération à faire.
+4. Slider avant/après interactif : remplace ou complète la galerie actuelle de `ServicesPage.jsx` ?
+5. Palette : quelles sections précises doivent sortir du blanc plat, avec quelles couleurs ?
+6. Programme de la journée : skills CRO et AI-SEO à utiliser en complément une fois les décisions visuelles prises.

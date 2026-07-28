@@ -4,9 +4,9 @@
 import logoScript from '../images/logo-script.png';
 
 export default function Logo({ size = 26 }) {
-  // Ratio réel du fichier recadré : 818×205
+  // Ratio réel du fichier recadré : 818×274
   const height = size;
-  const width = Math.round(size * (818 / 205));
+  const width = Math.round(size * (818 / 274));
   return (
     <img
       src={logoScript}
