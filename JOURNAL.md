@@ -136,3 +136,10 @@ execute function public.trigger_send_booking_confirmation();
 **Statut Snapchat clarifié :** compte `SUBLIMNETT` (visuel du camion) introuvable — vérifié par l'utilisatrice à la fois via le lien web et via la recherche directe dans l'application Snapchat. Le pseudo semble n'avoir jamais eu de compte réel créé derrière. Lien Snapchat retiré de `ContactPage.jsx` (Instagram et TikTok confirmés actifs et corrects). `CLAUDE.md` mis à jour en conséquence — ne pas rajouter de lien Snapchat sans confirmation explicite qu'un compte existe.
 
 **Vérifié** : compilation sans erreur, capture des deux nouvelles pages et du footer conforme.
+
+**Premier retour visuel de l'utilisatrice (2026-07-28)** : après avoir vu des captures du site complet pour la première fois (elle n'avait jamais regardé le rendu jusque-là), avis positif global ("pas mal, c'est propre") mais retours à traiter demain :
+- Veut un site **"plus visuel"** — probablement plus d'images/impact visuel, à creuser avec elle pour comprendre précisément ce qui manque à ses yeux.
+- **Logo** à retravailler ("on verra") — le composant `Logo.jsx` actuel affiche `src/images/logo-script.png` (recadré depuis `src/logo.png`, fond blanc retiré) ; pas satisfaisant en l'état selon elle, sans détail supplémentaire pour l'instant.
+- Compte utiliser les **skills CRO et AI-SEO** (mentionnées plus tôt dans la session) pour la suite des améliorations.
+
+**Point ouvert pour demain :** clarifier avec l'utilisatrice ce qu'elle entend par "plus visuel" et ce qu'elle veut changer au logo avant d'agir, plutôt que de deviner.
