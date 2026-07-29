@@ -165,3 +165,26 @@ execute function public.trigger_send_booking_confirmation();
 4. Slider avant/après interactif : remplace ou complète la galerie actuelle de `ServicesPage.jsx` ?
 5. Palette : quelles sections précises doivent sortir du blanc plat, avec quelles couleurs ?
 6. Programme de la journée : skills CRO et AI-SEO à utiliser en complément une fois les décisions visuelles prises.
+
+---
+
+## 2026-07-29 — Bug bloquant sur la réservation réelle (GRANT manquant)
+
+**Symptôme :** premier vrai test de réservation par l'utilisatrice directement sur le site (pas en SQL) → échec systématique à la confirmation ("Une erreur est survenue"), aucune ligne créée dans `creneaux`.
+
+**Fausse piste explorée d'abord :** le déclencheur `send_booking_confirmation_trigger` ajouté la veille — hypothèse que l'appel à `net.http_post` faisait échouer toute la transaction. Correctif appliqué par précaution (bloc `begin...exception when others...` autour de l'appel HTTP dans `trigger_send_booking_confirmation`, pour que l'envoi d'email ne puisse jamais faire échouer la réservation) — bonne pratique conservée, mais **ce n'était pas la cause du problème**.
+
+**Cause réelle, trouvée via l'onglet Network du navigateur (F12) :** `code: 42501, message: "permission denied for table creneaux"`. La policy RLS `with check (true)` créée à l'origine autorise bien l'opération *une fois tentée*, mais il manquait le droit de base au niveau de la table elle-même — RLS et GRANT sont deux couches distinctes chez Postgres, la policy seule ne suffit pas. Jamais détecté avant car tous les tests précédents (création de la table, premier test d'email) avaient été faits avec le rôle `postgres` (SQL Editor), qui contourne RLS et les GRANTs — **le tout premier vrai INSERT en tant que rôle `anon` était celui de l'utilisatrice sur le site**.
+
+**Correctif :**
+```sql
+grant insert on public.creneaux to anon;
+```
+
+**Validé de bout en bout après correction** : réservation réelle passée via le site (localhost:3000/reservation), écran de confirmation affiché, créneau 2026-08-06 14:30. Ligne de test supprimée après vérification email.
+
+**Leçon à retenir pour toute nouvelle table/opération future** : toujours accorder explicitement le `GRANT` (SELECT/INSERT/UPDATE/DELETE selon besoin) au rôle `anon` en plus de la policy RLS — ne jamais supposer que la policy seule suffit. Et tester au moins une fois avec le vrai flux applicatif (rôle `anon`), pas seulement depuis le SQL Editor (rôle `postgres`), avant de considérer une fonctionnalité validée.
+
+**Question posée par l'utilisatrice :** le système doit-il aussi notifier Kenzo par email à chaque réservation (en plus de l'email client) ? Réponse actuelle : non, ce n'est pas implémenté — choix d'origine de `CLAUDE.md` (Kenzo consulte via Supabase Studio). Proposé d'ajouter un email de notification interne si souhaité — en attente de décision.
+
+**Email de confirmation "manquant" lors de ce test réel — expliqué, pas un bug :** l'utilisatrice a saisi son adresse personnelle dans le formulaire de réservation, alors que son compte Resend est créé avec son adresse professionnelle. Confirme une nouvelle fois, en conditions réelles cette fois, la limite déjà connue de Resend (seule l'adresse du compte reçoit tant qu'aucun domaine n'est vérifié). Chaîne technique validée correcte.
