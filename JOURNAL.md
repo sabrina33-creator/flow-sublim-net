@@ -188,3 +188,13 @@ grant insert on public.creneaux to anon;
 **Question posée par l'utilisatrice :** le système doit-il aussi notifier Kenzo par email à chaque réservation (en plus de l'email client) ? Réponse actuelle : non, ce n'est pas implémenté — choix d'origine de `CLAUDE.md` (Kenzo consulte via Supabase Studio). Proposé d'ajouter un email de notification interne si souhaité — en attente de décision.
 
 **Email de confirmation "manquant" lors de ce test réel — expliqué, pas un bug :** l'utilisatrice a saisi son adresse personnelle dans le formulaire de réservation, alors que son compte Resend est créé avec son adresse professionnelle. Confirme une nouvelle fois, en conditions réelles cette fois, la limite déjà connue de Resend (seule l'adresse du compte reçoit tant qu'aucun domaine n'est vérifié). Chaîne technique validée correcte.
+
+**Notification email interne à Kenzo ajoutée** : `supabase/functions/send-booking-confirmation/index.ts` envoie désormais deux emails en parallèle (`Promise.all`) — confirmation client + notification détaillée à `sublimnet33@gmail.com` (coordonnées complètes du client, adresse, montant). Redéployé manuellement sur le Dashboard (fonction `bright-handler`).
+
+**Débogage du test post-déploiement** : premier test après redéploiement → aucun email reçu du tout (ni client ni Kenzo). Logs de la fonction (Edge Functions → Logs) consultés directement — ont montré la cause exacte sans ambiguïté : erreur Resend 403 `validation_error` pour les deux destinataires, aucun ne correspondant à l'adresse réelle du compte Resend (`contact.essaloc@gmail.com`). L'utilisatrice avait utilisé `contact.essaloc@hotmail.fr` (mauvais domaine) comme email client de test. Pas un bug — les logs prouvent que la fonction s'exécute et échoue proprement (erreur loggée, pas de crash). Retest avec la bonne adresse (`contact.essaloc@gmail.com`) → email client reçu avec succès.
+
+**Confirmations supplémentaires obtenues lors de ces tests réels :**
+- Une réservation dont l'envoi d'email échoue reste correctement enregistrée en base (découplage réservation/email qui fonctionne comme prévu).
+- L'anti-double-réservation (contrainte unique `date_creneau, heure`) confirmée fonctionnelle en conditions réelles : un créneau déjà pris par un test précédent s'est affiché indisponible sur le site.
+
+**Système de réservation + emails : entièrement validé de bout en bout, y compris via le vrai parcours utilisateur (pas seulement en SQL).** Table `creneaux` nettoyée des 4 lignes de test accumulées pendant cette session.
