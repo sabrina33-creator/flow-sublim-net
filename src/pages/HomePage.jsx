@@ -16,6 +16,20 @@ import apercuCanape from '../images/canape1-apres.png';
 import apercuTapis from '../images/tapis.png';
 import apercuMatelas from '../images/matelas-apres.png';
 
+// Teaser avant/après — sélection variée (pas uniquement auto), la galerie complète
+// organisée par catégorie est sur /services#avant-apres.
+import teaserRoue from '../images/collages/roue-collage.jpg';
+import teaserCamion from '../images/collages/camion-arriere-collage.jpg';
+import teaserCanape1 from '../images/collages/canape1-collage.jpg';
+import teaserMatelas from '../images/collages/matelas-collage.jpg';
+
+const TEASER_AVANT_APRES = [
+  { label: 'Auto — Jante',            img: teaserRoue },
+  { label: 'Auto — Banquette arrière', img: teaserCamion },
+  { label: 'Canapé',                   img: teaserCanape1 },
+  { label: 'Matelas',                  img: teaserMatelas },
+];
+
 const ACCROCHE_SUB = 'La preuve en image : un intérieur transformé, sans bouger de chez vous.';
 
 const PAIN_POINTS = [
@@ -157,6 +171,37 @@ export default function HomePage() {
               </FadeIn>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── TEASER AVANT / APRÈS ──────────────────────────────────────── */}
+      <section className="sec-p-sm" style={{ background: C.bgAlt }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+          <FadeIn>
+            <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 700, textAlign: 'center', color: C.dark, marginBottom: 12 }}>
+              Avant / Après
+            </h2>
+            <p style={{ textAlign: 'center', color: C.muted, maxWidth: 500, margin: '0 auto 40px' }}>
+              De vraies interventions, pas de mise en scène.
+            </p>
+          </FadeIn>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18, marginBottom: 32 }}>
+            {TEASER_AVANT_APRES.map(({ label, img }, i) => (
+              <FadeIn key={img} delay={i * 0.06}>
+                <div style={{ borderRadius: 12, overflow: 'hidden', border: `1px solid ${C.border}` }}>
+                  <img src={img} alt={`${label} — avant/après`} loading="lazy" style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }} />
+                  <div style={{ background: C.bg, padding: '10px 14px', fontSize: 13, color: C.dark, fontWeight: 600 }}>{label}</div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+          <FadeIn>
+            <div style={{ textAlign: 'center' }}>
+              <Btn href="/services#avant-apres" variant="secondary" style={{ fontSize: 14 }} loc="home_teaser_avant_apres">
+                Voir toutes nos réalisations
+              </Btn>
+            </div>
+          </FadeIn>
         </div>
       </section>
 

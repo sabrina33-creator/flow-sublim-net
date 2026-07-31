@@ -10,19 +10,44 @@ import {
 
 // Collages avant/après générés depuis src/images/*-avant|apres.* (voir JOURNAL.md) —
 // les photos originales restent intactes dans src/images/ pour un usage indépendant (GMB, réseaux).
-// Galerie curatée à 5 paires représentatives (une par catégorie de service, deux pour Canapé).
-import collageBleu from '../images/collages/bleu-collage.jpg';
+// Galerie organisée par catégorie : 6 meilleures paires Auto (sur 15 disponibles, sélection
+// manuelle sur contraste/cadrage — voir JOURNAL.md), 2 Canapé, 1 Matelas. Pas de Tapis
+// (aucune paire avant/après disponible pour l'instant, visuel générique seul).
+import collageCoffre from '../images/collages/coffre-collage.jpg';
+import collageRoue from '../images/collages/roue-collage.jpg';
+import collageVolant from '../images/collages/volant-collage.jpg';
+import collageGobelet from '../images/collages/range-gobelet-collage.jpg';
+import collageCamion from '../images/collages/camion-arriere-collage.jpg';
+import collageSiegeBeige from '../images/collages/siege-beige-collage.jpg';
 import collageCanape from '../images/collages/canape-collage.jpg';
 import collageCanape1 from '../images/collages/canape1-collage.jpg';
 import collageMatelas from '../images/collages/matelas-collage.jpg';
-import collageSiegeBeige from '../images/collages/siege-beige-collage.jpg';
 
-const GALERIE = [
-  { label: 'Auto',             img: collageBleu },
-  { label: 'Canapé',           img: collageCanape1 },
-  { label: 'Canapé',           img: collageCanape },
-  { label: 'Auto — sièges',    img: collageSiegeBeige },
-  { label: 'Matelas',          img: collageMatelas },
+const GALERIE_GROUPES = [
+  {
+    categorie: 'Auto',
+    paires: [
+      { label: 'Coffre',            img: collageCoffre },
+      { label: 'Jante',             img: collageRoue },
+      { label: 'Volant',            img: collageVolant },
+      { label: 'Porte-gobelets',    img: collageGobelet },
+      { label: 'Banquette arrière', img: collageCamion },
+      { label: 'Sièges',            img: collageSiegeBeige },
+    ],
+  },
+  {
+    categorie: 'Canapé',
+    paires: [
+      { label: 'Canapé', img: collageCanape1 },
+      { label: 'Canapé', img: collageCanape },
+    ],
+  },
+  {
+    categorie: 'Matelas',
+    paires: [
+      { label: 'Matelas', img: collageMatelas },
+    ],
+  },
 ];
 
 function Price({ children }) {
@@ -176,8 +201,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── GALERIE AVANT / APRÈS ─────────────────────────────────────── */}
-      <section className="sec-p" style={{ background: C.dark }}>
+      {/* ── GALERIE AVANT / APRÈS — organisée par catégorie ─────────────── */}
+      <section id="avant-apres" className="sec-p" style={{ background: C.dark }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
           <FadeIn>
             <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.8rem, 4vw, 2.2rem)', fontWeight: 700, textAlign: 'center', color: C.white, marginBottom: 12 }}>
@@ -187,16 +212,25 @@ export default function ServicesPage() {
               De vraies interventions, pas de mise en scène.
             </p>
           </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: 24 }}>
-            {GALERIE.map(({ label, img }, i) => (
-              <FadeIn key={img} delay={i * 0.06}>
-                <div style={{ borderRadius: 12, overflow: 'hidden' }}>
-                  <img src={img} alt={`${label} — avant/après`} loading="lazy" style={{ width: '100%', height: 240, objectFit: 'cover', display: 'block' }} />
-                  <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 16px', fontSize: 14, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{label}</div>
-                </div>
+          {GALERIE_GROUPES.map(({ categorie, paires }, gi) => (
+            <div key={categorie} style={{ marginBottom: gi < GALERIE_GROUPES.length - 1 ? 48 : 0 }}>
+              <FadeIn>
+                <h3 style={{ fontFamily: F.heading, fontSize: 18, fontWeight: 700, color: C.white, marginBottom: 18, paddingBottom: 10, borderBottom: `1px solid rgba(255,255,255,0.12)` }}>
+                  {categorie}
+                </h3>
               </FadeIn>
-            ))}
-          </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20 }}>
+                {paires.map(({ label, img }, i) => (
+                  <FadeIn key={img} delay={i * 0.05}>
+                    <div style={{ borderRadius: 12, overflow: 'hidden' }}>
+                      <img src={img} alt={`${label} — avant/après`} loading="lazy" style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }} />
+                      <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 16px', fontSize: 14, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{label}</div>
+                    </div>
+                  </FadeIn>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

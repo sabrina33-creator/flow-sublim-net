@@ -23,8 +23,16 @@ function AppContent() {
   // send_page_view: false est déclaré dans index.html (script GA4)
   useEffect(() => {
     trackPageView(location.pathname);
+    // Ancre (ex. /services#avant-apres) — scroll vers la section ciblée plutôt qu'en haut
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return (
     // paddingBottom : espace pour le StickyCTA fixé en bas sur mobile

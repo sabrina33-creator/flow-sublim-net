@@ -318,3 +318,36 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 - Cadrage jugé correct après comparaison de 3 options contre la photo source — retenu 38% (légèrement au-dessus du centre)
 - Devis Tapis : visuel temporaire (`tapis.png`), à remplacer par une vraie photo tapis avant/après quand disponible
 - Vérifié desktop ET mobile, capturé
+
+---
+
+## 2026-07-31 (suite) — Galerie Avant/Après organisée par catégorie + teaser accueil
+
+**Correction de catégorisation avant de coder** : la demande groupait `siège-beige` avec Canapé ("canapé-un, canapé/siège-beige"). Vérification directe des photos (pas de suppositions sur les noms) : `siege-beige-avant.jpeg`/`siege-beige-apres.png` montrent un intérieur de voiture (tableau de bord Renault, sièges), pas un canapé — confirmé identique à l'identification faite dans une session précédente. Reclassé en **Auto**. Les 2 vraies paires Canapé sont `canape1` (canapé sectionnel blanc) et `canape` (coussin tissu beige, confirmé par inspection visuelle).
+
+**Sélection des 6 meilleures paires Auto** (sur 15 disponibles au total, toutes examinées via leurs collages existants — comparaison sur contraste avant/après et propreté du cadrage, pas d'ordre alphabétique) :
+1. **Coffre** — contraste très marqué (débris → coffre impeccable)
+2. **Jante** — spectaculaire, colorée
+3. **Volant** — cuir usé/sale → propre, fort contraste
+4. **Porte-gobelets** — net, coloré, très parlant
+5. **Banquette arrière** — tache bien visible → nickel
+6. **Sièges** (ex "siège-beige") — contraste net, colorée
+
+Écartées (bonnes mais redondantes ou moins nettes) : `bleu` (déjà utilisée en hero, évite la répétition), `phare`, `siège-gris`, `siège-arrière`, `volant2`, `tapis-volant`, `tapis-volant2`, `rail`, `1` (sujet trop technique/peu lisible en vignette).
+
+**`ServicesPage.jsx` — galerie réorganisée par catégorie** (nouvelle structure `GALERIE_GROUPES` : tableau de `{ categorie, paires }` au lieu d'une liste plate) : sous-titre "Auto" (6 paires, grille 3 colonnes desktop), "Canapé" (2 paires), "Matelas" (1 paire). Pas d'entrée Tapis (aucune paire disponible, conforme à la consigne de ne pas en forcer une). `id="avant-apres"` ajouté à la section pour le lien direct depuis l'accueil. **Lazy loading confirmé actif** : `loading="lazy"` déjà présent sur toutes les images de la galerie (hérité de l'implémentation initiale) — vérifié par script Playwright : **0/9 images chargées avant scroll jusqu'à la section, 9/9 chargées après** (le test contrôlait spécifiquement les paires Auto visibles en premier).
+
+**`HomePage.jsx` — teaser ajouté** juste après "Nos Prestations" : 4 paires variées (Jante + Banquette arrière = Auto, Canapé, Matelas — pas uniquement auto, comme demandé), bouton "Voir toutes nos réalisations" → `/services#avant-apres`.
+
+**Bug découvert et corrigé en cours de route** : `App.js` forçait un `window.scrollTo({top:0})` à chaque changement de route, y compris avec une ancre — le lien du teaser aurait atterri en haut de la page Services au lieu de la section Avant/Après. Corrigé : si `location.hash` est présent et correspond à un élément existant, scroll fluide vers cet élément plutôt qu'en haut de page. Testé : clic sur le bouton → navigation vers `/services#avant-apres` → `scrollY` mesuré à 2795px après clic (pas bloqué à 0).
+
+**Vérifications demandées :**
+- **Aucun fichier disque supprimé ni modifié** — confirmé par `ls -la` : toutes les 39 photos avant/après sources ont conservé leurs dates de modification d'origine (uniquement le référencement dans le code a changé).
+- **Temps de chargement** : page Services chargée en ~2,4s en mode développement (non représentatif de la prod, mais sert de référence relative) ; confirmation surtout via le test 0/9 → 9/9 ci-dessus, qui prouve l'effet concret du lazy loading sur ce volume d'images.
+- **Testé desktop (1440px) et mobile (375px)** : capturé, galerie organisée lisible sur les deux formats, teaser accueil affiché correctement, aucune erreur console.
+
+**Rapport :**
+- 6 paires Auto retenues : Coffre, Jante, Volant, Porte-gobelets, Banquette arrière, Sièges (liste ci-dessus pour vérification)
+- Organisation par catégorie confirmée (Auto/Canapé/Matelas, sous-titres visibles)
+- Lazy loading confirmé actif et vérifié fonctionnellement (0/9 puis 9/9)
+- Rendu desktop + mobile conforme, capturé
