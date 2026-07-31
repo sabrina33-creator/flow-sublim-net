@@ -270,3 +270,32 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 - Hauteur appliquée : 45svh desktop (>768px), 250px mobile (≤768px)
 - Rendu vérifié desktop ET mobile, capturé
 - TODO restants : aucun
+
+---
+
+## 2026-07-31 (suite) — Vignettes Prestations + galerie Avant/Après curatée (Services)
+
+**Fichiers vérifiés par listing avant codage** (noms réels, différents des libellés "avec accent" utilisés dans la demande) :
+- `siege-beige-apres.png` (nouvelle version, remplace l'ancien `.jpeg`)
+- `canape1-apres.png` / `canape1-avant.jpeg` (= "canapé-un" — le fichier utilise le chiffre "1", pas le mot "un")
+- `matelas-apres.png` (nouvelle version sans le filigrane "SublimNet" présent sur l'ancienne)
+- `tapis.png` — confirmé comme seul visuel disponible pour cette catégorie (repéré la session précédente, resté non intégré jusqu'ici)
+- Paire déjà existante réutilisée telle quelle : `canape-avant.jpeg` / `canapé-apres.jpeg` (incohérence d'accent déjà connue, non corrigée)
+
+**Vignettes "Nos Prestations" (`HomePage.jsx`)** mises à jour : Auto → `siege-beige-apres.png`, Canapé → `canape1-apres.png`, Matelas → `matelas-apres.png`, Tapis → `tapis.png`.
+
+**Galerie Avant/Après (`ServicesPage.jsx`) curatée à 5 paires** (au lieu des 17 précédentes, qui couvraient toutes les photos disponibles sans distinction) : Auto (bleu, déjà en place), Canapé ×2 (`canape1` nouveau + `canape` existant), Auto — sièges (`siege-beige`, après mis à jour), Matelas (après mis à jour). Les 12 autres paires (jante, volant, rail, coffre, phare, tapis de sol, sièges arrière/gris, porte-gobelets, etc.) retirées du tableau `GALERIE` — toujours présentes en tant que fichiers et collages sur disque, juste plus affichées sur cette page.
+- 3 collages générés/régénérés avec le même script que la première fois (bandeau 900px, badges Avant/Après) : `collages/canape1-collage.jpg` (nouveau), `collages/siege-beige-collage.jpg` et `collages/matelas-collage.jpg` (régénérés avec les nouvelles photos "après").
+- Grille adaptée à 2 colonnes desktop (`minmax(460px, 1fr)` au lieu de `260px`) avec cartes plus grandes (240px de hauteur au lieu de 180px) — la grille précédente (auto-fit 260px) aurait donné une répartition 4+1 peu naturelle avec seulement 5 éléments ; 2 colonnes donne un rendu 2+2+1 propre.
+
+**Placeholder signalé** : `tapis.png` est un visuel générique/généré, **pas une vraie photo** — aucune paire avant/après n'existe pour le tapis (cohérent avec la règle métier "Tapis sur devis uniquement"). Seule cette catégorie est concernée ; toutes les autres vignettes et paires de cette mise à jour sont de vraies photos.
+
+**Bug rencontré en cours de route** : le processus `npm start` (actif depuis plusieurs jours de session) s'était arrêté silencieusement — `curl` ne répondait plus, sans trace d'erreur dans les logs après le dernier "Compiled successfully". Redémarré sans souci, recompilation propre.
+
+**Vérifié** : compilation sans erreur, capture desktop (1440px) et mobile (375px) des vignettes homepage et de la galerie Services — grille 2 colonnes lisible, non surchargée avec 5 paires, aucune erreur console.
+
+**Rapport :**
+- Fichiers trouvés : tous (aucun manquant)
+- Rendu vérifié desktop + mobile, capturé
+- Galerie Avant/Après : 5 paires (Auto, Canapé ×2, Auto — sièges, Matelas), grille 2 colonnes
+- TODO restants : aucun côté code — reste à obtenir une vraie photo tapis (avant/après) quand disponible

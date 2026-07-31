@@ -8,44 +8,21 @@ import {
   CANAPE_TAILLES, MATELAS_TAILLES,
 } from '../lib/pricing';
 
-// Collages avant/après générés depuis src/images/*-avant|apres.jpeg (voir JOURNAL.md) —
+// Collages avant/après générés depuis src/images/*-avant|apres.* (voir JOURNAL.md) —
 // les photos originales restent intactes dans src/images/ pour un usage indépendant (GMB, réseaux).
-import collageUn from '../images/collages/1-collage.jpg';
+// Galerie curatée à 5 paires représentatives (une par catégorie de service, deux pour Canapé).
 import collageBleu from '../images/collages/bleu-collage.jpg';
-import collageCamion from '../images/collages/camion-arriere-collage.jpg';
 import collageCanape from '../images/collages/canape-collage.jpg';
-import collageCoffre from '../images/collages/coffre-collage.jpg';
+import collageCanape1 from '../images/collages/canape1-collage.jpg';
 import collageMatelas from '../images/collages/matelas-collage.jpg';
-import collagePhare from '../images/collages/phare-collage.jpg';
-import collageRail from '../images/collages/rail-collage.jpg';
-import collageGobelet from '../images/collages/range-gobelet-collage.jpg';
-import collageRoue from '../images/collages/roue-collage.jpg';
-import collageSiegeArriere from '../images/collages/siege-arriere-collage.jpg';
 import collageSiegeBeige from '../images/collages/siege-beige-collage.jpg';
-import collageSiegeGris from '../images/collages/siege-gris-collage.jpg';
-import collageTapisVolant from '../images/collages/tapis-volant-collage.jpg';
-import collageTapisVolant2 from '../images/collages/tapis-volant2-collage.jpg';
-import collageVolant from '../images/collages/volant-collage.jpg';
-import collageVolant2 from '../images/collages/volant2-collage.jpg';
 
 const GALERIE = [
+  { label: 'Auto',             img: collageBleu },
+  { label: 'Canapé',           img: collageCanape1 },
   { label: 'Canapé',           img: collageCanape },
+  { label: 'Auto — sièges',    img: collageSiegeBeige },
   { label: 'Matelas',          img: collageMatelas },
-  { label: 'Phare',            img: collagePhare },
-  { label: 'Jante',            img: collageRoue },
-  { label: 'Volant',           img: collageVolant },
-  { label: 'Volant',           img: collageVolant2 },
-  { label: 'Tapis de sol',     img: collageTapisVolant },
-  { label: 'Tapis de sol',     img: collageTapisVolant2 },
-  { label: 'Rail de siège',    img: collageRail },
-  { label: 'Sous le siège',    img: collageUn },
-  { label: 'Siège arrière',    img: collageSiegeArriere },
-  { label: 'Siège beige',      img: collageSiegeBeige },
-  { label: 'Siège gris',       img: collageSiegeGris },
-  { label: 'Coffre',           img: collageCoffre },
-  { label: 'Porte-gobelets',   img: collageGobelet },
-  { label: 'Habitacle',        img: collageBleu },
-  { label: 'Banquette arrière', img: collageCamion },
 ];
 
 function Price({ children }) {
@@ -210,12 +187,12 @@ export default function ServicesPage() {
               De vraies interventions, pas de mise en scène.
             </p>
           </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: 24 }}>
             {GALERIE.map(({ label, img }, i) => (
-              <FadeIn key={img} delay={i * 0.04}>
+              <FadeIn key={img} delay={i * 0.06}>
                 <div style={{ borderRadius: 12, overflow: 'hidden' }}>
-                  <img src={img} alt={`${label} — avant/après`} loading="lazy" style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }} />
-                  <div style={{ background: 'rgba(255,255,255,0.06)', padding: '10px 14px', fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{label}</div>
+                  <img src={img} alt={`${label} — avant/après`} loading="lazy" style={{ width: '100%', height: 240, objectFit: 'cover', display: 'block' }} />
+                  <div style={{ background: 'rgba(255,255,255,0.06)', padding: '12px 16px', fontSize: 14, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{label}</div>
                 </div>
               </FadeIn>
             ))}

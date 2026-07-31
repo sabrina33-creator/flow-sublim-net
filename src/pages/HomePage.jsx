@@ -10,10 +10,11 @@ import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 // src/images/bleu-avant.jpeg et bleu-apres.jpeg, jamais modifiées ni déplacées.
 import heroAvant from '../images/bleu-avant-hero.jpg';
 import heroApres from '../images/bleu-apres-hero.jpg';
-import apercuAuto from '../images/roue-apres.jpeg';
-import apercuCanape from '../images/bleu-apres.jpeg';
-import apercuTapis from '../images/rail-apres.jpeg';
-import apercuMatelas from '../images/camion-arriere-apres.jpeg';
+import apercuAuto from '../images/siege-beige-apres.png';
+import apercuCanape from '../images/canape1-apres.png';
+// Tapis : visuel générique temporaire (pas une vraie photo) — voir JOURNAL.md
+import apercuTapis from '../images/tapis.png';
+import apercuMatelas from '../images/matelas-apres.png';
 
 const ACCROCHE_SUB = 'La preuve en image : un intérieur transformé, sans bouger de chez vous.';
 
