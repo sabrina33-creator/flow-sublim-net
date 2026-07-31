@@ -62,12 +62,12 @@ button { font-family: inherit; }
   .flow-sticky-cta  { display: flex !important; }
 }
 
-/* ── Bannière de header de page (Services / Réservation / Avis & Contact) ──────── */
-/* Mobile : hauteur fixe 250px. Desktop (>768px) : 45% de la hauteur de viewport,
+/* ── Bannière de header de page (Services / Réservation / Devis Tapis / Avis & Contact) ── */
+/* Mobile : hauteur fixe 280px. Desktop (>768px) : 55% de la hauteur de viewport,
    proportionnel plutôt que fixe pour s'adapter aux différentes tailles d'écran. */
-.page-header-banner { height: 250px; }
+.page-header-banner { height: 280px; }
 @media (min-width: 769px) {
-  .page-header-banner { height: 45svh; }
+  .page-header-banner { height: 55svh; }
 }
 
 /* ── Padding de section ──────────────────────────────────────────────────────── */

@@ -1,13 +1,14 @@
-// Bannière de header — utilisée sur Services / Réservation / Avis & Contact pour un
-// traitement visuel cohérent (même photo, même overlay, même style de titre).
-// Hauteur : 250px fixe sur mobile, 45svh sur desktop — voir .page-header-banner (App.css).
-// Photo : src/images/bleu-apres-banner.jpg (version optimisée web de bleu-apres.jpeg,
-// fichier source jamais modifié ni déplacé).
+// Bannière de header — utilisée sur Services / Réservation / Devis Tapis / Avis & Contact
+// pour un traitement visuel cohérent (même overlay, même style de titre).
+// Hauteur : 280px fixe sur mobile, 55svh sur desktop — voir .page-header-banner (App.css).
+// Image par défaut : src/images/bleu-apres-banner.jpg (version optimisée web de
+// bleu-apres.jpeg, fichier source jamais modifié ni déplacé). Passer `image` pour
+// utiliser une autre photo (ex. tapis-banner.jpg sur Devis Tapis).
 import { C, F } from '../tokens';
 import FadeIn from './FadeIn';
-import bannerImg from '../images/bleu-apres-banner.jpg';
+import defaultBannerImg from '../images/bleu-apres-banner.jpg';
 
-export default function PageHeaderBanner({ title }) {
+export default function PageHeaderBanner({ title, image }) {
   return (
     <section
       className="page-header-banner"
@@ -20,7 +21,7 @@ export default function PageHeaderBanner({ title }) {
       }}
     >
       <img
-        src={bannerImg}
+        src={image || defaultBannerImg}
         alt=""
         aria-hidden="true"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}

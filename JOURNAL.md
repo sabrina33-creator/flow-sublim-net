@@ -299,3 +299,22 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 - Rendu vérifié desktop + mobile, capturé
 - Galerie Avant/Après : 5 paires (Auto, Canapé ×2, Auto — sièges, Matelas), grille 2 colonnes
 - TODO restants : aucun côté code — reste à obtenir une vraie photo tapis (avant/après) quand disponible
+
+---
+
+## 2026-07-31 (suite) — Ajustements headers + header Devis Tapis manquant
+
+**1. Cadrage corrigé (`bleu-apres-banner.jpg`)** : l'ancien recadrage (centré à 50% de la hauteur de la photo source) montrait surtout le tapis de sol en gros plan — pas franchement flatteur, lu comme "juste le bas" de la photo. Comparé visuellement 3 options de cadrage (30%, 38%, 50% de la hauteur source) avant de choisir : retenu **38%** (légèrement au-dessus du centre géométrique), qui montre tableau de bord + pédales + tapis de sol dans un cadre plus riche et reconnaissable comme intérieur de véhicule. Fichier régénéré à la même résolution/qualité (1800×667, 158 Ko).
+
+**2. Hauteur des headers augmentée** : classe `.page-header-banner` (`App.css`) passée de 45svh/250px à **55svh (desktop) / 280px (mobile)**.
+
+**3. Header Devis Tapis ajouté** — cette page n'avait encore aucune bannière photo. `PageHeaderBanner.jsx` rendu flexible (nouvelle prop `image`, optionnelle, avec la photo `bleu-apres-banner.jpg` comme valeur par défaut pour ne rien casser sur les 3 pages existantes). Nouveau fichier `src/images/tapis-banner.jpg` généré à partir de `tapis.png` (recadré au format bannière 2.7:1, 1800×667, 269 Ko) — **visuel générique temporaire, pas une vraie photo**, comme déjà noté pour cette catégorie. `DevisTapisPage.jsx` utilise `<PageHeaderBanner title="Devis Tapis" image={tapisBanner} />`.
+
+**Vérifié** : compilation sans erreur, capture desktop (1440px) et mobile (375px) des 4 pages (Services, Réservation, Devis Tapis, Avis & Contact) — même traitement visuel cohérent sur les 4, hauteur visiblement plus généreuse, cadrage bleu-après nettement plus lisible qu'avant, aucune erreur console.
+
+**Rapport :**
+- 4 headers confirmés : Services, Réservation, Devis Tapis (nouveau), Avis & Contact
+- Hauteur appliquée : 55svh desktop, 280px mobile
+- Cadrage jugé correct après comparaison de 3 options contre la photo source — retenu 38% (légèrement au-dessus du centre)
+- Devis Tapis : visuel temporaire (`tapis.png`), à remplacer par une vraie photo tapis avant/après quand disponible
+- Vérifié desktop ET mobile, capturé

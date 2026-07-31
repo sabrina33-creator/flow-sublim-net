@@ -5,6 +5,9 @@ import { C, F, PHONE, PHONE_DISPLAY } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { WhatsAppIcon, PhoneIcon, CheckIcon } from '../components/Icons';
+import PageHeaderBanner from '../components/PageHeaderBanner';
+// Visuel temporaire (générique, pas une vraie photo tapis) — voir JOURNAL.md
+import tapisBanner from '../images/tapis-banner.jpg';
 
 const inputStyle = {
   width: '100%', padding: '12px 14px', borderRadius: 10,
@@ -34,12 +37,11 @@ export default function DevisTapisPage() {
   const waLink = `https://wa.me/33779726076?text=${encodeURIComponent(message)}`;
 
   return (
-    <section className="sec-p" style={{ paddingTop: 120 }}>
+    <>
+      <PageHeaderBanner title="Devis Tapis" image={tapisBanner} />
+      <section className="sec-p">
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 24px' }}>
         <FadeIn>
-          <h1 style={{ fontFamily: F.heading, fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 700, color: C.dark, marginBottom: 12, textAlign: 'center' }}>
-            Devis Tapis
-          </h1>
           <p style={{ fontSize: 15, color: C.muted, textAlign: 'center', lineHeight: 1.7, marginBottom: 40 }}>
             Chaque tapis est différent — aucun prix fixe n'est affiché. Décrivez-le-nous et on vous répond avec un devis personnalisé, sans réservation automatique.
           </p>
@@ -84,6 +86,7 @@ export default function DevisTapisPage() {
           </div>
         </FadeIn>
       </div>
-    </section>
+      </section>
+    </>
   );
 }
