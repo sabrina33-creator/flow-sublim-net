@@ -5,8 +5,7 @@ import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { WhatsAppIcon, PhoneIcon, MailIcon, PinIcon, CheckIcon } from '../components/Icons';
-
-import contactImg from '../images/bleu-apres.jpeg';
+import PageHeaderBanner from '../components/PageHeaderBanner';
 
 const HORAIRES = [
   { jours: 'Tous les jours (7j/7)', heures: '07:30' },
@@ -16,26 +15,7 @@ const HORAIRES = [
 export default function ContactPage() {
   return (
     <>
-      {/* ── HERO ───────────────────────────────────────────────────────── */}
-      <section style={{
-        position: 'relative',
-        minHeight: '46svh',
-        display: 'flex', alignItems: 'center',
-        background: `linear-gradient(rgba(13,56,87,0.72), rgba(13,56,87,0.6)), url(${contactImg}) center/cover no-repeat`,
-        color: '#fff',
-      }}>
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 680, margin: '0 auto', padding: '120px 28px 56px', textAlign: 'center' }}>
-          <FadeIn>
-            <h1 style={{ fontFamily: F.heading, fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, marginBottom: 14 }}>
-              Avis &amp; Contact
-            </h1>
-            <div style={{ width: 48, height: 3, background: `linear-gradient(90deg, ${C.primary}, ${C.secondary})`, margin: '0 auto 18px' }} />
-            <p style={{ fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>
-              Une question ? On vous répond rapidement.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHeaderBanner title="Avis & Contact" />
 
       {/* ── AVIS — transparence, pas de faux avis ─────────────────────── */}
       <section className="sec-p-sm">

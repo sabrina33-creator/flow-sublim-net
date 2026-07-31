@@ -3,6 +3,7 @@ import { C, F, PHONE_DISPLAY } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { CheckIcon } from '../components/Icons';
+import PageHeaderBanner from '../components/PageHeaderBanner';
 import {
   GABARITS, AUTO_FORMULES, OPTION_SUBLIME, SUPPLEMENTS_AUTO, PRESTATIONS_COURTES,
   CANAPE_TAILLES, MATELAS_TAILLES, computeAutoPrice, computeFraisDeplacement,
@@ -205,12 +206,11 @@ export default function ReservationPage() {
   }
 
   return (
-    <section className="sec-p" style={{ paddingTop: 120 }}>
+    <>
+      <PageHeaderBanner title="Réserver" />
+      <section className="sec-p">
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}>
         <FadeIn>
-          <h1 style={{ fontFamily: F.heading, fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 700, color: C.dark, marginBottom: 8, textAlign: 'center' }}>
-            Réserver un créneau
-          </h1>
           <p style={{ fontSize: 14, color: C.muted, textAlign: 'center', marginBottom: 48 }}>
             07:30 ou 14:30, 7j/7. Réservation en ligne automatique et définitive.
           </p>
@@ -410,6 +410,7 @@ export default function ReservationPage() {
           )}
         </form>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

@@ -2,12 +2,11 @@ import { C, F, WHATSAPP, PHONE, PHONE_DISPLAY } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { WhatsAppIcon, PhoneIcon } from '../components/Icons';
+import PageHeaderBanner from '../components/PageHeaderBanner';
 import {
   GABARITS, AUTO_FORMULES, OPTION_SUBLIME, SUPPLEMENTS_AUTO, PRESTATIONS_COURTES,
   CANAPE_TAILLES, MATELAS_TAILLES,
 } from '../lib/pricing';
-
-import servicesHero from '../images/roue-avant.jpeg';
 
 // Collages avant/après générés depuis src/images/*-avant|apres.jpeg (voir JOURNAL.md) —
 // les photos originales restent intactes dans src/images/ pour un usage indépendant (GMB, réseaux).
@@ -56,30 +55,16 @@ function Price({ children }) {
 export default function ServicesPage() {
   return (
     <>
-      {/* ── HERO ───────────────────────────────────────────────────────── */}
-      <section style={{
-        position: 'relative',
-        minHeight: '48svh',
-        display: 'flex', alignItems: 'center',
-        background: `linear-gradient(rgba(13,56,87,0.72), rgba(13,56,87,0.6)), url(${servicesHero}) center/cover no-repeat`,
-        color: '#fff',
-      }}>
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 700, margin: '0 auto', padding: '120px 28px 64px', textAlign: 'center' }}>
-          <FadeIn>
-            <h1 style={{ fontFamily: F.heading, fontSize: 'clamp(2.2rem, 5vw, 3.4rem)', fontWeight: 800, marginBottom: 16 }}>
-              Nos tarifs
-            </h1>
-            <div style={{ width: 48, height: 3, background: `linear-gradient(90deg, ${C.primary}, ${C.secondary})`, margin: '0 auto 20px' }} />
-            <p style={{ fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
-              Auto, canapé, tapis, matelas — une grille claire, sans surprise.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHeaderBanner title="Nos Services" />
 
       {/* ── AUTO ───────────────────────────────────────────────────────── */}
       <section className="sec-p">
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+          <FadeIn>
+            <p style={{ textAlign: 'center', color: C.muted, maxWidth: 560, margin: '0 auto 40px' }}>
+              Auto, canapé, tapis, matelas — une grille claire, sans surprise.
+            </p>
+          </FadeIn>
           <FadeIn>
             <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.8rem, 4vw, 2.2rem)', fontWeight: 700, color: C.dark, marginBottom: 8 }}>
               Auto

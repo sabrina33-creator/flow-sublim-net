@@ -241,3 +241,32 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 - Choix technique : split statique (pas de slider) — justifié ci-dessus
 - Rendu : conforme à la demande sur desktop et mobile, capturé et vérifié
 - TODO restants : aucun — testé sur mobile dans le cadre de cette tâche, pas seulement desktop
+
+---
+
+## 2026-07-31 (suite) — Bannière cohérente sur Services / Réservation / Avis & Contact
+
+**Demande reçue :** appliquer un traitement de header cohérent (photo `bleu-apres` seule, pas la paire) sur ces trois pages uniquement — Devis Tapis explicitement exclu (photo dédiée prévue dans une étape séparée, non traitée ici).
+
+**Fichier vérifié** : `bleu-apres.jpeg` confirmé par listing avant codage.
+
+**Optimisation image** : source portrait (3213×5712) recadrée en bande large format bannière (ratio 2.7:1, sur la portion verticale centrale) avant compression — évite de stocker/charger une hauteur inutile qui serait de toute façon coupée par `object-fit: cover`. Résultat : `src/images/bleu-apres-banner.jpg` (1800×667, 172 Ko) — nettement plus léger qu'un simple redimensionnement sans recadrage préalable (essayé d'abord : 1800×3200, 880 Ko, abandonné). Fichier source `bleu-apres.jpeg` non modifié, non déplacé.
+
+**Composant réutilisable créé** : `src/components/PageHeaderBanner.jsx` (props : `title`) — garantit un traitement strictement identique (même photo, même overlay dégradé marine, même style de titre) sur les trois pages plutôt que trois implémentations copiées-collées qui risqueraient de diverger.
+
+**Hauteur responsive** — classe `.page-header-banner` ajoutée dans `App.css` :
+- Mobile (≤768px, cohérent avec le breakpoint déjà utilisé ailleurs sur le site) : **250px fixes**
+- Desktop (>768px) : **45svh** (proportionnel, pas une valeur fixe) — remplace les hauteurs précédentes (46-48svh selon la page, incohérentes) et les rend nettement plus présentes qu'avant sur desktop
+
+**Pages modifiées :**
+- `src/pages/ServicesPage.jsx` — ancien hero (photo `roue-avant.jpeg`, titre "Nos tarifs") remplacé par `<PageHeaderBanner title="Nos Services" />` ; sous-titre existant repositionné en texte d'intro sous la bannière plutôt que supprimé
+- `src/pages/ReservationPage.jsx` — n'avait aucune bannière photo auparavant (juste un titre texte) ; `<PageHeaderBanner title="Réserver" />` ajoutée, sous-titre conservé sous la bannière. L'écran de confirmation post-réservation (état `success`) n'a pas été touché — ce n'est pas la bannière d'en-tête de la page
+- `src/pages/ContactPage.jsx` — ancien hero (déjà `bleu-apres.jpeg`, mais version brute non optimisée) remplacé par `<PageHeaderBanner title="Avis & Contact" />`
+
+**Vérifié** : compilation propre (une erreur transitoire en cours d'édition, résolue dans l'état final), capture desktop (1440px) et mobile (375px) des trois pages — bannières visuellement identiques entre elles (même photo, même overlay, même style), hauteurs correctes (~405px sur viewport 900px desktop = 45%, 250px sur mobile confirmés visuellement), aucune erreur console.
+
+**Rapport :**
+- Trois pages traitées : Services, Réservation, Avis & Contact (Devis Tapis non touchée, comme demandé)
+- Hauteur appliquée : 45svh desktop (>768px), 250px mobile (≤768px)
+- Rendu vérifié desktop ET mobile, capturé
+- TODO restants : aucun
