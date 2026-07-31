@@ -3,6 +3,7 @@ import { C, F, SITE_NAME, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY } from '..
 import { PhoneIcon, MailIcon, WhatsAppIcon, PinIcon } from './Icons';
 import Btn from './Btn';
 import Logo from './Logo';
+import badgeMascotte from '../images/badge-mascotte.png'; // [PREVIEW TEMPORAIRE — à retirer si non validé]
 
 const year = new Date().getFullYear();
 
@@ -20,8 +21,9 @@ export default function Footer() {
         }}>
           {/* Colonne 1 — marque */}
           <div>
-            <div style={{ marginBottom: 12 }}>
+            <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
               <Logo size={30} />
+              <img src={badgeMascotte} alt="" style={{ height: 46, width: 'auto' }} />
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 240 }}>
               Nettoyage et detailing auto, canapé, tapis et matelas à domicile, sur {CITY} et alentours.

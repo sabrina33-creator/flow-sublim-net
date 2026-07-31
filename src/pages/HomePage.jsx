@@ -2,17 +2,20 @@ import { C, F, PHONE, PHONE_DISPLAY, WHATSAPP, CITY } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import FaqItem from '../components/FaqItem';
+import Logo from '../components/Logo';
 import { WhatsAppIcon, PhoneIcon, CheckIcon } from '../components/Icons';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 
-import heroImg from '../images/volant-apres.jpeg';
+// Hero — versions optimisées web (redimensionnées/compressées) des photos originales
+// src/images/bleu-avant.jpeg et bleu-apres.jpeg, jamais modifiées ni déplacées.
+import heroAvant from '../images/bleu-avant-hero.jpg';
+import heroApres from '../images/bleu-apres-hero.jpg';
 import apercuAuto from '../images/roue-apres.jpeg';
 import apercuCanape from '../images/bleu-apres.jpeg';
 import apercuTapis from '../images/rail-apres.jpeg';
 import apercuMatelas from '../images/camion-arriere-apres.jpeg';
 
-const ACCROCHE_H1  = 'Votre véhicule et votre intérieur, sublimés à domicile';
-const ACCROCHE_SUB = "Detailing auto, canapé, tapis et matelas — on se déplace chez vous, sur Talence et ses alentours.";
+const ACCROCHE_SUB = 'La preuve en image : un intérieur transformé, sans bouger de chez vous.';
 
 const PAIN_POINTS = [
   { titre: 'Pas le temps de vous déplacer', desc: "On vient directement chez vous, à l'heure convenue — aucun trajet à prévoir." },
@@ -52,35 +55,44 @@ const FAQ = [
 export default function HomePage() {
   return (
     <>
-      {/* ── HERO ───────────────────────────────────────────────────────── */}
-      <section className="hero-grain" style={{
+      {/* ── HERO — split avant/après, orienté preuve/conversion ──────────── */}
+      <section style={{
         position: 'relative',
         minHeight: '100svh',
         display: 'flex', alignItems: 'center',
-        background: `linear-gradient(rgba(13,56,87,0.72), rgba(13,56,87,0.55)), url(${heroImg}) center/cover no-repeat`,
         color: '#fff',
         overflow: 'hidden',
       }}>
+        {/* Fond — split statique avant (gauche) / après (droite) */}
+        <div style={{ position: 'absolute', inset: 0, display: 'flex' }} aria-hidden="true">
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+            <img src={heroAvant} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+            <span style={{ position: 'absolute', bottom: 18, left: 18, background: 'rgba(0,0,0,0.55)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Avant</span>
+          </div>
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+            <img src={heroApres} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+            <span style={{ position: 'absolute', bottom: 18, right: 18, background: C.primary, color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Après</span>
+          </div>
+        </div>
+        {/* Overlay sombre — contraste du texte */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(rgba(13,56,87,0.6), rgba(13,56,87,0.72))' }} aria-hidden="true" />
+
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 760, margin: '0 auto', padding: '120px 28px 80px', textAlign: 'center' }}>
           <FadeIn>
-            <h1 style={{ fontFamily: F.heading, fontSize: 'clamp(2.4rem, 7vw, 4.4rem)', fontWeight: 800, marginBottom: 20, textWrap: 'balance' }}>
-              {ACCROCHE_H1}
-            </h1>
-            <div style={{ width: 48, height: 3, background: `linear-gradient(90deg, ${C.primary}, ${C.secondary})`, margin: '0 auto 24px' }} />
-            <p style={{ fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', lineHeight: 1.7, marginBottom: 36, maxWidth: 560, margin: '0 auto 36px', color: 'rgba(255,255,255,0.9)' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+              <Logo size={54} />
+            </div>
+            <p style={{ fontSize: 'clamp(1.05rem, 2.8vw, 1.35rem)', lineHeight: 1.6, marginBottom: 36, maxWidth: 520, margin: '0 auto 36px', color: 'rgba(255,255,255,0.95)', fontWeight: 500 }}>
               {ACCROCHE_SUB}
             </p>
           </FadeIn>
           <FadeIn delay={0.15}>
             <div className="hero-ctas" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Btn href="/reservation" variant="primary" style={{ fontSize: 15, padding: '14px 26px' }} loc="hero">
-                Réserver un créneau
+              <Btn href="/reservation" variant="primary" style={{ fontSize: 16, padding: '16px 30px' }} loc="hero">
+                Réserver maintenant
               </Btn>
-              <Btn href={WHATSAPP} variant="whatsapp" style={{ fontSize: 15, padding: '14px 24px' }} loc="hero">
+              <Btn href={WHATSAPP} variant="ghost" style={{ fontSize: 15, padding: '14px 24px' }} loc="hero">
                 <WhatsAppIcon size={17} /> WhatsApp
-              </Btn>
-              <Btn href={PHONE} variant="ghost" style={{ fontSize: 15, padding: '14px 24px' }} loc="hero">
-                <PhoneIcon size={17} /> {PHONE_DISPLAY}
               </Btn>
             </div>
           </FadeIn>

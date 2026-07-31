@@ -198,3 +198,46 @@ grant insert on public.creneaux to anon;
 - L'anti-double-réservation (contrainte unique `date_creneau, heure`) confirmée fonctionnelle en conditions réelles : un créneau déjà pris par un test précédent s'est affiché indisponible sur le site.
 
 **Système de réservation + emails : entièrement validé de bout en bout, y compris via le vrai parcours utilisateur (pas seulement en SQL).** Table `creneaux` nettoyée des 4 lignes de test accumulées pendant cette session.
+
+---
+
+## 2026-07-30/31 — Exploration badge/mascotte (Higgsfield) — non intégré
+
+**Génération IA tentée en interne (compte Claude/Higgsfield) :** bloquée — modèle vectoriel (Recraft) nécessite un forfait payant supérieur, modèle de secours (Z Image) à court de crédits. Abandon de cette voie.
+
+**Compte Higgsfield créé par l'utilisatrice sous `sublimnet33@gmail.com`**, génération de plusieurs itérations d'un badge circulaire (voiture + canapé + outil de nettoyage + étincelles, dégradé violet→bleu) avec le modèle Nano Banana Pro, en collaboration sur les prompts (composition, cohérence de style entre icônes, respect strict de la palette `#7F4997`→`#4C77BB`). Version retenue par l'utilisatrice et son frère : badge "pistolet de lavage" en premier plan, voiture + canapé en arrière-plan, 2 étincelles.
+
+**Limite Higgsfield découverte :** filigrane "HIGGSFIELD AI" présent même sur les téléchargements (pas seulement l'aperçu), y compris sur compte gratuit — pas de mention trouvée sur un plan sans filigrane. Contournement : recadrage/nettoyage manuel post-génération plutôt que blocage complet.
+
+**Retouche du fichier livré** (`src/images/badge-pistolet-brut.png.png`, déposé par l'utilisatrice) : le fond "damier" affiché par Higgsfield n'était **pas** une vraie transparence PNG (pixels gris/blanc en dur, alpha=255 partout) — détourage réalisé par détection de pixels neutres (R≈G≈B). Deux micro-coupures dans l'anneau circulaire (dues aux gouttes d'eau et à un tuyau de pistolet qui sortaient du cadre) comblées par un script de correspondance de couleur le long du cercle ajusté mathématiquement (centre/rayon retrouvés par balayage de pixels). Tuyau et filigrane restant retirés. Résultat final : `src/images/badge-mascotte.png`, vérifié illisible-imperfections à toutes les tailles d'usage réel (40-80px).
+
+**Statut : badge créé et nettoyé, mais pas encore placé sur le site.** Essayé en aperçu dans le header (refusé par l'utilisatrice) puis dans le footer à côté du logo (retour en attente — "on verra"). Aucune intégration définitive à ce stade.
+
+---
+
+## 2026-07-31 — Refonte du Hero (page d'accueil), demande formalisée par l'utilisatrice
+
+**Demande reçue :** remplacer le fond hero générique (héritage du template) par une version "preuve/conversion", sans note Google, sans QR code, sans carrousel — split ou slider avant/après au choix, en privilégiant la simplicité d'implémentation.
+
+**Fichiers vérifiés (pas de supposition)** : `src/images/bleu-avant.jpeg` et `src/images/bleu-apres.jpeg` confirmés par listing direct du dossier avant toute modification de code.
+
+**Choix technique — split statique plutôt que slider interactif :**
+Un slider avant/après à glissière nécessite de la gestion d'état (position du curseur), des événements tactiles dédiés pour mobile, et généralement une librairie tierce pour un résultat propre. Le split statique gauche/droite ne demande que du CSS (deux `<img>` en `flex: 1`, `object-fit: cover`), fonctionne nativement sur mobile sans code d'interaction, et réutilise le même schéma visuel (badges "Avant"/"Après") déjà en place pour les collages de `ServicesPage.jsx` — cohérence avec l'existant, zéro dépendance ajoutée, zéro risque de bug tactile. Conforme à la consigne "le plus simple à implémenter proprement, pas le plus complexe visuellement".
+
+**Optimisation image (sans toucher aux originaux)** : `bleu-avant.jpeg` (3213×5712, 6 Mo) et `bleu-apres.jpeg` (3213×5712, 4,8 Mo) beaucoup trop lourds pour un fond de hero (impact direct sur le LCP). Copies redimensionnées/compressées créées séparément : `src/images/bleu-avant-hero.jpg` (1000×1778, 434 Ko) et `src/images/bleu-apres-hero.jpg` (1000×1778, 330 Ko) — fichiers sources intacts, non déplacés.
+
+**`src/pages/HomePage.jsx` modifié** : section hero entièrement reconstruite —
+- Fond : split statique 50/50 (`heroAvant` à gauche, `heroApres` à droite), badges "Avant"/"Après" superposés (style identique aux collages existants)
+- Overlay dégradé marine semi-transparent pour le contraste du texte
+- Logo officiel (`<Logo size={54} />`, script "Sublim Net") à la place d'un H1 texte séparé — évite d'introduire une nouvelle typographie ("Sublim'Net" demandé dans le brief était probablement une coquille : le nom de marque exact reste "Sublim Net", sans apostrophe, conformément à `CLAUDE.md`)
+- Accroche courte et concrète : *"La preuve en image : un intérieur transformé, sans bouger de chez vous."*
+- CTA unique et dominant **"Réserver maintenant"** → `/reservation`, plus un bouton secondaire WhatsApp discret (contact de repli, cohérent avec le reste du site)
+- Aucun badge avis Google, aucun QR code, aucun carrousel — conforme à la demande
+
+**Vérifié** : compilation sans erreur, capture desktop (1440px) et mobile (375px) — texte lisible, split fonctionnel et lisible sur les deux formats, boutons accessibles sans scroll, aucune erreur console.
+
+**Rapport :**
+- Fichiers exacts utilisés : `bleu-avant.jpeg` / `bleu-apres.jpeg` (confirmés avant codage)
+- Choix technique : split statique (pas de slider) — justifié ci-dessus
+- Rendu : conforme à la demande sur desktop et mobile, capturé et vérifié
+- TODO restants : aucun — testé sur mobile dans le cadre de cette tâche, pas seulement desktop

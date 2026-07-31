@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="sublimnet-badge-gradient" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#7F4997"/>
+      <stop offset="100%" stop-color="#4C77BB"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="97" fill="url(#sublimnet-badge-gradient)" stroke="#0D3857" stroke-width="3"/>
+  <path d="M100,54 C100,54 68,102 68,128 A32,32 0 1,0 132,128 C132,102 100,54 100,54 Z" fill="#ffffff"/>
+  <path d="M146,52 C150,68 153,71 169,75 C153,79 150,82 146,98 C142,82 139,79 123,75 C139,71 142,68 146,52 Z" fill="#ffffff"/>
+</svg>
