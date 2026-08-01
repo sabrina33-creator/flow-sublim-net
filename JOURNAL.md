@@ -351,3 +351,17 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 - Organisation par catégorie confirmée (Auto/Canapé/Matelas, sous-titres visibles)
 - Lazy loading confirmé actif et vérifié fonctionnellement (0/9 puis 9/9)
 - Rendu desktop + mobile conforme, capturé
+
+---
+
+## 2026-08-01 — Corrections design (session du soir)
+
+**1. Bug d'alignement vignette Matelas ("Nos Prestations", accueil) — cause racine identifiée et corrigée.** Diagnostic par mesure DOM (Playwright) avant toute correction : l'image et son conteneur `.flow-imgz` étaient déjà strictement identiques sur les 4 cartes (268×170px) — le problème n'était pas l'image. La carte entière (`.flow-card`) faisait 393px pour Auto/Canapé/Tapis mais seulement 371px pour Matelas, à cause d'un texte de description plus court (moins de retours à la ligne) combiné à l'absence de hauteur imposée sur la grille CSS (le `stretch` par défaut de CSS Grid s'applique au conteneur direct de la grille, pas aux enfants imbriqués sans régle explicite). Corrigé en rendant `.flow-card` `height:100%` + `display:flex; flexDirection:column`, avec le bloc prix+bouton poussé en bas via `marginTop:auto` — les 4 cartes s'alignent désormais quelle que soit la longueur du texte, pas seulement pour ce jeu de contenu actuel. Vérifié par mesure : **393px sur les 4 cartes**.
+
+**2. Recadrage `bleu-apres-banner.jpg` revu** (headers Services/Réservation/Avis&Contact) : le cadrage précédent (38% de la hauteur source) montrait pédales + tapis de sol — jugé encore trop "sol". Comparé 4 nouvelles options (18%, 24%, 30%, 38%) contre la photo source. Retenu **18%** : montre les aérations du tableau de bord, le levier de vitesses et une partie du volant — se lit clairement comme "habitacle" plutôt que comme un plan de sol. Fichier régénéré à la même résolution (1800×667, 133 Ko).
+
+**3. Logo hero accueil agrandi et repositionné.** `Logo.jsx` modifié pour accepter une taille responsive (`size` peut désormais être un nombre fixe *ou* une chaîne CSS comme `clamp(...)`) — la largeur suit automatiquement via `aspect-ratio` au lieu d'un calcul JS, ce qui évite de dupliquer la logique de ratio pour ce nouveau cas d'usage. Hero passé de `size={54}` (fixe) à `size="clamp(70px, 12vw, 140px)"` — nettement plus imposant sur desktop (jusqu'à 140px), toujours sûr sur mobile (minimum 70px, supérieur à l'ancienne taille fixe). Padding vertical du bloc de contenu ajusté (`120px/80px` → `96px/104px`) pour remonter légèrement la composition dans le hero. Testé jusqu'à 320px de large (iPhone SE) : aucun débordement, CTA "Réserver maintenant" jamais chevauché.
+
+**Vérifié desktop (1440px) et mobile (375px + 320px)** pour les 3 corrections — capturé, aucune erreur console. Note méthodologique : une première capture du hero semblait montrer un texte à faible opacité — vérifié qu'il s'agissait d'une capture prise pendant l'animation de fondu (FadeIn), pas d'un vrai problème ; une capture après délai plus long confirme un rendu final à pleine opacité, bien contrasté.
+
+**Rapport :** les 3 corrections apportent une amélioration nette et confirmée (pas de résultat mitigé à signaler) — alignement des cartes vérifié par mesure exacte, cadrage bleu-après nettement plus représentatif de l'habitacle, logo hero visiblement plus imposant sans débordement mobile.

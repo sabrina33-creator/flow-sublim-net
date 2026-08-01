@@ -3,16 +3,16 @@
 // compact sur toutes les couleurs de fond (voir CLAUDE.md — jamais réinventé).
 import logoScript from '../images/logo-script.png';
 
+// `size` accepte un nombre (px fixe, usage standard header/footer) ou une chaîne CSS
+// (ex. "clamp(70px, 12vw, 140px)") pour un dimensionnement responsive sans JS — la largeur
+// suit automatiquement via aspect-ratio (818×274, ratio réel du fichier recadré).
 export default function Logo({ size = 26 }) {
-  // Ratio réel du fichier recadré : 818×274
-  const height = size;
-  const width = Math.round(size * (818 / 274));
   return (
     <img
       src={logoScript}
       alt="Sublim Net"
       loading="eager"
-      style={{ height, width, objectFit: 'contain', display: 'block' }}
+      style={{ height: size, width: 'auto', aspectRatio: '818 / 274', objectFit: 'contain', display: 'block' }}
     />
   );
 }

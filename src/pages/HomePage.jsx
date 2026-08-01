@@ -92,10 +92,10 @@ export default function HomePage() {
         {/* Overlay sombre — contraste du texte */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(rgba(13,56,87,0.6), rgba(13,56,87,0.72))' }} aria-hidden="true" />
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 760, margin: '0 auto', padding: '120px 28px 80px', textAlign: 'center' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 760, margin: '0 auto', padding: '96px 28px 104px', textAlign: 'center' }}>
           <FadeIn>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
-              <Logo size={54} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+              <Logo size="clamp(70px, 12vw, 140px)" />
             </div>
             <p style={{ fontSize: 'clamp(1.05rem, 2.8vw, 1.35rem)', lineHeight: 1.6, marginBottom: 36, maxWidth: 520, margin: '0 auto 36px', color: 'rgba(255,255,255,0.95)', fontWeight: 500 }}>
               {ACCROCHE_SUB}
@@ -154,18 +154,20 @@ export default function HomePage() {
           </FadeIn>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
             {SERVICES_APERCU.map(({ titre, desc, prix, img }, i) => (
-              <FadeIn key={i} delay={i * 0.1}>
-                <div className="flow-card" style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${C.border}` }}>
-                  <div className="flow-imgz" style={{ height: 170 }}>
+              <FadeIn key={i} delay={i * 0.1} style={{ height: '100%' }}>
+                <div className="flow-card" style={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 14, overflow: 'hidden', border: `1px solid ${C.border}` }}>
+                  <div className="flow-imgz" style={{ height: 170, flexShrink: 0 }}>
                     <img src={img} alt={titre} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
-                  <div style={{ padding: '22px 20px' }}>
+                  <div style={{ padding: '22px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <h3 style={{ fontFamily: F.heading, fontSize: 19, fontWeight: 700, color: C.dark, marginBottom: 8 }}>{titre}</h3>
                     <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, marginBottom: 16 }}>{desc}</p>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: C.primary, marginBottom: 16 }}>{prix}</div>
-                    <Btn href={titre === 'Tapis' ? '/devis-tapis' : '/reservation'} variant="primary" style={{ width: '100%', justifyContent: 'center', fontSize: 13 }} loc="services_card">
-                      {titre === 'Tapis' ? 'Demander un devis' : 'Réserver'}
-                    </Btn>
+                    <div style={{ marginTop: 'auto' }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: C.primary, marginBottom: 16 }}>{prix}</div>
+                      <Btn href={titre === 'Tapis' ? '/devis-tapis' : '/reservation'} variant="primary" style={{ width: '100%', justifyContent: 'center', fontSize: 13 }} loc="services_card">
+                        {titre === 'Tapis' ? 'Demander un devis' : 'Réserver'}
+                      </Btn>
+                    </div>
                   </div>
                 </div>
               </FadeIn>
