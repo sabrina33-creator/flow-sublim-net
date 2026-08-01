@@ -25,7 +25,7 @@ export default function ContactPage() {
               Avis clients
             </h2>
             <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7 }}>
-              Sublim Net vient tout juste de démarrer — les premiers avis clients seront affichés ici dès qu'ils seront disponibles. En attendant, retrouvez de vraies photos avant/après sur notre <a href="/services" style={{ color: C.primary, fontWeight: 600 }}>page Services</a>.
+              Sublim Net vient tout juste de démarrer — on affichera ici les premiers avis clients dès qu'on en aura. En attendant, retrouvez de vraies photos avant/après sur notre <a href="/services" style={{ color: C.primary, fontWeight: 600 }}>page Services</a>.
             </p>
           </FadeIn>
         </div>
@@ -63,7 +63,7 @@ export default function ContactPage() {
                     <PhoneIcon size={24} color={C.primary} />
                   </div>
                   <div style={{ fontFamily: F.heading, fontWeight: 700, fontSize: 17, color: C.dark, marginBottom: 6 }}>Téléphone</div>
-                  <div style={{ fontSize: 14, color: C.muted, marginBottom: 16 }}>Annulation uniquement par téléphone</div>
+                  <div style={{ fontSize: 14, color: C.muted, marginBottom: 16 }}>Pour toute question, et seul moyen d'annuler</div>
                   <div style={{ fontSize: 15, color: C.primary, fontWeight: 700 }}>{PHONE_DISPLAY}</div>
                 </div>
               </a>

@@ -7,6 +7,9 @@
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET");
+// Injectées automatiquement par Supabase dans toute Edge Function — aucun secret à créer.
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 // [TODO] Remplacer par une adresse sur le domaine sublimnet.fr une fois le domaine
 // réservé et vérifié dans Resend. En attendant, onboarding@resend.dev est la seule
@@ -31,10 +34,32 @@ async function sendEmail(to: string, subject: string, html: string) {
     body: JSON.stringify({ from: FROM_EMAIL, to, subject, html }),
   });
   if (!res.ok) {
-    console.error(`Resend error (to ${to}):`, await res.text());
-    return false;
+    const errorText = await res.text();
+    console.error(`Resend error (to ${to}):`, errorText);
+    return { ok: false, error: errorText };
   }
-  return true;
+  return { ok: true };
+}
+
+// Trace un échec d'envoi dans email_failures (table interne, consultable dans
+// Supabase Studio) — ne doit jamais faire planter la fonction si elle échoue elle-même.
+async function logEmailFailure(creneauId: string | undefined, errorMessage: string) {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/email_failures`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_SERVICE_ROLE_KEY ?? "",
+        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      },
+      body: JSON.stringify({ creneau_id: creneauId ?? null, stage: "edge_function", error_message: errorMessage }),
+    });
+    if (!res.ok) {
+      console.error("Insertion email_failures refusée:", res.status, await res.text());
+    }
+  } catch (e) {
+    console.error("Impossible d'enregistrer l'échec email:", e);
+  }
 }
 
 Deno.serve(async (req: Request) => {
@@ -103,13 +128,16 @@ Deno.serve(async (req: Request) => {
     </div>
   `;
 
-  const [clientOk, kenzoOk] = await Promise.all([
+  const [clientResult, kenzoResult] = await Promise.all([
     sendEmail(record.email, "Votre réservation Sublim Net est confirmée", clientHtml),
     sendEmail(KENZO_EMAIL, `Nouvelle réservation — ${serviceLabel} le ${record.date_creneau} à ${record.heure}`, kenzoHtml),
   ]);
 
-  if (!clientOk && !kenzoOk) {
+  if (!clientResult.ok) await logEmailFailure(record.identifiant, `Email client: ${clientResult.error}`);
+  if (!kenzoResult.ok) await logEmailFailure(record.identifiant, `Email Kenzo: ${kenzoResult.error}`);
+
+  if (!clientResult.ok && !kenzoResult.ok) {
     return new Response("Both emails failed", { status: 502 });
   }
-  return new Response(JSON.stringify({ clientOk, kenzoOk }), { status: 200 });
+  return new Response(JSON.stringify({ clientOk: clientResult.ok, kenzoOk: kenzoResult.ok }), { status: 200 });
 });

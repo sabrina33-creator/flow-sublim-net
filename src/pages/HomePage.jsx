@@ -47,9 +47,9 @@ const SERVICES_APERCU = [
 ];
 
 const VALEURS = [
-  { titre: 'À domicile',           desc: "On intervient directement chez vous, pas besoin de vous déplacer." },
-  { titre: 'Réservation immédiate', desc: 'Créneau réservé en ligne en quelques clics, sans appel préalable.' },
-  { titre: 'Tarifs transparents',   desc: 'Grille de prix claire, frais de déplacement affichés à part.' },
+  { titre: 'À domicile',           desc: "Vous continuez votre journée pendant l'intervention." },
+  { titre: 'Réservation immédiate', desc: "Disponible 7j/7, week-end compris. Pas d'horaires de bureau à respecter." },
+  { titre: 'Tarifs transparents',   desc: 'Vous voyez le prix exact avant de valider, sans surprise à l\'arrivée.' },
   { titre: 'Zone étendue',          desc: `Rayon de ${RAYON_GRATUIT_KM} km offert autour de ${CITY}, au-delà ${TARIF_KM_SUPPLEMENTAIRE}€/km.` },
 ];
 
@@ -64,6 +64,7 @@ const FAQ = [
   { q: 'Puis-je réserver le jour même ?', r: "Oui, uniquement pour la formule Extérieur seul et les prestations phares. Toute formule avec intérieur (Express, Confort, combinés) nécessite un délai minimum de 24h." },
   { q: 'Comment sont calculés les frais de déplacement ?', r: `Le rayon de ${RAYON_GRATUIT_KM} km autour de notre zone d'intervention est offert. Au-delà, ${TARIF_KM_SUPPLEMENTAIRE}€/km sont appliqués uniquement sur le dépassement, affichés en ligne séparée lors de la réservation.` },
   { q: 'Comment annuler une réservation ?', r: `L'annulation se fait uniquement par téléphone au ${PHONE_DISPLAY} — pas d'annulation en ligne.` },
+  { q: 'Comment se passe le paiement ?', r: "Sur place, après l'intervention : espèces, carte ou virement." },
   { q: 'Le tapis est-il réservable en ligne comme les autres services ?', r: "Non, le tapis est uniquement sur devis : dites-nous-en plus via notre parcours dédié, sans réservation automatique." },
 ];
 
@@ -122,7 +123,7 @@ export default function HomePage() {
               Le nettoyage à domicile, sans les contraintes
             </h2>
             <p style={{ textAlign: 'center', color: C.muted, maxWidth: 560, margin: '0 auto 56px' }}>
-              On sait ce qui freine — voici comment Sublim Net simplifie les choses.
+              Ce qui freine d'habitude, et comment Sublim Net l'évite.
             </p>
           </FadeIn>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
@@ -297,7 +298,7 @@ export default function HomePage() {
       <section style={{ background: `linear-gradient(120deg, ${C.primary}, ${C.secondary})`, color: C.white, padding: '80px 24px', textAlign: 'center' }}>
         <FadeIn>
           <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700, marginBottom: 16 }}>
-            Prêt à sublimer votre véhicule ou votre intérieur ?
+            Prêt à sublimer votre véhicule, votre canapé ou votre matelas ?
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.9)', maxWidth: 480, margin: '0 auto 32px', fontSize: 16, lineHeight: 1.7 }}>
             Réservation en ligne automatique — votre créneau est confirmé immédiatement.

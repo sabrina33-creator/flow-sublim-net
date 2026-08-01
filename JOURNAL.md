@@ -365,3 +365,63 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 **Vérifié desktop (1440px) et mobile (375px + 320px)** pour les 3 corrections — capturé, aucune erreur console. Note méthodologique : une première capture du hero semblait montrer un texte à faible opacité — vérifié qu'il s'agissait d'une capture prise pendant l'animation de fondu (FadeIn), pas d'un vrai problème ; une capture après délai plus long confirme un rendu final à pleine opacité, bien contrasté.
 
 **Rapport :** les 3 corrections apportent une amélioration nette et confirmée (pas de résultat mitigé à signaler) — alignement des cartes vérifié par mesure exacte, cadrage bleu-après nettement plus représentatif de l'habitacle, logo hero visiblement plus imposant sans débordement mobile.
+
+---
+
+## 2026-08-02 — Cohérence CTA/alignement, copywriting, traçabilité échecs email, passe humanizer
+
+**1. Services/Contact — cohérence visuelle et CTA (committé, `5b817a3`).**
+- `ServicesPage.jsx` (Canapé/Matelas) : boutons "Réserver un canapé"/"Réserver un matelas" alignés en bas de colonne via flexbox (`height:100%; flexDirection:column` sur `FadeIn`, `marginTop:auto` sur le bouton) — même technique que le fix vignette Matelas de la veille, sans égaliser la hauteur totale du bloc. `variant="secondary"` remplacé par `variant="primary"` sur ces deux boutons après audit de tous les usages de `variant="secondary"` dans le repo (confirmé : oubli isolé, tous les autres CTA `href="/reservation"` du site utilisent déjà `primary`).
+- `ContactPage.jsx` (Zone d'intervention / Créneaux) : même pattern flexbox appliqué aux deux blocs, `marginTop:auto` sur le dernier paragraphe de chacun (pas de bouton dans ces blocs, donc ancrage du texte final plutôt qu'un CTA).
+- Ajout des icônes officielles Instagram/TikTok (`Icons.jsx` : `InstagramIcon`, `TiktokIcon`, glyphes SVG inline) dans `Footer.jsx` (nouveau, colonne marque) et `ContactPage.jsx` (remplace les anciennes pills texte "Instagram — SUBLIMNET"/"TikTok — SUBLIMNET"). Couleur de marque au survol via nouvelles classes CSS `flow-social-icon`/`flow-social-instagram`/`flow-social-tiktok` dans `App.css` (contournement nécessaire car styles inline ne supportent pas `:hover`). Rendu vérifié par capture d'écran (état par défaut + survol, desktop) avant validation utilisatrice.
+
+**2. Diagnostic architecture technique (aucun fichier modifié) — compatibilité hébergement.** Demande explicite de confirmer l'architecture avant toute décision d'hébergement. Confirmé par lecture directe du code : emails envoyés via trigger SQL Postgres (`net.http_post`) → Edge Function Supabase (`send-booking-confirmation`) → API Resend, pas de route serveur custom ; écriture réservations exclusivement via client Supabase JS côté navigateur (clé anonyme, RLS + `GRANT INSERT`) ; aucune exécution Node persistante dans le repo ; stack CRA (`react-scripts`) en CSR pur. **Conclusion transmise :** compatible Netlify standard, aucune Netlify Function nécessaire (toute la logique serveur est déjà côté Supabase).
+
+**3. Passe copywriting (revue complète des 5 pages, corrections ciblées appliquées — pas encore committées).** Revue conversion sur Accueil/Services/Réservation/Devis Tapis/Avis&Contact sans remettre en cause le positionnement ni le ton déjà validés. Principal constat : 3 des 4 cartes "Ce qui nous distingue" (accueil) répétaient quasi mot pour mot les cartes "Pain Points" plus haut sur la même page. Corrections approuvées et appliquées dans `HomePage.jsx` et `ContactPage.jsx` :
+- 3 cartes "Ce qui nous distingue" reformulées pour apporter une info neuve (continuité de journée pendant l'intervention, amplitude 7j/7 y compris week-end, prix engagé avant validation) au lieu de redire les Pain Points.
+- CTA final accueil : "véhicule ou votre intérieur" (ambigu) → "véhicule, votre canapé ou votre matelas" (explicite, exclut Tapis à dessein car parcours devis séparé).
+- Sous-titre Pain Points allégé (tournure moins présomptueuse).
+- `ContactPage.jsx` : carte "Avis clients" passée à la voix active ; carte "Téléphone" élargie (ne semblait couvrir que l'annulation, alors que le canal sert aussi aux questions).
+- Nouvelle entrée FAQ paiement ajoutée (accueil) suite à demande séparée de l'utilisatrice : "Sur place, après l'intervention" (espèces/carte/virement) — sujet jusque-là absent de tout le site.
+- Point volontairement laissé de côté : sous-titre "Ce qui nous distingue" ("simple, clair et fiable") conservé tel quel sur décision explicite de l'utilisatrice.
+
+**4. Traçabilité des échecs d'envoi d'email (`email_failures`) — implémenté, cause racine identifiée, pas encore committé.**
+- **Contexte :** le trigger `send_booking_confirmation_trigger` avale silencieusement tout échec Resend (panne, clé invalide, quota) — ni Kenzo ni la cliente n'étaient notifiés, aucune trace nulle part.
+- **Nuance technique importante clarifiée avant de coder :** `net.http_post` (pg_net) est asynchrone — le `begin...exception when others` du trigger ne protège que contre un échec de mise en file de la requête, pas contre un vrai rejet de l'API Resend (qui arrive hors transaction). L'essentiel de la capture devait donc se faire côté Edge Function, pas côté trigger SQL.
+- **Plan validé puis exécuté par l'utilisatrice côté Supabase :** table `public.email_failures` créée (`creneau_id uuid` sans FK stricte — nom de colonne PK réel de `creneaux` confirmé être **`identifiant`**, pas `id`, corrigé partout après capture d'écran Table Editor fournie par l'utilisatrice), RLS activé sans policy anon (accessible via Supabase Studio comme `creneaux`), trigger mis à jour pour logger dans le bloc exception existant.
+- **`supabase/functions/send-booking-confirmation/index.ts` modifié :** `sendEmail()` retourne désormais `{ ok, error }` au lieu d'un simple booléen ; nouvelle fonction `logEmailFailure()` insère dans `email_failures` via l'API REST Supabase avec `SUPABASE_SERVICE_ROLE_KEY` (injectée automatiquement par Supabase, aucun secret à créer) quand l'un des deux envois échoue.
+- **Test réel effectué par l'utilisatrice :** email client bien reçu, email Kenzo absent, ET table `email_failures` restée vide malgré l'échec — anormal. Logs Edge Function consultés (capture fournie) : `ERROR: Resend error (to sublimnet33@gmail.com): {"statusCode":403,"name":"validation_error","message":"You can only send test..."}`.
+- **Bug réel trouvé et corrigé :** `logEmailFailure()` ne vérifiait jamais `res.ok` sur sa propre requête d'insertion — un `fetch()` ne rejette (`catch`) que sur erreur réseau, jamais sur un statut HTTP en erreur, donc un refus de PostgREST (probablement cache de schéma pas encore rafraîchi juste après création de la table) passait totalement silencieux. Correctif appliqué : vérification `res.ok` + log du détail. **Pas encore redéployé/retesté par l'utilisatrice à ce stade.**
+- **Cause racine du problème initial (email Kenzo manquant) confirmée : ce n'est pas un bug de code.** C'est la restriction sandbox Resend (déjà rencontrée le 2026-07-29) — tant qu'aucun domaine n'est vérifié, Resend ne livre qu'à l'adresse du compte Resend lui-même (`contact.essaloc@gmail.com`), jamais à une autre adresse réelle comme `sublimnet33@gmail.com`. Confirmé par recherche documentation Resend officielle : aucune fonctionnalité de "verified recipient" additionnel sans domaine vérifié ; délai de vérification DNS annoncé jusqu'à 72h. **Domaine `sublimnet.fr` toujours non réservé (voir CLAUDE.md) → bloquant dur pour la publication**, pas juste une amélioration à prévoir : le mode sandbox ne peut structurellement pas gérer des adresses clientes arbitraires.
+
+**5. Passe humanizer sur les 6 textes de la passe copywriting — 4 corrections appliquées (pas encore committées).** Revue ciblée anti-patterns IA (tirets cadratins, négations en fin de phrase, vocabulaire corporate) sur les 6 textes de l'étape 3, sans toucher au reste du site. 3 tirets cadratins supprimés (carte "Réservation immédiate", carte "Tarifs transparents", FAQ paiement) et remplacés par point, virgule ou deux-points selon le cas ; carte "Téléphone" (Contact) reformulée sans tiret. 3 textes jugés déjà propres et laissés tels quels (carte "À domicile", CTA final, sous-titre Pain Points, carte "Avis clients").
+
+**État git à la fin de cette session :** rien de committé depuis `5b817a3`. `HomePage.jsx`, `ContactPage.jsx` et `supabase/functions/send-booking-confirmation/index.ts` modifiés en attente de validation visuelle par l'utilisatrice sur le site local avant commit/push. `src/IMG_9724.jpeg` toujours untracked, toujours exclu.
+
+**Points ouverts :**
+- Domaine `sublimnet.fr` (ou équivalent) à réserver + vérifier dans Resend — bloquant dur pour tout envoi d'email à de vrais clients, pas seulement à Kenzo.
+- Redéploiement + retest du correctif `logEmailFailure()` (vérification `res.ok`) encore à faire.
+- Mode de paiement : résolu (FAQ ajoutée), retiré des points ouverts.
+
+---
+
+## 2026-08-02 (suite) — Première mise en ligne : domaine, Netlify, page blanche (variables d'environnement manquantes)
+
+**Contexte :** l'utilisatrice a déployé le site elle-même sur Netlify et réservé le nom de domaine, en dehors du cadre habituel où je génère le code — je l'ai guidée en direct par captures d'écran successives. Marche à suivre documentée ici pour ne pas avoir à la redécouvrir la prochaine fois (nouveau projet, ou redéploiement).
+
+**Étapes suivies, dans l'ordre :**
+
+1. **Nom de domaine acheté** : `sublimnet.com` (le choix s'est porté sur `.com`, pas `.fr` comme envisagé initialement dans `CLAUDE.md`).
+2. **Site connecté à Netlify** (projet `poetic-belekoy-a15347`), déployé depuis `github.com/sabrina33-creator/flow-sublim-net`, branche `master`, auto-publish activé. Domaine personnalisé `sublimnet.com` rattaché au projet.
+3. **Premier déploiement publié → page entièrement blanche**, y compris après actualisation.
+4. **Diagnostic (sans accès aux logs Netlify moi-même, guidage par captures d'écran successives) :** hypothèse posée avant toute vérification — `.env`/`.env.local` sont gitignorés (confirmé par `git ls-files`, jamais commités), donc Netlify n'a jamais eu accès à `REACT_APP_SUPABASE_URL`/`REACT_APP_SUPABASE_KEY`. Avec Create React App, ces variables sont intégrées **au moment du build**, pas à l'exécution : si absentes, `createClient()` (`supabaseClient.js`) échoue au chargement du bundle, avant même le premier rendu React → page blanche sur tout le site, pas juste sur une page. Confirmé par capture : Netlify → Environment variables était effectivement vide.
+5. **Variables ajoutées dans Netlify** (Project configuration → Environment variables → Add a variable) :
+   - `REACT_APP_SUPABASE_URL` = `https://dyzmqnhvjydnovqfatcb.supabase.co`
+   - `REACT_APP_SUPABASE_KEY` = clé **`anon` `public`** copiée depuis Supabase (Project Settings → API Keys → Legacy anon, service_role API keys) — **jamais la clé `service_role`**, qui contourne RLS et ne doit jamais atteindre le code front-end.
+   - Scope réglé sur **"All scopes"** : l'option "Specific scopes" (restreindre à Builds uniquement) est verrouillée derrière un upgrade payant sur le plan Netlify gratuit utilisé ici — "All scopes" fonctionne tout aussi bien pour ce besoin, aucune perte fonctionnelle.
+6. **Redéploiement forcé sans cache** : Deploys → Trigger deploy → **"Deploy project without cache"** (le simple ajout des variables ne suffit pas, un nouveau build est nécessaire pour qu'elles soient intégrées ; l'option "sans cache" garantit qu'un ancien bundle mis en cache n'est pas réutilisé).
+7. Déploiement en cours au moment de cette entrée — résultat pas encore confirmé.
+
+**`CLAUDE.md` mis à jour en conséquence** : domaine `sublimnet.com` renseigné, déploiement Netlify documenté comme actif (plus "local uniquement"), rappel sur la variable `anon public` vs `service_role` ajouté aux contraintes techniques.
+
+**Point ouvert critique, à ne pas oublier :** le domaine est maintenant réservé, mais **pas encore ajouté/vérifié dans Resend** (DNS SPF/DKIM à configurer, voir entrée précédente sur la restriction sandbox Resend). Tant que ce n'est pas fait, les emails de réservation ne partiront toujours pas vers de vrais clients ni vers Kenzo.

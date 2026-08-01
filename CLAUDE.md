@@ -17,7 +17,7 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 - **Adresse d'intervention réelle** : 20 rue François Rabelais, 33400 Talence — ⚠️ **NE JAMAIS AFFICHER PUBLIQUEMENT**, usage interne uniquement (calcul de distance)
 - **SIRET** : 95258635200025
 - **Réseaux sociaux** : Instagram `SUBLIMNET` (compte actif, vérifié), TikTok `SUBLIMNET` (compte actif, vérifié). Snapchat `SUBLIMNETT` (avec un T final, tel qu'affiché sur le camion) — **compte introuvable** (vérifié le 2026-07-28 : ni via le lien web, ni via la recherche dans l'application Snapchat). Le pseudo venait uniquement du visuel du camion, aucun compte réel ne semble avoir été créé. Lien Snapchat retiré du site jusqu'à création effective du compte — ne pas raffiner "sublimnett" en une autre orthographe sans confirmation du client.
-- **Domaine** : [TODO — non réservé, sublimnet.fr ou .com envisagé]
+- **Domaine** : `sublimnet.com` (réservé et configuré sur Netlify, à confirmer par l'utilisatrice)
 - **GA4** : [TODO — propriété à créer sur analytics.google.com]
 
 ## Identité visuelle
@@ -37,7 +37,7 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 - **Pas de compte utilisateur, pas de mot de passe** — ni côté client ni côté admin. Kenzo consulte les réservations directement via Supabase Studio (table editor), il n'y a pas de dashboard admin custom prévu.
 - **Pas de SMS** — confirmation par email uniquement (service gratuit compatible Supabase, ex. Resend), pas de Twilio.
 - Géocodage : service gratuit (Nominatim/OpenStreetMap), jamais d'API de distance routière payante. Calcul à vol d'oiseau (Haversine).
-- Déploiement : local uniquement pour l'instant (`npm start`). Pas de push Netlify sans validation explicite de l'utilisatrice.
+- Déploiement : **site en ligne sur Netlify** (`sublimnet.com`, déployé le 2026-08-02), auto-publish activé sur la branche `master` du repo GitHub `sabrina33-creator/flow-sublim-net`. Variables d'environnement `REACT_APP_SUPABASE_URL` / `REACT_APP_SUPABASE_KEY` (clé `anon public`, jamais `service_role`) configurées dans Netlify → Environment variables (obligatoire, CRA les intègre au build, pas à l'exécution — un oubli produit une page blanche sur tout le site).
 
 ## Grille tarifaire (TARIFS CONFIRMÉS PAR LE CLIENT LE 2026-07-26 — stables sauf notification contraire)
 
@@ -85,4 +85,5 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 - Aucune fiche Google Business Profile, aucun avis client réel — ne jamais afficher de note ou de faux témoignage.
 - Aucune assurance professionnelle — ne jamais afficher de mention rassurante à ce sujet.
-- Aucun domaine réservé, aucune propriété GA4 créée.
+- Aucune propriété GA4 créée.
+- **Domaine réservé (`sublimnet.com`) mais pas encore vérifié dans Resend** — tant que ce n'est pas fait, les emails de réservation ne partent réellement que vers l'adresse du compte Resend, pas vers de vrais clients. Voir JOURNAL.md pour le détail.
