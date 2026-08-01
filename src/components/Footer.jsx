@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { C, F, SITE_NAME, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY } from '../tokens';
-import { PhoneIcon, MailIcon, WhatsAppIcon, PinIcon } from './Icons';
+import { C, F, SITE_NAME, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK } from '../tokens';
+import { PhoneIcon, MailIcon, WhatsAppIcon, PinIcon, InstagramIcon, TiktokIcon } from './Icons';
 import Btn from './Btn';
 import Logo from './Logo';
 import badgeMascotte from '../images/badge-mascotte.png'; // Pictogramme validé — footer uniquement, ne pas déplacer sans confirmation explicite
@@ -25,9 +25,31 @@ export default function Footer() {
               <Logo size={30} />
               <img src={badgeMascotte} alt="" style={{ height: 46, width: 'auto' }} />
             </div>
-            <p style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 240 }}>
+            <p style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 240, marginBottom: 18 }}>
               Nettoyage et detailing auto, canapé, tapis et matelas à domicile, sur {CITY} et alentours.
             </p>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <a
+                href={INSTAGRAM}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Sublim Net"
+                className="flow-social-icon flow-social-instagram"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}
+              >
+                <InstagramIcon size={19} />
+              </a>
+              <a
+                href={TIKTOK}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok Sublim Net"
+                className="flow-social-icon flow-social-tiktok"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}
+              >
+                <TiktokIcon size={18} />
+              </a>
+            </div>
           </div>
 
           {/* Colonne 2 — navigation */}

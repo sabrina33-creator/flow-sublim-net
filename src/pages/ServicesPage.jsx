@@ -152,7 +152,7 @@ export default function ServicesPage() {
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 40 }}>
             {/* Canapé */}
-            <FadeIn>
+            <FadeIn style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.6rem, 3.5vw, 2rem)', fontWeight: 700, color: C.dark, marginBottom: 20 }}>Canapé</h2>
               <div style={{ background: C.bg, borderRadius: 12, padding: '8px 22px' }}>
                 {CANAPE_TAILLES.map((t, i) => (
@@ -162,13 +162,13 @@ export default function ServicesPage() {
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: 20 }}>
-                <Btn href="/reservation" variant="secondary" style={{ fontSize: 13 }} loc="services_canape">Réserver un canapé</Btn>
+              <div style={{ marginTop: 'auto', paddingTop: 20 }}>
+                <Btn href="/reservation" variant="primary" style={{ fontSize: 13 }} loc="services_canape">Réserver un canapé</Btn>
               </div>
             </FadeIn>
 
             {/* Matelas */}
-            <FadeIn delay={0.08}>
+            <FadeIn delay={0.08} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.6rem, 3.5vw, 2rem)', fontWeight: 700, color: C.dark, marginBottom: 20 }}>Matelas</h2>
               <div style={{ background: C.bg, borderRadius: 12, padding: '8px 22px' }}>
                 {MATELAS_TAILLES.map((t, i) => (
@@ -178,8 +178,8 @@ export default function ServicesPage() {
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: 20 }}>
-                <Btn href="/reservation" variant="secondary" style={{ fontSize: 13 }} loc="services_matelas">Réserver un matelas</Btn>
+              <div style={{ marginTop: 'auto', paddingTop: 20 }}>
+                <Btn href="/reservation" variant="primary" style={{ fontSize: 13 }} loc="services_matelas">Réserver un matelas</Btn>
               </div>
             </FadeIn>
           </div>

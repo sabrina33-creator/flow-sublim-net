@@ -143,6 +143,17 @@ button { font-family: inherit; }
 }
 .flow-imgz:hover img { transform: scale(1.06) !important; }
 
+/* ── Icônes réseaux sociaux (Footer + Avis&Contact) ──────────────────────────── */
+/* Usage : className="flow-social-icon flow-social-instagram|flow-social-tiktok" */
+.flow-social-icon {
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease !important;
+}
+.flow-social-icon:hover {
+  transform: translateY(-3px) !important;
+}
+.flow-social-instagram:hover { background: #E1306C !important; color: #fff !important; }
+.flow-social-tiktok:hover { background: #FE2C55 !important; color: #fff !important; }
+
 /* ── Ghost number (chiffre fantôme derrière étapes) ─────────────────────────── */
 /* Usage : <span className="flow-ghost-num">01</span> dans une div position:relative */
 .flow-ghost-num {
