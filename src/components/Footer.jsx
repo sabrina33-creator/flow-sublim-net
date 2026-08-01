@@ -3,7 +3,7 @@ import { C, F, SITE_NAME, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY } from '..
 import { PhoneIcon, MailIcon, WhatsAppIcon, PinIcon } from './Icons';
 import Btn from './Btn';
 import Logo from './Logo';
-import badgeMascotte from '../images/badge-mascotte.png'; // [PREVIEW TEMPORAIRE — à retirer si non validé]
+import badgeMascotte from '../images/badge-mascotte.png'; // Pictogramme validé — footer uniquement, ne pas déplacer sans confirmation explicite
 
 const year = new Date().getFullYear();
 
