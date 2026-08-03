@@ -119,7 +119,12 @@ export default function Footer() {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event('open-cookie-settings'))}
-              style={{ color: 'rgba(255,255,255,0.55)', background: 'none', border: 'none', padding: 0, font: 'inherit', cursor: 'pointer' }}
+              style={{
+                color: 'rgba(255,255,255,0.55)', background: 'none', border: 'none', font: 'inherit', cursor: 'pointer',
+                // Zone tactile étendue à 44px sans changer l'apparence visuelle du lien
+                // (padding compensé par une marge négative égale — technique standard pour un lien inline compact).
+                padding: '15px 4px', margin: '-15px -4px',
+              }}
             >
               Gérer les cookies
             </button>
