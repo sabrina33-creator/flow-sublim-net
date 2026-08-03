@@ -51,7 +51,7 @@ const SECTIONS = [
     title: 'Cookies',
     body: [
       "Ce site utilise Google Analytics (GA4) pour mesurer la fréquentation (pages consultées, provenance des visites) — aucune donnée n'est utilisée à des fins publicitaires.",
-      "Un bandeau de recueil du consentement n'est pas encore en place à ce jour ; sa mise en place est prévue prochainement pour être pleinement conforme à la réglementation applicable aux cookies de mesure d'audience.",
+      "Un cookie de mesure d'audience n'est déposé qu'après votre consentement explicite, recueilli via le bandeau affiché lors de votre première visite. Vous pouvez modifier votre choix à tout moment via le lien \"Gérer les cookies\" en bas de chaque page.",
     ],
   },
   {

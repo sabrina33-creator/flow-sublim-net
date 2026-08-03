@@ -60,6 +60,8 @@ button { font-family: inherit; }
   .flow-nav-desktop { display: none !important; }
   .flow-nav-burger  { display: flex !important; }
   .flow-sticky-cta  { display: flex !important; }
+  /* Décale le bandeau cookies au-dessus de la barre WhatsApp/Appeler, sinon ils se chevauchent */
+  .flow-cookie-consent { bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 
 /* ── Bannière de header de page (Services / Réservation / Devis Tapis / Avis & Contact) ── */

@@ -34,6 +34,9 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    // Consent Mode — aucun cookie de mesure d'audience posé tant que la personne
+    // n'a pas explicitement accepté via le bandeau (src/components/CookieConsent.jsx).
+    gtag('consent', 'default', { analytics_storage: 'denied' });
     gtag('js', new Date());
     gtag('config', 'G-KRYJ8JZ2QG', { send_page_view: false });
     // send_page_view: false — le page_view est envoyé manuellement via analytics.js

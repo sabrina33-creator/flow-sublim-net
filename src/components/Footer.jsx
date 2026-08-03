@@ -116,6 +116,13 @@ export default function Footer() {
           <span style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             <Link to="/mentions-legales" style={{ color: 'rgba(255,255,255,0.35)' }}>Mentions légales</Link>
             <Link to="/confidentialite" style={{ color: 'rgba(255,255,255,0.35)' }}>Politique de confidentialité</Link>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-cookie-settings'))}
+              style={{ color: 'rgba(255,255,255,0.35)', background: 'none', border: 'none', padding: 0, font: 'inherit', cursor: 'pointer' }}
+            >
+              Gérer les cookies
+            </button>
             <span>Réalisé par <a href="https://wa.me/33783376293" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)' }}>Flōw Agency</a></span>
           </span>
         </div>

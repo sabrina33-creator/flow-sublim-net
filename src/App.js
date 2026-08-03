@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
 import ScrollProgress from './components/ScrollProgress';
+import CookieConsent from './components/CookieConsent';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import ReservationPage from './pages/ReservationPage';
@@ -53,6 +54,7 @@ function AppContent() {
       </main>
       <Footer />
       <StickyCTA />
+      <CookieConsent />
     </div>
   );
 }
