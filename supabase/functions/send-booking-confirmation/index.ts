@@ -11,11 +11,9 @@ const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-// [TODO] Remplacer par une adresse sur le domaine sublimnet.fr une fois le domaine
-// réservé et vérifié dans Resend. En attendant, onboarding@resend.dev est la seule
-// adresse d'envoi utilisable, et Resend limite la livraison à l'adresse du compte
-// Resend tant qu'aucun domaine n'est vérifié (client ET notification interne concernés).
-const FROM_EMAIL = "Sublim Net <onboarding@resend.dev>";
+// Domaine sublimnet.com vérifié dans Resend le 2026-08-02 (voir JOURNAL.md) —
+// livraison ouverte à toutes les adresses, plus de restriction sandbox.
+const FROM_EMAIL = "Sublim Net <reservations@sublimnet.com>";
 const KENZO_EMAIL = "sublimnet33@gmail.com";
 
 const SERVICE_LABELS: Record<string, string> = {
