@@ -7,6 +7,7 @@ export function trackPageView(pageName) {
     window.gtag('event', 'page_view', {
       page_title: pageName,
       page_location: window.location.href,
+      transport_type: 'beacon', // fiabilise l'envoi sur SPA, y compris à la fermeture d'onglet
     });
   }
 }
