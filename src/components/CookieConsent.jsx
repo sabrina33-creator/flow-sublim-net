@@ -39,8 +39,8 @@ export default function CookieConsent() {
 
   return (
     <div
-      role="dialog"
-      aria-label="Consentement aux cookies"
+      role="region"
+      aria-label="Préférences de cookies"
       className="flow-cookie-consent"
       style={{
         position: 'fixed',
