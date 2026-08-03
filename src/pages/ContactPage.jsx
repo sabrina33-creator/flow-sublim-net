@@ -50,7 +50,7 @@ export default function ContactPage() {
                   </div>
                   <div style={{ fontFamily: F.heading, fontWeight: 700, fontSize: 17, color: C.dark, marginBottom: 6 }}>WhatsApp</div>
                   <div style={{ fontSize: 14, color: C.muted, marginBottom: 16 }}>Réponse rapide — message ou appel</div>
-                  <div style={{ fontSize: 13, color: '#25D366', fontWeight: 600 }}>Nous écrire →</div>
+                  <div style={{ fontSize: 13, color: '#075E54', fontWeight: 600 }}>Nous écrire →</div>
                 </div>
               </a>
             </FadeIn>

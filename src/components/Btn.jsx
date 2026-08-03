@@ -27,7 +27,7 @@ const BASE = {
 
 function getVariantStyle(variant) {
   switch (variant) {
-    case 'whatsapp':  return { background: '#25D366', color: C.white, boxShadow: '0 2px 14px rgba(37,211,102,0.28)' };
+    case 'whatsapp':  return { background: '#25D366', color: C.dark, boxShadow: '0 2px 14px rgba(37,211,102,0.28)' }; // texte foncé : blanc sur ce vert échouait le contraste AA (1.98:1)
     case 'ghost':     return { background: 'rgba(255,255,255,0.12)', color: C.white, border: '1.5px solid rgba(255,255,255,0.30)' };
     case 'secondary': return { background: 'transparent', color: C.muted, border: `1.5px solid ${C.border}` };
     case 'light':     return { background: C.white, color: C.primary };

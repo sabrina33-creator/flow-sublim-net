@@ -47,7 +47,7 @@ export const C = {
   white:     '#FFFFFF',
   muted:     '#5B6B7A',
   border:    '#E1E6EC',
-  sand:      '#8B98A5',
+  sand:      '#5D6E7D', // assombri : la valeur d'origine (#8B98A5) échouait le contraste AA en usage texte (2.65-2.84:1)
 };
 
 // ── TYPOGRAPHIE ───────────────────────────────────────────────────────────────
