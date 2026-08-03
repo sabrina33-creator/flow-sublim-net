@@ -6,8 +6,7 @@
 
 // ── IDENTITÉ ──────────────────────────────────────────────────────────────────
 export const SITE_NAME     = 'Sublim Net';
-// Domaine pas encore réservé (cf. CLAUDE.md) — placeholder à confirmer avant mise en ligne réelle.
-export const SITE_URL      = 'https://sublimnet.fr';
+export const SITE_URL      = 'https://sublimnet.com';
 
 // ── CONTACT ───────────────────────────────────────────────────────────────────
 export const PHONE         = 'tel:+33779726076';

@@ -6,11 +6,11 @@ Sublim Net intervient directement chez le client pour nettoyer véhicules, canap
 
 ## Pages principales
 
-- [Accueil](https://sublimnet.fr/) — Présentation du service et des quatre univers (auto, canapé, tapis, matelas)
-- [Services](https://sublimnet.fr/services) — Grille tarifaire complète et galerie avant/après
-- [Réserver](https://sublimnet.fr/reservation) — Réservation en ligne d'un créneau (auto, canapé, matelas)
-- [Devis Tapis](https://sublimnet.fr/devis-tapis) — Demande de devis personnalisé pour tapis
-- [Avis & Contact](https://sublimnet.fr/contact) — Zone d'intervention, créneaux, moyens de contact
+- [Accueil](https://sublimnet.com/) — Présentation du service et des quatre univers (auto, canapé, tapis, matelas)
+- [Services](https://sublimnet.com/services) — Grille tarifaire complète et galerie avant/après
+- [Réserver](https://sublimnet.com/reservation) — Réservation en ligne d'un créneau (auto, canapé, matelas)
+- [Devis Tapis](https://sublimnet.com/devis-tapis) — Demande de devis personnalisé pour tapis
+- [Avis & Contact](https://sublimnet.com/contact) — Zone d'intervention, créneaux, moyens de contact
 
 ## Services et tarifs
 

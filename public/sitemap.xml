@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sublimnet.fr/</loc>
+    <loc>https://sublimnet.com/</loc>
     <lastmod>2026-07-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sublimnet.fr/services</loc>
+    <loc>https://sublimnet.com/services</loc>
     <lastmod>2026-07-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sublimnet.fr/reservation</loc>
+    <loc>https://sublimnet.com/reservation</loc>
     <lastmod>2026-07-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sublimnet.fr/devis-tapis</loc>
+    <loc>https://sublimnet.com/devis-tapis</loc>
     <lastmod>2026-07-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sublimnet.fr/contact</loc>
+    <loc>https://sublimnet.com/contact</loc>
     <lastmod>2026-07-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sublimnet.fr/mentions-legales</loc>
+    <loc>https://sublimnet.com/mentions-legales</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://sublimnet.fr/confidentialite</loc>
+    <loc>https://sublimnet.com/confidentialite</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>

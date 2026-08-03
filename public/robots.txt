@@ -28,4 +28,4 @@ User-agent: Googlebot
 Allow: /
 
 # Sitemap
-Sitemap: https://sublimnet.fr/sitemap.xml
+Sitemap: https://sublimnet.com/sitemap.xml
