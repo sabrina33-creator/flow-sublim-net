@@ -425,3 +425,44 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 **`CLAUDE.md` mis à jour en conséquence** : domaine `sublimnet.com` renseigné, déploiement Netlify documenté comme actif (plus "local uniquement"), rappel sur la variable `anon public` vs `service_role` ajouté aux contraintes techniques.
 
 **Point ouvert critique, à ne pas oublier :** le domaine est maintenant réservé, mais **pas encore ajouté/vérifié dans Resend** (DNS SPF/DKIM à configurer, voir entrée précédente sur la restriction sandbox Resend). Tant que ce n'est pas fait, les emails de réservation ne partiront toujours pas vers de vrais clients ni vers Kenzo.
+
+---
+
+## 2026-08-02 (suite) — Favicon officiel, vérification domaine Resend, adresse d'envoi mise à jour
+
+**1. Favicon remplacé (committé, `efc7eff`).** L'icône d'onglet du template (goutte d'eau générique, `public/favicon.png`) remplacée par le vrai pictogramme de marque (voiture + canapé + nettoyeur haute pression, déjà utilisé en footer via `badge-mascotte.png`) — recadré et redimensionné en 512×512 par script PowerShell (`System.Drawing`), fond transparent préservé. Point signalé à l'utilisatrice : à la taille réelle d'un onglet (16-32px), le dessin très détaillé perd en lisibilité — accepté tel quel, c'est le logo officiel demandé explicitement.
+
+**2. Domaine `sublimnet.com` vérifié dans Resend — guidage pas à pas par captures d'écran (utilisatrice non-développeuse, premier déploiement de sa vie).**
+- DNS géré directement par Netlify (domaine acheté chez Netlify, pas de registrar externe) — simplifie la marche à suivre : les 4 enregistrements demandés par Resend (DKIM, MX, SPF, DMARC) s'ajoutent dans Netlify → DNS → "Add new record".
+- **Erreur rencontrée et corrigée** : premier essai avec le nom complet `resend._domainkey.sublimnet.com` collé dans le champ "Name" → 400 "Please correct the following field: Domain", car Netlify concatène automatiquement `.sublimnet.com` à ce qu'on saisit — il ne faut taper que la partie courte (`resend._domainkey`, `send`, `_dmarc`), jamais le domaine complet dans ce champ. Une fois corrigé, les 4 enregistrements sont passés sans erreur.
+- Vérification Resend passée par les étapes "Domain added" → "DNS verified" → "Verifying domain" → **verified**, en environ 25 minutes (région d'envoi Ireland/eu-west-1 — sans lien avec la localisation des clients, aucun souci RGPD, la seule option disponible dans Resend n'était de toute façon pas segmentée par pays).
+
+**3. Adresse d'expédition mise à jour dans l'Edge Function (déployée sur Supabase, pas encore committée dans le repo au moment de cette entrée).**
+- `FROM_EMAIL` : `onboarding@resend.dev` (sandbox) → `Sublim Net <reservations@sublimnet.com>`, adresse choisie par l'utilisatrice parmi 3 options proposées (`reservations@`, `noreply@`, `contact@`) — pas nécessairement une boîte mail réellement consultée, juste l'expéditeur affiché.
+- Code complet redonné à coller dans Supabase Dashboard → Edge Functions → `bright-handler` → Via Editor (l'utilisatrice n'a pas de CLI Supabase), redéployé avec succès confirmé par l'utilisatrice.
+
+**Point ouvert — test de bout en bout pas encore fait.** L'utilisatrice s'arrête pour la journée avant de tester une vraie réservation avec la nouvelle adresse. **À vérifier à la prochaine session :** email client reçu, **email Kenzo reçu** (c'est précisément le cas qui échouait avant, voir entrée du 2026-08-02 sur `email_failures`), table `email_failures` restée vide. Le changement `FROM_EMAIL` dans `supabase/functions/send-booking-confirmation/index.ts` reste **non committé** en attente de cette confirmation.
+
+---
+
+## 2026-08-03 — Test de réservation confirmé, schema.org corrigé, GA4 activé
+
+**1. Test de réservation post-Resend confirmé bon (lundi, après une pause du week-end).** L'utilisatrice a vérifié directement dans Supabase Studio → Table Editor (pas de SQL) : une seule ligne dans `creneaux`, celle de son test de vendredi (nom/téléphone/email reconnus par elle avant suppression), et `email_failures` vide. Point ouvert de l'entrée précédente résolu : la chaîne email fonctionne bien de bout en bout avec la nouvelle adresse `reservations@sublimnet.com`. Ligne de test supprimée après vérification (même réflexe que les sessions précédentes). L'utilisatrice a ensuite proposé d'envoyer le lien à son frère pour un premier avis utilisateur externe — approuvé, avec rappel que sa réservation de test génère aussi une vraie ligne à nettoyer ensuite.
+
+**2. Schema.org — domaine placeholder corrigé + LocalBusiness enrichi (commit `d4d47ee`).**
+- **`SITE_URL` dans `tokens.js` pointait encore vers `sublimnet.fr`**, jamais mis à jour depuis l'achat réel de `sublimnet.com` — détecté avant toute génération de schema (vérification demandée explicitement en amont). Corrigé, ainsi que 4 autres fichiers où le même placeholder était codé en dur, non importable depuis `tokens.js` (fichiers statiques `public/`) : `index.html` (canonical, Open Graph, JSON-LD), `sitemap.xml`, `robots.txt`, `llms.txt`. **`JOURNAL.md` volontairement non touché** — historique daté, append-only, les mentions `.fr` passées reflétaient l'état réel à l'époque.
+- **JSON-LD LocalBusiness enrichi** : ajout d'un `hasOfferCatalog` détaillant les 4 services (auto/canapé/tapis/matelas). Trois choix explicitement motivés et validés par l'utilisatrice avant application : pas de type `AutoWash` (sous-représenterait les 3 autres métiers), pas de `openingHoursSpecification` (les créneaux 07:30/14:30 sont des rendez-vous ponctuels, pas une plage d'ouverture continue — les modéliser comme horaires d'ouverture serait inexact), pas de `GeoCircle`/coordonnées GPS pour le rayon de 20km (utiliser `INTERNAL_LAT`/`INTERNAL_LON` exposerait l'adresse réelle par rétro-géocodage, interdit par `CLAUDE.md`) — `areaServed` (liste de villes) déjà suffisant et sûr.
+- **Validé via Google Rich Results Test** après déploiement : 2 éléments valides détectés (LocalBusiness + WebSite). HowTo et FAQPage présents et syntaxiquement valides dans le `@graph` (vérifié par un parse JSON avant commit) mais non comptés comme "rich result" par l'outil — expliqué à l'utilisatrice que c'est une restriction Google volontaire depuis 2023 sur ces deux types (pas une erreur côté site), permanente, qui ne changera pas avec le temps.
+
+**3. GA4 activé (commit `c292b17`), propriété créée par l'utilisatrice avec guidage pas à pas.**
+- Diagnostic initial : le tracking CSR (SPA) était **déjà entièrement câblé** avant cette session — `src/analytics.js` (wrapper `gtag`) et `src/App.js` (`trackPageView` appelé dans un `useEffect` sur chaque changement de route React Router, `send_page_view:false` côté GA4 pour éviter le double comptage), probablement issu d'une session antérieure sur un autre site du même template ("version Malek"). Décision : ne pas ajouter de librairie (`react-ga4` etc.), l'existant suffit déjà pour ce stack CSR pur.
+- Propriété créée par l'utilisatrice sur `analytics.google.com` (compte `sublimnet33@gmail.com`, cohérent avec Supabase) suite à un guidage étape par étape. Measurement ID obtenu : **`G-KRYJ8JZ2QG`**.
+- Remplacement du placeholder `G-XXXXXXXXXX` dans `index.html` (2 occurrences) et `tokens.js`.
+- **Incohérence trouvée et corrigée avant d'activer quoi que ce soit** : `ConfidentialitePage.jsx` affirmait explicitement "aucun cookie de mesure d'audience" — activer GA4 sans corriger ce texte aurait rendu la page légalement fausse dès la mise en ligne. Texte mis à jour pour refléter la réalité (GA4 actif) tout en signalant honnêtement l'absence de bandeau de consentement.
+- **Point ouvert RGPD explicitement non traité dans cette tâche** (périmètre confirmé par l'utilisatrice — "il faudra y penser") : aucun bandeau de consentement cookies n'existe. Le site n'est donc pas conforme sur ce point tant qu'il n'est pas construit — pas juste "améliorable", réellement non conforme dès l'activation de GA4.
+
+**État git en fin de session :** tout committé et pushé (`d4d47ee`, `c292b17`). Restent non liés à cette session : aucun — le point `email_failures`/`FROM_EMAIL` de l'entrée précédente est résolu et déjà committé (`efc7eff`, confirmé lors du test du point 1 ci-dessus).
+
+**Points ouverts :**
+- Bandeau de consentement cookies RGPD — à construire, périmètre volontairement exclu de la tâche GA4.
+- Retour du frère de l'utilisatrice sur son test de réservation — en attente.
