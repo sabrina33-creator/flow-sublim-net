@@ -32,8 +32,7 @@ export const TIKTOK    = 'https://www.tiktok.com/@sublimnet';
 export const SNAPCHAT  = 'https://www.snapchat.com/add/sublimnett';
 
 // ── ANALYTICS ─────────────────────────────────────────────────────────────────
-// [TODO] Propriété GA4 pas encore créée — voir CLAUDE.md
-export const GA4_ID = 'G-XXXXXXXXXX';
+export const GA4_ID = 'G-KRYJ8JZ2QG';
 
 // ── COULEURS ──────────────────────────────────────────────────────────────────
 // Extraites par pipette depuis le visuel du camion Kangoo (src/images/SUBLIMNET_KANGOO_26 (1).png)

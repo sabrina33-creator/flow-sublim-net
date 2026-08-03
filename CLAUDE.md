@@ -18,7 +18,7 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 - **SIRET** : 95258635200025
 - **Réseaux sociaux** : Instagram `SUBLIMNET` (compte actif, vérifié), TikTok `SUBLIMNET` (compte actif, vérifié). Snapchat `SUBLIMNETT` (avec un T final, tel qu'affiché sur le camion) — **compte introuvable** (vérifié le 2026-07-28 : ni via le lien web, ni via la recherche dans l'application Snapchat). Le pseudo venait uniquement du visuel du camion, aucun compte réel ne semble avoir été créé. Lien Snapchat retiré du site jusqu'à création effective du compte — ne pas raffiner "sublimnett" en une autre orthographe sans confirmation du client.
 - **Domaine** : `sublimnet.com` (réservé et configuré sur Netlify, à confirmer par l'utilisatrice)
-- **GA4** : [TODO — propriété à créer sur analytics.google.com]
+- **GA4** : propriété créée (`G-KRYJ8JZ2QG`), tracking pages vues actif depuis le 2026-08-03. Pas de bandeau de consentement cookies — point ouvert RGPD, voir JOURNAL.md.
 
 ## Identité visuelle
 

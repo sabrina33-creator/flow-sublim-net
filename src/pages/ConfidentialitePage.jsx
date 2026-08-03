@@ -50,7 +50,8 @@ const SECTIONS = [
   {
     title: 'Cookies',
     body: [
-      "Ce site n'utilise actuellement aucun cookie de mesure d'audience. Si un outil d'analyse (Google Analytics) est activé à l'avenir, cette section sera mise à jour et un bandeau de consentement sera ajouté conformément à la réglementation.",
+      "Ce site utilise Google Analytics (GA4) pour mesurer la fréquentation (pages consultées, provenance des visites) — aucune donnée n'est utilisée à des fins publicitaires.",
+      "Un bandeau de recueil du consentement n'est pas encore en place à ce jour ; sa mise en place est prévue prochainement pour être pleinement conforme à la réglementation applicable aux cookies de mesure d'audience.",
     ],
   },
   {
