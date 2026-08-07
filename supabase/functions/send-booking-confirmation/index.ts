@@ -90,7 +90,7 @@ Deno.serve(async (req: Request) => {
   // Email 1 — confirmation client
   const clientHtml = `
     <div style="font-family: -apple-system, Arial, sans-serif; max-width: 480px; margin: 0 auto; color: #0D3857;">
-      <h2 style="background: linear-gradient(90deg,#7F4997,#4C77BB); -webkit-background-clip: text; background-clip: text; color: transparent;">
+      <h2 style="color: #7F4997;">
         Réservation confirmée — Sublim Net
       </h2>
       <p>Bonjour ${record.nom ?? ""},</p>
