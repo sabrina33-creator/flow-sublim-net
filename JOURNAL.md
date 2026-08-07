@@ -368,6 +368,14 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 
 ---
 
+## 2026-08-01 (suite) — Audit brand-identity : placement du pictogramme footer tranché avec Kenzo
+
+**Contexte :** le brief d'audit fourni affirmait que le placement du pictogramme (icône voiture/canapé/étincelles) et du lettrage "Sublim Net" était "déjà validé" (icône+texte sur une ligne en header, empilé en footer). Vérification du code avant d'accepter cette prémisse : aucune des deux affirmations n'était exacte — pas d'icône du tout dans le header, et le commentaire du code marquait littéralement le pictogramme footer comme un aperçu temporaire non validé (`// [PREVIEW TEMPORAIRE — à retirer si non validé]`). Signalé comme constat factuel plutôt que d'assumer le brief exact.
+
+**Résolution :** l'utilisatrice a confirmé explicitement que le placement actuel (icône + texte en ligne dans le footer, nulle part ailleurs) est la décision finale du client. `Footer.jsx` mis à jour en conséquence : commentaire changé de `// [PREVIEW TEMPORAIRE...]` à `// Pictogramme validé — footer uniquement, ne pas déplacer sans confirmation explicite` — aucun changement fonctionnel ou visuel, seulement la trace de la décision pour éviter de rouvrir la question plus tard. Committé (`5c9e039`).
+
+---
+
 ## 2026-08-02 — Cohérence CTA/alignement, copywriting, traçabilité échecs email, passe humanizer
 
 **1. Services/Contact — cohérence visuelle et CTA (committé, `5b817a3`).**
@@ -466,3 +474,71 @@ Un slider avant/après à glissière nécessite de la gestion d'état (position 
 **Points ouverts :**
 - Bandeau de consentement cookies RGPD — à construire, périmètre volontairement exclu de la tâche GA4.
 - Retour du frère de l'utilisatrice sur son test de réservation — en attente.
+
+---
+
+## 2026-08-03 (suite) — Bandeau cookies, fiabilisation GA4, audit technique `impeccable`, 6 commits séquencés
+
+**Correction d'une inexactitude de l'entrée précédente :** celle-ci affirmait le point `FROM_EMAIL` "déjà committé (`efc7eff`)" — faux, vérifié dans cette session (`git log`/`git show HEAD` sur le fichier) : `efc7eff` contenait toujours l'ancienne adresse `onboarding@resend.dev`, le changement vers `reservations@sublimnet.com` n'avait été que déployé sur Supabase, jamais committé dans le repo. Corrigé et committé dans cette session (voir plus bas) — signalé ici plutôt que de réécrire l'entrée existante (règle append-only de ce fichier).
+
+**1. Bandeau de consentement cookies (Consent Mode GA4).** Le point ouvert de l'entrée précédente traité. `CookieConsent.jsx` créé : bandeau bas de page, boutons "Accepter"/"Refuser" à poids visuel égal (pas de dark pattern), choix mémorisé en `localStorage`, rouvrable via un nouveau lien "Gérer les cookies" dans `Footer.jsx`. Mécanisme retenu : **Google Consent Mode** (`gtag('consent','default',{analytics_storage:'denied'})` posé dans `index.html` avant tout autre appel `gtag`) plutôt qu'un chargement conditionnel du script — GA4 reste chargé mais ne pose aucun cookie de mesure tant que le consentement n'est pas accordé, recommandation officielle Google pour ce cas de figure. Bug trouvé et corrigé avant validation : le bandeau chevauchait la barre sticky WhatsApp/Appeler sur mobile (49px de recouvrement mesuré) — corrigé via une media query dédiée dans `App.css`, revérifié à 0px de chevauchement. `ConfidentialitePage.jsx` mis à jour en conséquence.
+
+**2. Fiabilisation de l'envoi GA4 sur SPA — bug réel trouvé par test réseau, pas par lecture de code.** Sur demande explicite de vérification concrète (pas seulement "le code a l'air bon"), interception réelle des requêtes `/g/collect` via Playwright en naviguant `/` → `/services` → `/reservation` → `/contact`. Résultat : chaque page reçoit bien exactement un `page_view` avec la bonne URL, **mais `gtag.js` l'envoie avec un décalage d'une navigation** (le `page_view` de la page N n'est transmis qu'au moment de naviguer vers la page N+1) — comportement de mise en batch propre à `gtag.js`, pas un bug de ce site. Testé aussi la fermeture d'onglet : aucune requête de rattrapage capturée pour la dernière page visitée, mais le test ne reproduit pas fidèlement le comportement réel d'un navigateur (limite de Playwright reconnue explicitement, pas présentée comme une certitude). Correctif appliqué par précaution : `transport_type: 'beacon'` ajouté à l'événement `page_view` dans `analytics.js` (recommandation officielle Google pour fiabiliser l'envoi sur SPA, y compris à la fermeture d'onglet).
+
+**3. Audit technique `$impeccable audit` — première utilisation de ce skill sur ce projet.** Le skill exigeant un `PRODUCT.md` inexistant, rédigé à partir de ce qui était déjà connu (`CLAUDE.md` + historique de session) plutôt que de faire passer l'utilisatrice par l'interview complète — un seul point réellement ouvert posé (niveau d'accessibilité visé : WCAG 2.1 AA retenu).
+- **Scan réel** (axe-core via Playwright sur les 5 pages, pas une estimation) : **zéro écart structurel** (ARIA, labels, hiérarchie de titres, landmarks) — fondations solides. **Écart systémique de contraste** en revanche : 8 à 12 nœuds en échec par page, cause racine dans 4 endroits (texte du footer en `rgba` faible, bouton WhatsApp texte blanc sur vert, token `C.sand` sous-contrasté partout où utilisé comme texte, lien "Nous écrire →" vert clair sur blanc).
+- Responsive : zéro débordement horizontal vérifié sur les 5 pages en 375px. Une cible tactile sous la norme trouvée ("Gérer les cookies", 20px de haut).
+- Anti-patterns : pattern "ghost-card" (bordure 1px + ombre ≥16px au survol) trouvé sur 11 cartes, hérité du template, antérieur à cette session. Gradient-text trouvé dans le template d'email de confirmation (hors périmètre "site" mais signalé — risque réel de rendu cassé dans les clients email qui ne supportent pas `background-clip:text`). Logo vérifié correctement implémenté en image statique (pas de gradient CSS), donc non retenu comme écart.
+- **Score : 13/20 (Acceptable)** — 0 P0, 1 P1, 6 P2, 2 P3. Rapport complet montré avant toute correction, comme convenu pour toute la session.
+
+**4. Trois corrections appliquées et vérifiées (colorize, adapt, harden) :**
+- **Colorize** : les 4 écarts demandés corrigés + le lien "Réalisé par Flōw Agency" (ratio 4.27, trouvé dans le scan brut mais pas repris isolément dans le rapport initial — ajouté par cohérence, même fichier, même cause). `C.sand` assombri directement dans `tokens.js` (`#8B98A5` → `#5D6E7D`) plutôt que de contourner au cas par cas, puisque ce token n'est utilisé qu'en texte partout dans le repo. Vérifié par re-scan axe-core : 0 violation sur 4 pages/5 (3 nœuds restants sur Services = P3 déjà identifié séparément, non traité ici).
+- **Adapt** : cible tactile "Gérer les cookies" portée à 44px via `padding`/`margin` négatif égal (technique qui agrandit la zone cliquable sans changer l'apparence visuelle du lien) — vérifié 50.4px, rendu identique confirmé par capture desktop.
+- **Harden** : `role="dialog"` du bandeau cookies remplacé par `role="region"` + libellé "Préférences de cookies" — l'ancien rôle annonçait un comportement modal (piège de focus, fermeture Échap) que le composant n'implémente pas ; option "honnête" retenue explicitement plutôt que d'ajouter ce comportement, jugé disproportionné pour ce composant. Vérifié : 0 violation axe-core avec le bandeau réellement affiché (les scans précédents avaient tous le consentement déjà accordé, donc le bandeau masqué — testé pour de vrai cette fois).
+
+**5. Séquençage en 6 commits séparés, sur demande explicite (pas de commit groupé).** `Footer.jsx` et `CookieConsent.jsx` portant des changements empilés dans le temps (fonctionnalité d'origine + corrections d'audit), chaque état intermédiaire a été reconstruit à la main (édition temporaire → commit → réapplication) pour que chaque commit ne contienne exactement que ce que son message annonce. Liste finale, poussée dans l'ordre :
+1. `d7ff512` — Bandeau de consentement cookies (Consent Mode GA4)
+2. `db53440` — Fiabilisation `transport_type: beacon`
+3. `7864c57` — Colorize (5 écarts de contraste)
+4. `456ffa5` — Adapt (cible tactile 44px)
+5. `1eb1072` — Harden (rôle ARIA du bandeau)
+6. `f4e0320` — Adresse d'envoi Resend `reservations@sublimnet.com` (correction du retard de commit signalé en tête d'entrée)
+
+**État git en fin de session :** tout committé et pushé. Restent non suivis : `PRODUCT.md` (nouveau, créé pour `$impeccable`, pas demandé pour commit) et `src/IMG_9724.jpeg` (toujours exclu).
+
+**Points ouverts :**
+- Ghost-card pattern (11 cartes) et gradient-text de l'email de confirmation — identifiés dans l'audit, volontairement reportés par l'utilisatrice à après confirmation de la progression du score.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+
+---
+
+## 2026-08-07 — Gradient-text email corrigé, logo GMB fond noir, contenu fiche GMB, audit sécurité RLS
+
+**1. Gradient-text de l'email de confirmation corrigé (commit `9bfb2e4`).** Dernier point ouvert de l'audit `impeccable` traité, sur demande explicite. `background-clip:text` (non fiable dans plusieurs messageries, notamment Outlook) remplacé par `color:#7F4997` (violet plein) sur le titre "Réservation confirmée — Sublim Net" dans `supabase/functions/send-booking-confirmation/index.ts`. Redéployé sur Supabase par l'utilisatrice (Via Editor, confirmé "success"), puis committé.
+
+**2. Logo GMB fond noir — diagnostic en plusieurs étapes, une fausse piste corrigée en cours de route.**
+- Nouveau fichier fourni par l'utilisatrice (`src/images/logo-original.webp`, export Higgsfield) suite à une plainte sur des bords "pas nets, en pointillés" du pictogramme existant (`badge-mascotte.png`). Comparaison zoomée directe : confirmé, l'ancien fichier a des bords crénelés/pixelisés réels ; le nouveau fichier a des bords lisses — le nouveau fichier est bien meilleur.
+- **Découverte technique en cours de traitement :** le damier gris/blanc visible sur `logo-original.webp` n'est **pas une vraie transparence** — c'est un motif incrusté dans les pixels de l'image elle-même (export non nettoyé depuis Higgsfield). Confirmé en inspectant les valeurs alpha réelles (toutes à 255, donc opaques) plutôt que de faire confiance au rendu visuel du damier. Détourage refait proprement par flood-fill (identification des pixels gris/blancs connectés au bord de l'image, converti en transparence réelle) plutôt qu'un simple keying par couleur.
+- **Fausse piste explorée et abandonnée :** le flood-fill initial semblait "manger" des détails (phare, poignée du pistolet) — plusieurs tentatives de correction par érosion/dilatation morphologique, dont une a empiré les choses (fenêtre de la voiture disparue par erreur). Comparaison finale avec le fichier source brut : ces zones sont en réalité des **découpes volontaires du design d'origine** (reflets stylisés), pas un bug de traitement — la toute première version du détourage (flood-fill simple, sans érosion) était déjà correcte. Temps perdu à corriger un problème qui n'existait pas ; leçon retenue : comparer systématiquement au fichier source brut avant de conclure à un bug de traitement.
+- **Résultat final retenu :** `src/images/badge-mascotte-gmb-fond-noir-v2.png` (1024×1024, fond noir plein, marge de 18% autour de l'anneau pour ne pas être coupé par le rognage circulaire de Google) — validé par l'utilisatrice. Fichiers intermédiaires ratés supprimés (`logo-original-full.png`, `logo-original-cutout-v2/v3.png`, `badge-mascotte-gmb-fond-noir-v3/v4.png`). Fichiers conservés : `logo-original.webp` (source), `logo-original-cutout.png` (détourage transparent propre), `badge-mascotte-gmb-fond-noir-v2.png` (version finale fond noir). Fichiers locaux uniquement, non committés (pas nécessaires au site, usage GMB externe).
+
+**3. Contenu de fiche Google Business Profile préparé.** `gmb-content.md` créé et publié en Artifact pour consultation facile côté utilisatrice : catégories (principale + secondaires), description (650/750 caractères), liste de services, 6 questions/réponses reprises mot pour mot de la FAQ du site (cohérence), rappel de configurer en "établissement de type service" (pas d'adresse publique). Deux points laissés à la décision explicite de l'utilisatrice plutôt que tranchés à sa place : représentation des horaires (créneaux fixes vs plage continue), et split ou non de la catégorie "canapé/matelas" selon ce que propose le sélecteur Google.
+
+**Vérification vidéo GMB refusée par Google ("No view of surrounding area") — conseils donnés (aucune action de mon côté, hors périmètre technique) :** filmer en un seul plan continu, panneau de rue visible, numéro du bâtiment, alentours (bâtiments voisins), puis le camion floqué et le matériel sur place comme preuve d'activité.
+
+**4. Audit de sécurité RLS/GRANT sur `creneaux`, `creneaux_dispo`, `email_failures` — aucun accès direct à la base de mon côté, méthodologie par requêtes fournies à l'utilisatrice.**
+- Faute d'outil Supabase connecté dans cet environnement, vérification en 4 requêtes SQL exécutées par l'utilisatrice (rôle `postgres`, SQL Editor) et résultats relus : statut RLS (`pg_class.relrowsecurity`), policies existantes (`pg_policies`), GRANTs du rôle `anon` (`information_schema.role_table_grants`), et structure exacte de la vue `creneaux_dispo` (`information_schema.columns`) — cette dernière ajoutée pour ne pas se contenter de la documentation passée (JOURNAL) et vérifier la réalité actuelle.
+- **Verdict : aucune faille exploitable.** RLS actif sur `creneaux` et `email_failures` ; une seule policy dans toute la base (`INSERT` sur `creneaux` pour `anon`) ; aucun `SELECT`/`UPDATE`/`DELETE` accordé à `anon` sur `creneaux` (donc lecture/modification/suppression des réservations d'autrui impossibles via l'API standard) ; `creneaux_dispo` confirmé n'exposer que `date_creneau`/`heure` (aucune donnée personnelle) ; `email_failures` sans policy et sans GRANT pour `anon` (refus par défaut Postgres).
+- **Seul point trouvé (P3, hygiène, pas une faille) :** `TRUNCATE`/`TRIGGER`/`REFERENCES` accordés à `anon` sur les 3 tables sans usage réel — non exploitables via l'API REST Supabase (PostgREST n'expose pas ces opérations), mais retirés par principe de moindre privilège :
+```sql
+revoke truncate, trigger, references on public.creneaux, public.creneaux_dispo, public.email_failures from anon;
+```
+Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
+
+**État git :** `9bfb2e4` (gradient-text email) committé et poussé. Rien d'autre à committer côté audit sécurité (changement fait directement en base, pas dans le repo).
+
+**Points ouverts :**
+- Ghost-card pattern (11 cartes) — toujours volontairement reporté.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+- Vérification vidéo GMB à refaire par l'utilisatrice suite au premier refus.
+- `$impeccable ai-seo` proposé pour la suite, pas encore commencé.
