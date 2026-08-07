@@ -1,7 +1,7 @@
 import { C, F, WHATSAPP, PHONE, PHONE_DISPLAY } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
-import { WhatsAppIcon, PhoneIcon } from '../components/Icons';
+import { WhatsAppIcon, PhoneIcon, CheckIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
 import {
   GABARITS, AUTO_FORMULES, OPTION_SUBLIME, SUPPLEMENTS_AUTO, PRESTATIONS_COURTES,
@@ -102,6 +102,28 @@ export default function ServicesPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </FadeIn>
+
+          <FadeIn>
+            <p style={{ fontSize: 13, color: C.muted, marginBottom: 16 }}>
+              Détail des formules Express et Confort — s'applique aussi aux formules combinées correspondantes (Extérieur + Express, Extérieur + Confort).
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20, marginBottom: 28 }}>
+              {AUTO_FORMULES.filter(f => f.details).map(f => (
+                <div key={f.id} style={{ background: C.bgAlt, borderRadius: 12, padding: '22px 24px' }}>
+                  <div style={{ fontFamily: F.heading, fontWeight: 700, fontSize: 15, color: C.dark, marginBottom: 14 }}>
+                    Formule {f.id === 'express' ? 'Express' : 'Confort'}
+                  </div>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {f.details.map((d, i) => (
+                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14, color: C.muted }}>
+                        <CheckIcon size={15} color={C.primary} style={{ marginTop: 3, flexShrink: 0 }} /> {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </FadeIn>
 
