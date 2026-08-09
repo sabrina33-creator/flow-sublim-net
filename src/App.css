@@ -118,7 +118,7 @@ button { font-family: inherit; }
 }
 .flow-card:hover {
   transform: translateY(-7px) !important;
-  box-shadow: 0 24px 56px rgba(0,0,0,0.09) !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.10) !important;
 }
 
 /* Usage : className="flow-card-cta" sur les cartes contact */
@@ -127,7 +127,7 @@ button { font-family: inherit; }
 }
 .flow-card-cta:hover {
   transform: translateY(-8px) scale(1.02) !important;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.14) !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.16) !important;
 }
 
 /* Usage : className="flow-faq" sur les items FAQ (avec FaqItem component) */
