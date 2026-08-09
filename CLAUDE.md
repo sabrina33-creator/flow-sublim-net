@@ -17,8 +17,8 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 - **Adresse d'intervention réelle** : 20 rue François Rabelais, 33400 Talence — ⚠️ **NE JAMAIS AFFICHER PUBLIQUEMENT**, usage interne uniquement (calcul de distance)
 - **SIRET** : 95258635200025
 - **Réseaux sociaux** : Instagram `SUBLIMNET` (compte actif, vérifié), TikTok `SUBLIMNET` (compte actif, vérifié). Snapchat `SUBLIMNETT` (avec un T final, tel qu'affiché sur le camion) — **compte introuvable** (vérifié le 2026-07-28 : ni via le lien web, ni via la recherche dans l'application Snapchat). Le pseudo venait uniquement du visuel du camion, aucun compte réel ne semble avoir été créé. Lien Snapchat retiré du site jusqu'à création effective du compte — ne pas raffiner "sublimnett" en une autre orthographe sans confirmation du client.
-- **Domaine** : `sublimnet.com` (réservé et configuré sur Netlify, à confirmer par l'utilisatrice)
-- **GA4** : propriété créée (`G-KRYJ8JZ2QG`), tracking pages vues actif depuis le 2026-08-03. Pas de bandeau de consentement cookies — point ouvert RGPD, voir JOURNAL.md.
+- **Domaine** : `sublimnet.com` — réservé, configuré sur Netlify, site en ligne depuis le 2026-08-02.
+- **GA4** : propriété créée (`G-KRYJ8JZ2QG`), tracking pages vues actif à chaque navigation (SPA) depuis le 2026-08-03. Bandeau de consentement cookies en place (Google Consent Mode — aucun cookie de mesure posé avant acceptation, choix modifiable via le footer). Reste à faire : tracking d'événements de conversion sur le tunnel de réservation, voir "Ce qui n'existe pas encore".
 
 ## Identité visuelle
 
@@ -33,7 +33,7 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 ## Contraintes techniques
 
 - Stack : React 19 + React Router 7 (CRA), template `flow-template-website`.
-- Base de données : **Supabase uniquement**, un seul projet dédié à ce site, une seule table `creneaux`. Pas d'autre table.
+- Base de données : **Supabase uniquement**, un seul projet dédié à ce site. Deux tables : `creneaux` (réservations, RLS actif, `anon` limité à `INSERT`) et `email_failures` (traçabilité des échecs d'envoi email, RLS actif, aucun accès `anon` — voir JOURNAL.md pour l'audit sécurité complet). Une vue publique `creneaux_dispo` (date + heure uniquement, sans donnée personnelle) pour l'anti-double-booking sans exposer les réservations d'autrui.
 - **Pas de compte utilisateur, pas de mot de passe** — ni côté client ni côté admin. Kenzo consulte les réservations directement via Supabase Studio (table editor), il n'y a pas de dashboard admin custom prévu.
 - **Pas de SMS** — confirmation par email uniquement (service gratuit compatible Supabase, ex. Resend), pas de Twilio.
 - Géocodage : service gratuit (Nominatim/OpenStreetMap), jamais d'API de distance routière payante. Calcul à vol d'oiseau (Haversine).
@@ -54,6 +54,10 @@ Pour l'historique chronologique des sessions, voir `JOURNAL.md`.
 - Option Sublime (shampoing moquette, cumulable) : +20€
 - Suppléments : poils d'animaux/sable +15€, moisissure +20€, véhicule très sale +20€
 - Prestations courtes indépendantes : 1 phare 25€, 2 phares 45€
+
+**Détail des formules Express et Confort (confirmé par le client, affiché sur le site)** — s'applique aussi aux formules combinées correspondantes (Extérieur + Express, Extérieur + Confort) :
+- *Express* : aspiration habitacle & coffre, nettoyage tableau de bord, nettoyage plastiques, vitrages intérieurs, parfum d'ambiance.
+- *Confort* : nettoyage des surfaces plastiques, aspiration complète habitacle et coffre, nettoyage et finition seuils de porte, vitrerie intérieure éclatante, shampoing complet sièges/tapis, nettoyage cuir et alcantara, brillance et revitalisation des surfaces plastiques, parfum d'ambiance.
 
 ### Canapé
 2 places 40€ / 3 places 50€ / 4 places 60€ / 6 places 80€ / 7 places 90€ / fauteuil-chaise 20€
@@ -83,7 +87,6 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 ## Ce qui n'existe pas encore (ne jamais inventer/afficher comme si ça existait)
 
-- Aucune fiche Google Business Profile, aucun avis client réel — ne jamais afficher de note ou de faux témoignage.
+- **Fiche Google Business Profile : statut incertain, à confirmer par Kenzo — ne pas affirmer "aucune fiche" ni s'appuyer sur une fiche tant que ce n'est pas tranché.** Une fiche "SublimNet" active existe déjà sur Google (5,0★, 6 avis), avec le vrai numéro de Kenzo, mais liée à un site `sublimnet.fr` sous une autre marque visuelle ("Pro Clean"). Probablement une ancienne fiche/identité de Kenzo antérieure au rebranding Sublim Net, mais non confirmé — question posée à Kenzo (voir JOURNAL.md). Tant que la réponse n'est pas connue : ne pas créer de nouvelle fiche GMB en parallèle (risque de doublon), ne jamais afficher de note ou de faux témoignage sur le site quoi qu'il en soit. Vérifier aussi la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé, ne pas la reprendre).
 - Aucune assurance professionnelle — ne jamais afficher de mention rassurante à ce sujet.
-- Aucune propriété GA4 créée.
-- **Domaine réservé (`sublimnet.com`) mais pas encore vérifié dans Resend** — tant que ce n'est pas fait, les emails de réservation ne partent réellement que vers l'adresse du compte Resend, pas vers de vrais clients. Voir JOURNAL.md pour le détail.
+- **GA4 — tracking des événements de conversion sur le tunnel de réservation, pas encore fait.** Le tracking de base (pages vues à chaque navigation, consentement cookies géré) est en place, mais aucun événement personnalisé n'existe pour repérer où les visiteurs abandonnent avant de réserver : choix d'un service (catégorie/formule), ouverture du formulaire sans validation, confirmation réussie, échec (créneau déjà pris, erreur de validation). À traiter dans une session dédiée — définir précisément les noms d'événements et paramètres GA4 avant toute implémentation, pas à la volée.
