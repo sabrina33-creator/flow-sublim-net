@@ -11,8 +11,8 @@ import {
 // Collages avant/après générés depuis src/images/*-avant|apres.* (voir JOURNAL.md) —
 // les photos originales restent intactes dans src/images/ pour un usage indépendant (GMB, réseaux).
 // Galerie organisée par catégorie : 6 meilleures paires Auto (sur 15 disponibles, sélection
-// manuelle sur contraste/cadrage — voir JOURNAL.md), 2 Canapé, 1 Matelas. Pas de Tapis
-// (aucune paire avant/après disponible pour l'instant, visuel générique seul).
+// manuelle sur contraste/cadrage — voir JOURNAL.md), 3 Canapé, 1 Matelas, 1 Tapis (première
+// paire disponible pour cette catégorie — job commercial, tapis d'entrée).
 import collageCoffre from '../images/collages/coffre-collage.jpg';
 import collageRoue from '../images/collages/roue-collage.jpg';
 import collageVolant from '../images/collages/volant-collage.jpg';
@@ -21,7 +21,9 @@ import collageCamion from '../images/collages/camion-arriere-collage.jpg';
 import collageSiegeBeige from '../images/collages/siege-beige-collage.jpg';
 import collageCanape from '../images/collages/canape-collage.jpg';
 import collageCanape1 from '../images/collages/canape1-collage.jpg';
+import collageCanape4 from '../images/collages/canape4-collage.jpg';
 import collageMatelas from '../images/collages/matelas-collage.jpg';
+import collageTapisEntree from '../images/collages/g-la-dalle-collage.jpg';
 
 const GALERIE_GROUPES = [
   {
@@ -40,12 +42,19 @@ const GALERIE_GROUPES = [
     paires: [
       { label: 'Canapé', img: collageCanape1 },
       { label: 'Canapé', img: collageCanape },
+      { label: 'Canapé', img: collageCanape4 },
     ],
   },
   {
     categorie: 'Matelas',
     paires: [
       { label: 'Matelas', img: collageMatelas },
+    ],
+  },
+  {
+    categorie: 'Tapis',
+    paires: [
+      { label: "Tapis d'entrée", img: collageTapisEntree },
     ],
   },
 ];
