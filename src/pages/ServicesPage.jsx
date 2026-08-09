@@ -250,7 +250,7 @@ export default function ServicesPage() {
                   {categorie}
                 </h3>
               </FadeIn>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 400px))', gap: 20, justifyContent: 'center' }}>
                 {paires.map(({ label, img }, i) => (
                   <FadeIn key={img} delay={i * 0.05}>
                     <div style={{ borderRadius: 12, overflow: 'hidden' }}>
