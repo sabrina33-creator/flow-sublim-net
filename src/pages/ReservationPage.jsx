@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { C, F, PHONE_DISPLAY } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { CheckIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
+import { trackEvent } from '../analytics';
 import {
   GABARITS, AUTO_FORMULES, OPTION_SUBLIME, SUPPLEMENTS_AUTO, PRESTATIONS_COURTES,
   CANAPE_TAILLES, MATELAS_TAILLES, computeAutoPrice, computeFraisDeplacement,
@@ -97,33 +98,46 @@ export default function ReservationPage() {
   useEffect(() => { refreshTaken(); }, [refreshTaken]);
 
   // ── Service sélectionné → prix + libellé + éligibilité jour même ────────
+  // formuleSlug : identifiant court (ex. "express", "canape4") réservé au tracking GA4,
+  // distinct de "formule" (libellé complet affiché dans le récap et envoyé à Supabase).
   function getServiceInfo() {
     if (category === 'auto') {
       if (autoMode === 'courte') {
         const p = PRESTATIONS_COURTES.find(x => x.id === courteId);
         if (!p) return null;
-        return { total: p.prix, breakdown: [{ label: p.label, prix: p.prix }], sameDay: true, serviceKey: 'auto', formule: p.label };
+        return { total: p.prix, breakdown: [{ label: p.label, prix: p.prix }], sameDay: true, serviceKey: 'auto', formule: p.label, formuleSlug: p.id };
       }
       if (!formuleId || !gabaritId) return null;
       const r = computeAutoPrice(formuleId, gabaritId, { sublime, supplements });
       if (!r) return null;
       const formule = AUTO_FORMULES.find(f => f.id === formuleId);
       const gabarit = GABARITS.find(g => g.id === gabaritId);
-      return { total: r.total, breakdown: r.breakdown, sameDay: r.sameDay, serviceKey: 'auto', formule: `${formule.label} — ${gabarit.label}${sublime ? ' + Sublime' : ''}` };
+      return { total: r.total, breakdown: r.breakdown, sameDay: r.sameDay, serviceKey: 'auto', formule: `${formule.label} — ${gabarit.label}${sublime ? ' + Sublime' : ''}`, formuleSlug: formuleId };
     }
     if (category === 'canape') {
       const t = CANAPE_TAILLES.find(x => x.id === tailleId);
       if (!t) return null;
-      return { total: t.prix, breakdown: [{ label: t.label, prix: t.prix }], sameDay: false, serviceKey: 'canape', formule: t.label };
+      return { total: t.prix, breakdown: [{ label: t.label, prix: t.prix }], sameDay: false, serviceKey: 'canape', formule: t.label, formuleSlug: t.id };
     }
     if (category === 'matelas') {
       const t = MATELAS_TAILLES.find(x => x.id === tailleId);
       if (!t) return null;
-      return { total: t.prix, breakdown: [{ label: t.label, prix: t.prix }], sameDay: false, serviceKey: 'matelas', formule: t.label };
+      return { total: t.prix, breakdown: [{ label: t.label, prix: t.prix }], sameDay: false, serviceKey: 'matelas', formule: t.label, formuleSlug: t.id };
     }
     return null;
   }
   const serviceInfo = getServiceInfo();
+
+  // booking_started : une seule fois par sélection de service valide (transition null → non-null)
+  const bookingStartedRef = useRef(false);
+  useEffect(() => {
+    if (serviceInfo && !bookingStartedRef.current) {
+      bookingStartedRef.current = true;
+      trackEvent('booking_started', { service: serviceInfo.serviceKey, formule: serviceInfo.formuleSlug });
+    } else if (!serviceInfo) {
+      bookingStartedRef.current = false;
+    }
+  });
 
   function toggleSupplement(id) {
     setSupplements(s => s.includes(id) ? s.filter(x => x !== id) : [...s, id]);
@@ -151,7 +165,10 @@ export default function ReservationPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!serviceInfo || !geo || !date || !slot || !nom.trim() || !telephone.trim() || !email.trim()) return;
+    if (!serviceInfo || !geo || !date || !slot || !nom.trim() || !telephone.trim() || !email.trim()) {
+      trackEvent('booking_error', { error_type: 'champs_manquants' });
+      return;
+    }
     setSubmitting(true); setSubmitError('');
     const payload = {
       date_creneau: date,
@@ -169,14 +186,22 @@ export default function ReservationPage() {
     try {
       const result = await createBooking(payload);
       if (!result.ok) {
+        trackEvent('booking_error', { error_type: 'creneau_indisponible' });
         setSubmitError("Ce créneau vient d'être réservé par quelqu'un d'autre entre-temps. Merci d'en choisir un autre ci-dessus.");
         setSlot('');
         refreshTaken();
       } else {
+        trackEvent('booking_completed', {
+          service: serviceInfo.serviceKey,
+          formule: serviceInfo.formuleSlug,
+          value: total,
+          currency: 'EUR',
+        });
         setSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } catch {
+      trackEvent('booking_error', { error_type: 'erreur_serveur' });
       setSubmitError("Une erreur est survenue. Réessayez ou contactez-nous par téléphone.");
     } finally {
       setSubmitting(false);
@@ -224,7 +249,7 @@ export default function ReservationPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 20 }}>
               {CATEGORIES.map(c => (
                 <Card key={c.id} active={category === c.id} title={c.label} subtitle={c.desc}
-                  onClick={() => { setCategory(c.id); setFormuleId(null); setGabaritId(null); setCourteId(null); setTailleId(null); setDate(''); setSlot(''); }} />
+                  onClick={() => { setCategory(c.id); setFormuleId(null); setGabaritId(null); setCourteId(null); setTailleId(null); setDate(''); setSlot(''); trackEvent('service_selected', { service: c.id }); }} />
               ))}
             </div>
 
@@ -251,7 +276,7 @@ export default function ReservationPage() {
                         {AUTO_FORMULES.map(f => (
                           <Card key={f.id} active={formuleId === f.id} title={f.label} subtitle={f.desc}
                             price={gabaritId ? f.prices[gabaritId] : null}
-                            onClick={() => setFormuleId(f.id)} />
+                            onClick={() => { setFormuleId(f.id); trackEvent('service_selected', { service: 'auto', formule: f.id }); }} />
                         ))}
                       </div>
                     </div>
@@ -273,7 +298,7 @@ export default function ReservationPage() {
                 {autoMode === 'courte' && (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 10 }}>
                     {PRESTATIONS_COURTES.map(p => (
-                      <Card key={p.id} active={courteId === p.id} title={p.label} price={p.prix} onClick={() => setCourteId(p.id)} />
+                      <Card key={p.id} active={courteId === p.id} title={p.label} price={p.prix} onClick={() => { setCourteId(p.id); trackEvent('service_selected', { service: 'auto', formule: p.id }); }} />
                     ))}
                   </div>
                 )}
@@ -283,7 +308,7 @@ export default function ReservationPage() {
             {category === 'canape' && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 10 }}>
                 {CANAPE_TAILLES.map(t => (
-                  <Card key={t.id} active={tailleId === t.id} title={t.label} price={t.prix} onClick={() => setTailleId(t.id)} />
+                  <Card key={t.id} active={tailleId === t.id} title={t.label} price={t.prix} onClick={() => { setTailleId(t.id); trackEvent('service_selected', { service: 'canape', formule: t.id }); }} />
                 ))}
               </div>
             )}
@@ -291,7 +316,7 @@ export default function ReservationPage() {
             {category === 'matelas' && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 10 }}>
                 {MATELAS_TAILLES.map(t => (
-                  <Card key={t.id} active={tailleId === t.id} title={t.label} price={t.prix} onClick={() => setTailleId(t.id)} />
+                  <Card key={t.id} active={tailleId === t.id} title={t.label} price={t.prix} onClick={() => { setTailleId(t.id); trackEvent('service_selected', { service: 'matelas', formule: t.id }); }} />
                 ))}
               </div>
             )}
