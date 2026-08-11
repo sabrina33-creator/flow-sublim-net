@@ -18,6 +18,7 @@ Le site est en ligne sur `sublimnet.com`, entièrement fonctionnel :
 - Bouton WhatsApp (nav + Devis Tapis) : conservé, décision confirmée par Kenzo.
 - Fiche Google Business Profile existante identifiée, doublon vide résolu, accès administrateur obtenu (`sublimnet33@gmail.com`) — mise à jour du contenu de la fiche en cours (voir section GMB).
 - GA4 — tracking des événements de conversion sur le tunnel de réservation en place (`service_selected`, `booking_started`, `booking_error`, `booking_completed` sur `ReservationPage.jsx`), en plus du `page_view` de base. Reste à faire côté Kenzo/agence : marquer `booking_completed` comme conversion dans l'interface GA4 (Admin → Événements) une fois les événements remontés au moins une fois en production.
+- Note Google (5,0★, 6 avis) affichée sur le site (hero + page Avis & Contact) avec lien vers la fiche, et `aggregateRating` ajouté au schema.org `LocalBusiness` — validation Google Rich Results Test à faire après déploiement.
 
 ## Identité de l'entreprise
 
@@ -100,7 +101,7 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 ## Ce qui n'existe pas encore (ne jamais inventer/afficher comme si ça existait)
 
-- **Fiche Google Business Profile : accès administrateur obtenu, contenu de la fiche pas encore entièrement à jour** — voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. Ne jamais afficher de note ou de faux témoignage sur le site quoi qu'il en soit. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé).
+- **Fiche Google Business Profile : accès administrateur obtenu, contenu de la fiche pas encore entièrement à jour** — voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. La note réelle (5,0★, 6 avis, source fiche vérifiée) est affichée sur le site depuis le 2026-08-11 (hero + page Avis & Contact + `aggregateRating` schema.org) — ne jamais afficher de note différente de ces chiffres réels, ni de faux témoignage/contenu détaillé d'avis inventé. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé, sans rapport avec la vraie fiche).
 - Aucune assurance professionnelle — ne jamais afficher de mention rassurante à ce sujet.
 
 ## GMB — Google My Business

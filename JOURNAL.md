@@ -666,3 +666,31 @@ Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
 - Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
 - Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
 - `$impeccable ai-seo` — toujours pas commencé.
+
+---
+
+## 2026-08-11 (suite 2) — Affichage de la note Google (5,0★, 6 avis) et aggregateRating schema.org
+
+**Contexte : la fiche GMB étant désormais confirmée et reprise en main (voir plus haut), la règle stricte "jamais de note affichée" de `CLAUDE.md` ne s'appliquait plus** — elle visait à empêcher d'afficher une note incertaine ou non contrôlée, pas à interdire d'afficher une vraie note une fois la fiche vérifiée. Demande de l'utilisatrice : afficher badge de confiance uniquement (note + nombre d'avis + lien), pas le contenu détaillé des avis, ton direct sans superlatif ("Ils nous font confiance" plutôt qu'un badge marketing).
+
+**1. Lien vers la fiche Google — vérification en deux temps avant utilisation.** Premier lien fourni par l'utilisatrice (une URL de résultat de recherche Google avec paramètres de session `stick=`/`mat=`/`ved=`) testé via `WebFetch` : redirection vers `consent.google.com` avant d'atteindre la fiche, format jugé pas assez stable pour être codé en dur sur une page publique (paramètres potentiellement éphémères). Recommandation faite à l'utilisatrice de récupérer plutôt le lien "Partager" depuis l'interface Google Business Profile. Second lien fourni (`https://share.google/OO0MDj9rozdpL3ps7`) vérifié de la même façon : redirige vers une recherche Google avec `kgmid=/g/11nb5f6bg4&q=SublimNet` — un identifiant Knowledge Graph stable, confirmé comme le bon type de lien. Retenu.
+
+**2. Contenu ajouté à deux endroits, sur constantes centralisées (`GOOGLE_REVIEWS_URL`, `GOOGLE_RATING`, `GOOGLE_REVIEW_COUNT` dans `tokens.js`)** :
+- **`ContactPage.jsx`, section "Avis clients"** : remplace le texte "Sublim Net vient tout juste de démarrer — on affichera ici les premiers avis clients dès qu'on en aura" (devenu faux) par 5 étoiles (`StarIcon`, déjà présent dans `Icons.jsx` mais jusque-là inutilisé), "5,0 sur Google — 6 avis", puis "Ils nous font confiance. Voir la fiche Google →" en lien vers la fiche. Commentaire d'en-tête du fichier également corrigé (ne renvoyait plus vers la bonne raison de l'absence d'avis).
+- **`HomePage.jsx`, hero** : ligne discrète ajoutée sous les boutons "Réserver maintenant"/WhatsApp (étoiles blanches miniatures + "5,0 sur Google (6 avis)", lien cliquable) — emplacement choisi après question posée à l'utilisatrice (alternatives proposées : section Avant/Après, ou aucun rappel sur l'accueil) pour rester cohérent avec l'angle "preuve" déjà présent dans le hero, sans ajouter de nouveau bloc.
+- Vérifié par capture d'écran réelle (Playwright) sur les deux pages avant de proposer le diff, pas seulement en lisant le code.
+
+**3. `aggregateRating` ajouté au schema.org `LocalBusiness` dans `public/index.html`** (`ratingValue: "5"`, `reviewCount: "6"`), volontairement absent jusqu'ici en l'absence de vrais avis contrôlés. Syntaxe vérifiée par un parse JSON du fichier avant commit (pas seulement une relecture visuelle). Pas de markup `review` individuel ajouté, conformément à la demande de ne pas afficher le détail des avis — `aggregateRating` seul est valide en schema.org sans liste de `review`.
+
+**4. Validation Google Rich Results Test — reportée après déploiement, comme pour le premier passage schema (voir entrée du 2026-08-03).** L'outil doit crawler une URL publique réelle, `localhost` n'est pas accessible depuis l'extérieur — confusion initiale de l'utilisatrice clarifiée (le lien Google Business, lui, avait déjà été vérifié séparément et n'a aucun rapport avec cette limitation).
+
+**État git en fin de session :** `ffb3e67` committé et poussé (4 fichiers : `tokens.js`, `ContactPage.jsx`, `HomePage.jsx`, `public/index.html`). Cette entrée de journal à committer séparément. Validation Google Rich Results Test à faire après le redéploiement Netlify — pas encore effectuée au moment de rédiger cette entrée.
+
+**Points ouverts :**
+- Valider le schema `aggregateRating` avec Google Rich Results Test une fois le déploiement Netlify terminé.
+- Marquer `booking_completed` comme conversion dans l'interface GA4 — toujours en attente (voir entrée précédente).
+- GMB : finaliser site web / horaires / catégorie / description sur la fiche.
+- Bug UX du bouton "Confirmer" sans validation HTML5 native — toujours signalé, non corrigé.
+- Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+- `$impeccable ai-seo` — toujours pas commencé.
