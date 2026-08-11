@@ -3,6 +3,7 @@ import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { WhatsAppIcon, PhoneIcon, CheckIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
+import Seo from '../components/Seo';
 import {
   GABARITS, AUTO_FORMULES, OPTION_SUBLIME, SUPPLEMENTS_AUTO, PRESTATIONS_COURTES,
   CANAPE_TAILLES, MATELAS_TAILLES,
@@ -66,6 +67,11 @@ function Price({ children }) {
 export default function ServicesPage() {
   return (
     <>
+      <Seo
+        title="Tarifs nettoyage auto, canapé, tapis, matelas | Sublim Net"
+        description="Grille tarifaire complète : nettoyage auto dès 45€, canapé dès 20€, tapis sur devis, matelas dès 35€. Photos avant/après, réservation en ligne."
+        path="/services"
+      />
       <PageHeaderBanner title="Nos Services" />
 
       {/* ── AUTO ───────────────────────────────────────────────────────── */}

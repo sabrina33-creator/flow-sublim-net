@@ -4,6 +4,7 @@ import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { CheckIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
+import Seo from '../components/Seo';
 import { trackEvent } from '../analytics';
 import {
   GABARITS, AUTO_FORMULES, OPTION_SUBLIME, SUPPLEMENTS_AUTO, PRESTATIONS_COURTES,
@@ -210,6 +211,12 @@ export default function ReservationPage() {
 
   if (success) {
     return (
+      <>
+      <Seo
+        title="Réserver un nettoyage à domicile | Sublim Net"
+        description="Réservez votre créneau de nettoyage auto, canapé ou matelas à domicile — 07:30 ou 14:30, 7j/7, confirmation immédiate et automatique."
+        path="/reservation"
+      />
       <section className="sec-p" style={{ minHeight: '70svh', display: 'flex', alignItems: 'center' }}>
         <div style={{ maxWidth: 560, margin: '0 auto', padding: '100px 24px 0', textAlign: 'center' }}>
           <div style={{ width: 64, height: 64, borderRadius: '50%', background: `${C.primary}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
@@ -227,11 +234,17 @@ export default function ReservationPage() {
           <Btn href="/" variant="primary" loc="reservation_success">Retour à l'accueil</Btn>
         </div>
       </section>
+      </>
     );
   }
 
   return (
     <>
+      <Seo
+        title="Réserver un nettoyage à domicile | Sublim Net"
+        description="Réservez votre créneau de nettoyage auto, canapé ou matelas à domicile — 07:30 ou 14:30, 7j/7, confirmation immédiate et automatique."
+        path="/reservation"
+      />
       <PageHeaderBanner title="Réserver" />
       <section className="sec-p">
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}>

@@ -120,7 +120,6 @@ Une fiche Google Business Profile "Sublim Net" existait déjà avant ce projet, 
 
 ## TODO — prochaine session
 
-1. `$seo-audit` — pas encore lancé.
-2. `$ai-seo` — pas encore lancé.
-3. GMB — sur la fiche existante (accès admin déjà obtenu) : changer le site web vers `sublimnet.com`, corriger les horaires, finaliser la catégorie d'activité, réécrire la description (voir section dédiée ci-dessus).
-4. GA4 — une fois les 4 nouveaux événements remontés en production, marquer `booking_completed` comme conversion dans l'interface GA4 (voir JOURNAL.md pour le détail des paramètres et la marche à suivre complète).
+1. GMB — sur la fiche existante (accès admin déjà obtenu) : changer le site web vers `sublimnet.com`, corriger les horaires, finaliser la catégorie d'activité, réécrire la description (voir section dédiée ci-dessus).
+2. GA4 — une fois les 4 nouveaux événements remontés en production, marquer `booking_completed` comme conversion dans l'interface GA4 (voir JOURNAL.md pour le détail des paramètres et la marche à suivre complète).
+3. **Limitation architecturale connue et assumée : site 100% CSR (CRA, pas de SSR/SSG)** — identifiée lors de l'audit SEO technique du 2026-08-11. Le HTML initial est un `<div id="root">` vide, tout le contenu (y compris les titres) n'existe qu'après exécution du JS. Googlebot s'en sort bien via le rendu, mais c'est plus faible en vitesse perçue (premier affichage vide) et invisible pour tout crawler/agent IA qui n'exécute pas de JS. Pas un correctif ponctuel — impliquerait une refonte d'architecture (migration vers Next.js ou équivalent SSR/SSG). À réévaluer dans une future session si le besoin devient réel (ex. si le trafic organique stagne ou si un audit montre un impact concret), pas à corriger par principe.

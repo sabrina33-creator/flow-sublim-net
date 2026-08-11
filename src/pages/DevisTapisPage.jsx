@@ -6,6 +6,7 @@ import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { WhatsAppIcon, PhoneIcon, CheckIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
+import Seo from '../components/Seo';
 // Visuel temporaire (générique, pas une vraie photo tapis) — voir JOURNAL.md
 import tapisBanner from '../images/tapis-banner.jpg';
 
@@ -38,6 +39,11 @@ export default function DevisTapisPage() {
 
   return (
     <>
+      <Seo
+        title="Devis nettoyage tapis à domicile | Sublim Net"
+        description="Demandez un devis personnalisé pour le nettoyage de votre tapis à domicile, à Talence et alentours. Réponse rapide par WhatsApp."
+        path="/devis-tapis"
+      />
       <PageHeaderBanner title="Devis Tapis" image={tapisBanner} />
       <section className="sec-p">
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 24px' }}>

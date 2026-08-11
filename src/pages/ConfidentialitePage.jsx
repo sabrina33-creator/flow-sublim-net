@@ -1,5 +1,6 @@
 import { C, F, EMAIL } from '../tokens';
 import FadeIn from '../components/FadeIn';
+import Seo from '../components/Seo';
 
 const SECTIONS = [
   {
@@ -71,6 +72,12 @@ const SECTIONS = [
 
 export default function ConfidentialitePage() {
   return (
+    <>
+    <Seo
+      title="Politique de confidentialité | Sublim Net"
+      description="Politique de confidentialité de Sublim Net — données personnelles, cookies, droits RGPD."
+      path="/confidentialite"
+    />
     <section className="sec-p" style={{ paddingTop: 120 }}>
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}>
         <FadeIn>
@@ -98,5 +105,6 @@ export default function ConfidentialitePage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

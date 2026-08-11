@@ -7,6 +7,7 @@ import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import { WhatsAppIcon, PhoneIcon, MailIcon, PinIcon, CheckIcon, InstagramIcon, TiktokIcon, StarIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
+import Seo from '../components/Seo';
 
 const HORAIRES = [
   { jours: 'Tous les jours (7j/7)', heures: '07:30' },
@@ -16,6 +17,11 @@ const HORAIRES = [
 export default function ContactPage() {
   return (
     <>
+      <Seo
+        title="Avis clients et contact | Sublim Net"
+        description="5,0 sur Google (6 avis). Contactez Sublim Net par téléphone, WhatsApp ou email — zone d'intervention et créneaux de réservation."
+        path="/contact"
+      />
       <PageHeaderBanner title="Avis & Contact" />
 
       {/* ── AVIS — note et nombre réels, source Google, pas de contenu détaillé ── */}

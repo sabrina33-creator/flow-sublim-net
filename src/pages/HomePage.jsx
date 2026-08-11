@@ -3,6 +3,7 @@ import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import FaqItem from '../components/FaqItem';
 import Logo from '../components/Logo';
+import Seo from '../components/Seo';
 import { WhatsAppIcon, PhoneIcon, CheckIcon, StarIcon } from '../components/Icons';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 
@@ -10,11 +11,13 @@ import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 // src/images/bleu-avant.jpeg et bleu-apres.jpeg, jamais modifiées ni déplacées.
 import heroAvant from '../images/bleu-avant-hero.jpg';
 import heroApres from '../images/bleu-apres-hero.jpg';
-import apercuAuto from '../images/siege-beige-apres.png';
-import apercuCanape from '../images/canape1-apres.png';
+// Aperçus "Nos prestations" — versions web (redimensionnées/compressées) des
+// photos originales *-apres.png / tapis.png, jamais modifiées ni déplacées.
+import apercuAuto from '../images/siege-beige-apres-web.jpg';
+import apercuCanape from '../images/canape1-apres-web.jpg';
 // Tapis : visuel générique temporaire (pas une vraie photo) — voir JOURNAL.md
-import apercuTapis from '../images/tapis.png';
-import apercuMatelas from '../images/matelas-apres.png';
+import apercuTapis from '../images/tapis-web.jpg';
+import apercuMatelas from '../images/matelas-apres-web.jpg';
 
 // Teaser avant/après — sélection variée (pas uniquement auto), la galerie complète
 // organisée par catégorie est sur /services#avant-apres.
@@ -71,6 +74,11 @@ const FAQ = [
 export default function HomePage() {
   return (
     <>
+      <Seo
+        title="Sublim Net — Nettoyage auto, canapé, tapis à domicile"
+        description="Detailing auto, canapé, tapis et matelas à domicile sur Talence et alentours. Réservation en ligne immédiate, tarifs transparents. 07 79 72 60 76."
+        path="/"
+      />
       {/* ── HERO — split avant/après, orienté preuve/conversion ──────────── */}
       <section style={{
         position: 'relative',
@@ -98,9 +106,9 @@ export default function HomePage() {
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
               <Logo size="clamp(70px, 12vw, 140px)" />
             </div>
-            <p style={{ fontSize: 'clamp(1.05rem, 2.8vw, 1.35rem)', lineHeight: 1.6, marginBottom: 36, maxWidth: 520, margin: '0 auto 36px', color: 'rgba(255,255,255,0.95)', fontWeight: 500 }}>
+            <h1 style={{ fontSize: 'clamp(1.05rem, 2.8vw, 1.35rem)', lineHeight: 1.6, marginBottom: 36, maxWidth: 520, margin: '0 auto 36px', color: 'rgba(255,255,255,0.95)', fontWeight: 500 }}>
               {ACCROCHE_SUB}
-            </p>
+            </h1>
           </FadeIn>
           <FadeIn delay={0.15}>
             <div className="hero-ctas" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

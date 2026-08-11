@@ -1,5 +1,6 @@
 import { C, F, SITE_URL, PHONE_DISPLAY, EMAIL } from '../tokens';
 import FadeIn from '../components/FadeIn';
+import Seo from '../components/Seo';
 
 const SECTIONS = [
   {
@@ -47,6 +48,12 @@ const SECTIONS = [
 
 export default function MentionsLegalesPage() {
   return (
+    <>
+    <Seo
+      title="Mentions légales | Sublim Net"
+      description="Mentions légales de Sublim Net — SIRET, éditeur, hébergement, propriété intellectuelle."
+      path="/mentions-legales"
+    />
     <section className="sec-p" style={{ paddingTop: 120 }}>
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}>
         <FadeIn>
@@ -72,5 +79,6 @@ export default function MentionsLegalesPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }
