@@ -17,6 +17,7 @@ Le site est en ligne sur `sublimnet.com`, entièrement fonctionnel :
 - Grille tarifaire Auto enrichie du détail des prestations Express/Confort (voir ci-dessous).
 - Bouton WhatsApp (nav + Devis Tapis) : conservé, décision confirmée par Kenzo.
 - Fiche Google Business Profile existante identifiée, doublon vide résolu, accès administrateur obtenu (`sublimnet33@gmail.com`) — mise à jour du contenu de la fiche en cours (voir section GMB).
+- GA4 — tracking des événements de conversion sur le tunnel de réservation en place (`service_selected`, `booking_started`, `booking_error`, `booking_completed` sur `ReservationPage.jsx`), en plus du `page_view` de base. Reste à faire côté Kenzo/agence : marquer `booking_completed` comme conversion dans l'interface GA4 (Admin → Événements) une fois les événements remontés au moins une fois en production.
 
 ## Identité de l'entreprise
 
@@ -101,7 +102,6 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 - **Fiche Google Business Profile : accès administrateur obtenu, contenu de la fiche pas encore entièrement à jour** — voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. Ne jamais afficher de note ou de faux témoignage sur le site quoi qu'il en soit. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé).
 - Aucune assurance professionnelle — ne jamais afficher de mention rassurante à ce sujet.
-- **GA4 — tracking des événements de conversion sur le tunnel de réservation, pas encore fait.** Le tracking de base (pages vues à chaque navigation, consentement cookies géré) est en place, mais aucun événement personnalisé n'existe pour repérer où les visiteurs abandonnent avant de réserver : choix d'un service (catégorie/formule), ouverture du formulaire sans validation, confirmation réussie, échec (créneau déjà pris, erreur de validation). À traiter dans une session dédiée — définir précisément les noms d'événements et paramètres GA4 avant toute implémentation, pas à la volée.
 
 ## GMB — Google My Business
 
@@ -121,5 +121,5 @@ Une fiche Google Business Profile "Sublim Net" existait déjà avant ce projet, 
 
 1. `$seo-audit` — pas encore lancé.
 2. `$ai-seo` — pas encore lancé.
-3. GA4 — événements de conversion sur le tunnel de réservation (détail des événements à définir, voir "Ce qui n'existe pas encore" ci-dessus).
-4. GMB — sur la fiche existante (accès admin déjà obtenu) : changer le site web vers `sublimnet.com`, corriger les horaires, finaliser la catégorie d'activité, réécrire la description (voir section dédiée ci-dessus).
+3. GMB — sur la fiche existante (accès admin déjà obtenu) : changer le site web vers `sublimnet.com`, corriger les horaires, finaliser la catégorie d'activité, réécrire la description (voir section dédiée ci-dessus).
+4. GA4 — une fois les 4 nouveaux événements remontés en production, marquer `booking_completed` comme conversion dans l'interface GA4 (voir JOURNAL.md pour le détail des paramètres et la marche à suivre complète).

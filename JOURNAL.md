@@ -623,3 +623,46 @@ Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
 - Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours pas reçue à ce jour, question devenue moins urgente maintenant que l'accès à la vraie fiche est obtenu, mais toujours ouverte.
 - Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
 - `$impeccable ai-seo` — toujours pas commencé.
+
+---
+
+## 2026-08-11 (suite) — areaServed aligné sur GMB, tracking GA4 des conversions sur le tunnel de réservation
+
+**1. `areaServed` du schema.org LocalBusiness aligné sur la zone GMB (commit `34f2892`).** La fiche GMB (plus à jour, 14 communes + le quartier Bordeaux-Lac) couvrait davantage que le schema du site (5 villes seulement : Talence, Bordeaux, Pessac, Gradignan, Bègles). Écart de comptage relevé avant modification : la liste fournie par l'utilisatrice contenait 10 noms, pas 9 comme annoncé (14 villes) — écart expliqué par Bordeaux-Lac, quartier de Bordeaux et non une commune distincte. Question posée avant d'écrire quoi que ce soit : Bordeaux-Lac inclus quand même comme entrée `City` séparée, sur choix explicite de l'utilisatrice, au prix d'une légère imprécision administrative (assumée, cohérence avec l'affichage GMB jugée prioritaire). 10 villes ajoutées : Cenon, Bruges, Cestas, Lormont, Eysines, Mérignac, Le Haillan, Le Pian-Médoc, Le Taillan-Médoc, Bordeaux-Lac — 15 entrées au total désormais dans `areaServed`.
+
+**2. Tracking GA4 des événements de conversion sur le tunnel de réservation (commit `8b1ce48`).** Dernier point ouvert du chantier GA4 (voir CLAUDE.md, ligne "reste à faire" retirée). Demande initiale de l'utilisatrice explicitement structurée en 3 temps : proposer la liste des événements/paramètres pour validation *avant* le code, implémenter et vérifier *après* validation, journaliser seulement une fois le test de vérification passé — séquence strictement respectée.
+
+**Événements créés, tous dans `src/pages/ReservationPage.jsx`, via la fonction `trackEvent()` déjà existante dans `src/analytics.js`** (aucun nouveau fichier, aucune modification d'`analytics.js`) :
+
+| Événement | Déclencheur | Paramètres |
+|---|---|---|
+| `service_selected` | Clic carte catégorie (Auto/Canapé/Matelas) | `{ service }` |
+| `service_selected` | Clic carte Formule Auto | `{ service: "auto", formule }` |
+| `service_selected` | Clic carte "Phares seuls" (1/2 phares) | `{ service: "auto", formule }` |
+| `service_selected` | Clic carte taille Canapé/Matelas | `{ service, formule }` |
+| `booking_started` | 1ère fois que `serviceInfo` devient valide (transition null → non-null) | `{ service, formule }` |
+| `booking_error` | Clic "Confirmer" avec un champ requis vide | `{ error_type: "champs_manquants" }` |
+| `booking_error` | Créneau pris entre-temps (`createBooking` renvoie `ok:false`) | `{ error_type: "creneau_indisponible" }` |
+| `booking_error` | Exception réseau/Supabase (bloc `catch`) | `{ error_type: "erreur_serveur" }` |
+| `booking_completed` | `createBooking` réussit | `{ service, formule, value, currency: "EUR" }` |
+
+`formule` utilise partout un identifiant court (`"express"`, `"canape2"`, `"phare1"`...), pas le libellé complet affiché à l'écran — un champ interne `formuleSlug` a été ajouté dans `getServiceInfo()` spécifiquement pour ça, sans toucher au champ `formule` existant (libellé complet, utilisé dans le récapitulatif affiché et envoyé tel quel à Supabase). `value` sur `booking_completed` reprend la variable `total` déjà utilisée dans l'affichage du récapitulatif (`serviceInfo.total + geo.frais`) — proposé en plus de la demande initiale (format standard GA4 pour le reporting de revenu sur les conversions), validé par l'utilisatrice avant implémentation.
+
+**Deux points soumis à validation avant d'écrire le code** (conformément à la demande) :
+- Un bug UX préexistant découvert en creusant `handleSubmit` : le bouton "Confirmer" (`Btn`, `type="button"`) ne déclenche jamais la validation HTML5 native (`required`), donc un champ vide ne produit aujourd'hui aucun message visible — juste un `return` silencieux. Décision de l'utilisatrice : tracker `booking_error` tel quel sans changer ce comportement (le fix visuel reste un chantier à part, non traité ici).
+- Ajout de `value`/`currency` sur `booking_completed` — validé.
+
+**Vérification réelle avant implémentation en dur — obstacle technique inattendu et méthode de contournement propre.** Tentative de vérifier les 4 événements par interception réseau des requêtes vers `google-analytics.com/g/collect` (méthode utilisée avec succès dans une session précédente pour le fix `transport_type: beacon`) : zéro requête interceptée, y compris pour le `page_view` de base déjà confirmé fonctionnel en production. Diagnostic : `curl` brut réussit sans problème vers ce domaine (HTTP 204), mais **tout navigateur piloté par Playwright sur cette machine** (testé sur Edge ET sur le Chromium natif de Playwright, deux binaires différents, même résultat) bloque systématiquement ces requêtes en `ERR_ABORTED`, alors que `googletagmanager.com` (le script `gtag.js` lui-même) charge normalement. Signature typique d'une politique de blocage des domaines de tracking au niveau de la machine Windows (registre), indépendante du choix de navigateur — pas un bug du site, pas un problème réseau général. Aucune tentative de contournement de cette protection.
+- **Méthode de vérification retenue à la place : lecture directe de `window.dataLayer`** (Playwright), qui capture l'appel `gtag('event', ...)` réel émis par le code, avec le nom d'événement et les paramètres exacts, sans dépendre de la requête réseau sortante. Deux scripts de test exécutés : le parcours Canapé complet (catégorie → taille → adresse réelle géocodée via Nominatim → créneau → soumission), avec l'appel Supabase intercepté et simulé (409 conflit puis 201 succès, pour tester `booking_error`/`booking_completed` **sans écrire de vraie ligne dans la table `creneaux` ni déclencher de vrais emails vers Kenzo**) ; puis un second passage ciblé sur les branches Auto (formule Express, "1 phare") et Matelas, non couvertes par le premier scénario. **8 déclenchements testés au total, tous conformes** (voir tableau ci-dessus) — y compris le cas où `booking_started` se redéclenche correctement après un changement de mode (formule complète → phares seuls), la remise à zéro de `slot` après un échec de créneau, et l'absence d'événement superflu sur les interactions non concernées (choix du gabarit, bascule de mode, remplissage des champs texte).
+- Question explicitement reposée à l'utilisatrice avant de journaliser, conformément à sa consigne ("Ne journalise qu'une fois le test de vérification passé") : la preuve `dataLayer` suffit-elle, ou faut-il attendre une vérification GA4 DebugView réelle de sa part ? Réponse : preuve `dataLayer` jugée suffisante (même mécanisme `gtag()` que le `page_view` déjà confirmé fonctionnel en production).
+- Avant validation finale du commit, l'utilisatrice a demandé deux clarifications techniques supplémentaires, répondues avant de committer : le `useEffect` de `booking_started` sans tableau de dépendances est volontaire (un tableau `[serviceInfo]` n'aurait aucun effet, l'objet étant recréé à chaque render — la garde par `ref` est le mécanisme réel de dédoublonnage) ; la variable `total` utilisée dans `value` est bien la même que celle affichée dans le récapitulatif à l'écran, non une valeur intermédiaire.
+
+**État git en fin de session :** `34f2892` (areaServed) et `8b1ce48` (tracking GA4) committés et poussés séparément. Cette entrée de journal + la mise à jour de `CLAUDE.md` (retrait de la ligne GA4 "pas encore fait", ajout en "État actuel" et "TODO") à committer avec elle.
+
+**Points ouverts :**
+- Marquer `booking_completed` comme conversion dans l'interface GA4 (Admin → Événements), possible seulement une fois les événements remontés au moins une fois en production — pas une action de code, à faire par l'utilisatrice ou Kenzo.
+- GMB : finaliser site web / horaires / catégorie / description sur la fiche (voir `CLAUDE.md`).
+- Bug UX du bouton "Confirmer" sans validation HTML5 native — signalé, volontairement non corrigé cette session.
+- Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+- `$impeccable ai-seo` — toujours pas commencé.
