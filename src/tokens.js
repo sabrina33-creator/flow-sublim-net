@@ -26,6 +26,13 @@ export const CITY          = 'Talence';
 export const CITY_REGION   = 'Gironde';
 export const ZIP           = '33400';
 
+// Villes desservies — doit rester aligné avec areaServed du schema.org (public/index.html)
+export const AREA_SERVED_CITIES = [
+  'Talence', 'Bordeaux', 'Bordeaux-Lac', 'Pessac', 'Gradignan', 'Bègles',
+  'Cenon', 'Bruges', 'Cestas', 'Lormont', 'Eysines', 'Mérignac',
+  'Le Haillan', 'Le Pian-Médoc', 'Le Taillan-Médoc',
+];
+
 // ── RÉSEAUX SOCIAUX ───────────────────────────────────────────────────────────
 export const INSTAGRAM = 'https://instagram.com/sublimnet';
 export const TIKTOK    = 'https://www.tiktok.com/@sublimnet';

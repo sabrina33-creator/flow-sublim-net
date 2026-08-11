@@ -29,7 +29,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
 
   <!-- ── GA4 ────────────────────────────────────────────────────────────── -->
-  <!-- Bandeau de consentement cookies pas encore en place — voir CLAUDE.md/JOURNAL.md -->
+  <!-- Bandeau de consentement cookies en place (src/components/CookieConsent.jsx) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRYJ8JZ2QG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -133,12 +133,12 @@
           {
             "@type": "Question",
             "name": "Puis-je réserver le jour même ?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Oui, uniquement pour la formule Extérieur seul et les prestations phares. Toute formule avec intérieur nécessite un délai minimum de 24h." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, uniquement pour la formule Extérieur seul et les prestations phares. Toute formule avec intérieur (Express, Confort, combinés) nécessite un délai minimum de 24h." }
           },
           {
             "@type": "Question",
             "name": "Comment sont calculés les frais de déplacement ?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Un rayon de 20 km autour de notre zone d'intervention est offert. Au-delà, 0,75€/km sont appliqués uniquement sur le dépassement." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Le rayon de 20 km autour de notre zone d'intervention est offert. Au-delà, 0,75€/km sont appliqués uniquement sur le dépassement, affichés en ligne séparée lors de la réservation." }
           },
           {
             "@type": "Question",
@@ -147,8 +147,13 @@
           },
           {
             "@type": "Question",
+            "name": "Comment se passe le paiement ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sur place, après l'intervention : espèces, carte ou virement." }
+          },
+          {
+            "@type": "Question",
             "name": "Le tapis est-il réservable en ligne comme les autres services ?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Non, le tapis est uniquement sur devis personnalisé, sans réservation automatique." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Non, le tapis est uniquement sur devis : dites-nous-en plus via notre parcours dédié, sans réservation automatique." }
           }
         ]
       }

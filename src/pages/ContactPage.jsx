@@ -1,7 +1,7 @@
 // Page Avis & Contact — note et nombre d'avis affichés uniquement depuis que la
 // fiche Google Business Profile est confirmée et reprise en main (voir CLAUDE.md
 // section GMB). Pas de contenu détaillé des avis, juste le rappel + lien source.
-import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../tokens';
+import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, AREA_SERVED_CITIES } from '../tokens';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
@@ -102,6 +102,9 @@ export default function ContactPage() {
                 </div>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, marginBottom: 12 }}>
                   Intervention à domicile depuis {CITY} ({RAYON_GRATUIT_KM} km offerts).
+                </p>
+                <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginBottom: 12 }}>
+                  {AREA_SERVED_CITIES.join(', ')}.
                 </p>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, marginTop: 'auto' }}>
                   Au-delà, {TARIF_KM_SUPPLEMENTAIRE}€/km sur le dépassement uniquement — calculé automatiquement lors de la réservation.
