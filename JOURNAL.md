@@ -598,3 +598,28 @@ Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
 - Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours bloquant pour la suite du travail GMB.
 - Retour du frère de l'utilisatrice sur son test de réservation — vérification en cours au moment de clore cette session.
 - `$impeccable ai-seo` — toujours pas commencé.
+
+---
+
+## 2026-08-11 — Ghost-card déjà traité, refonte complète de CLAUDE.md, déblocage GMB (doublon résolu, accès obtenu)
+
+**1. `$impeccable polish` sur le pattern ghost-card — déjà résolu, aucune action nécessaire.** Demande explicite de traiter les 11 cartes (`.flow-card`/`.flow-card-cta`, `App.css:117-131`), mais vérification du fichier et de l'historique git montre que c'est déjà fait, commit `c178270` du 2026-08-09 : ombre au survol resserrée à `0 4px 8px`, bordure fine conservée. Signalé à l'utilisatrice plutôt que de réappliquer un changement déjà en place.
+
+**2. Refonte complète de `CLAUDE.md` demandée par l'utilisatrice pour assurer la continuité entre sessions (commit `aa5d59b`).** Trois ajouts structurels : section "État actuel du projet" (récap fonctionnel en tête de fichier), section "GMB — Google My Business" dédiée, section "TODO — prochaine session". Deux écarts relevés entre le texte fourni et l'état réel avant d'écrire quoi que ce soit :
+- **TODO "cadrage galerie" retiré** — déjà corrigé et journalisé dans cette même session (voir entrée précédente, commits `4a7c68f`/`3cf5c22`/`e3248ca`) ; l'ajouter en TODO aurait réintroduit une information fausse.
+- **Mention WhatsApp "décision confirmée par Kenzo"** — aucune trace de cette confirmation dans le journal (dernier état connu : indécis). Question posée avant d'écrire quoi que ce soit dans un fichier de mémoire métier ; l'utilisatrice confirme que Kenzo a bien validé de le garder.
+- Contenu vérifié techniquement avant écriture plutôt que recopié tel quel : présence du Schema.org `["LocalBusiness", "HomeAndConstructionBusiness"]` confirmée dans `public/index.html`, validation Google Rich Results Test et succès de bout en bout du système de réservation/email confirmés via relecture de `JOURNAL.md` (entrées du 2026-08-03 et 2026-08-06).
+
+**3. Déblocage majeur sur Google Business Profile — la fiche préexistante identifiée en session précédente (voir entrée du 2026-08-08) est maintenant sous contrôle.** Travail effectué par l'utilisatrice directement dans l'interface Google (aucune action de code) :
+- **Cause du rejet de vérification vidéo enfin comprise avec certitude** : ce n'était pas seulement une fiche préexistante en cause, mais un vrai doublon — une deuxième fiche vide (sans avis) créée en parallèle de l'originale (6 avis, 5,0★). La demande de vérification vidéo en cours sous `sublimnet33@gmail.com` (qui aurait créé un 3ᵉ doublon) a été annulée.
+- Doublon vide supprimé/fusionné — seule la fiche originale avec les 6 avis subsiste.
+- `sublimnet33@gmail.com` ajouté comme **Administrateur** sur la bonne fiche (propriétaire principal inchangé : `lapeste7710@gmail.com`, désormais confirmé en entier — la mention partielle "lapeste77..." de la session précédente est corrigée dans `CLAUDE.md`). Invitation acceptée, accès confirmé.
+- **Mise à jour du contenu de la fiche entamée mais pas terminée** : téléphone déjà correct, site web encore sur l'ancien lien (à changer vers `sublimnet.com`), horaires actuellement faux ("Ouvert 24h/24", à remplacer par les vrais créneaux), catégorie d'activité en cours de sélection, description encore générique ("Service de nettoyage et d'entretien", à réécrire dans le ton du site). Documenté en détail dans la nouvelle section "GMB" de `CLAUDE.md` pour ne pas reperdre le fil.
+
+**État git en fin de session :** `aa5d59b` (refonte CLAUDE.md) déjà committé et poussé avant l'avancée GMB ; cette entrée de journal + la mise à jour de la section GMB de `CLAUDE.md` (doublon résolu, accès obtenu) à committer ensemble.
+
+**Points ouverts :**
+- GMB : finaliser site web / horaires / catégorie / description sur la fiche (voir `CLAUDE.md`).
+- Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours pas reçue à ce jour, question devenue moins urgente maintenant que l'accès à la vraie fiche est obtenu, mais toujours ouverte.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+- `$impeccable ai-seo` — toujours pas commencé.

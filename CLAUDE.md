@@ -16,6 +16,7 @@ Le site est en ligne sur `sublimnet.com`, entièrement fonctionnel :
 - Audit accessibilité `impeccable` : contraste WCAG AA, cible tactile 44px, rôle ARIA du bandeau cookies, pattern "ghost-card" (11 cartes) — tous corrigés et vérifiés (axe-core + tests réels en hover/tactile).
 - Grille tarifaire Auto enrichie du détail des prestations Express/Confort (voir ci-dessous).
 - Bouton WhatsApp (nav + Devis Tapis) : conservé, décision confirmée par Kenzo.
+- Fiche Google Business Profile existante identifiée, doublon vide résolu, accès administrateur obtenu (`sublimnet33@gmail.com`) — mise à jour du contenu de la fiche en cours (voir section GMB).
 
 ## Identité de l'entreprise
 
@@ -98,24 +99,27 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 ## Ce qui n'existe pas encore (ne jamais inventer/afficher comme si ça existait)
 
-- **Fiche Google Business Profile : pas d'accès gestionnaire pour l'instant** — la fiche existe et est identifiée, mais l'agence n'a pas encore la main dessus. Voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. Ne jamais afficher de note ou de faux témoignage sur le site quoi qu'il en soit. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé).
+- **Fiche Google Business Profile : accès administrateur obtenu, contenu de la fiche pas encore entièrement à jour** — voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. Ne jamais afficher de note ou de faux témoignage sur le site quoi qu'il en soit. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé).
 - Aucune assurance professionnelle — ne jamais afficher de mention rassurante à ce sujet.
 - **GA4 — tracking des événements de conversion sur le tunnel de réservation, pas encore fait.** Le tracking de base (pages vues à chaque navigation, consentement cookies géré) est en place, mais aucun événement personnalisé n'existe pour repérer où les visiteurs abandonnent avant de réserver : choix d'un service (catégorie/formule), ouverture du formulaire sans validation, confirmation réussie, échec (créneau déjà pris, erreur de validation). À traiter dans une session dédiée — définir précisément les noms d'événements et paramètres GA4 avant toute implémentation, pas à la volée.
 
 ## GMB — Google My Business
 
-Une fiche Google Business Profile "Sublim Net" existait déjà avant ce projet, héritée d'un ancien prestataire — site associé `sublimnet.fr` sous le nom "Procline" (jamais terminé). **C'est cette fiche préexistante, et non une absence de fiche, qui causait le rejet répété des tentatives de vérification vidéo** (Google détecte un doublon et refuse).
+Une fiche Google Business Profile "Sublim Net" existait déjà avant ce projet, héritée d'un ancien prestataire — site associé `sublimnet.fr` sous le nom "Procline" (jamais terminé). **C'est cette fiche préexistante, et non une absence de fiche, qui causait le rejet répété des tentatives de vérification vidéo** (Google détectait un doublon et refusait).
 
-- **Propriétaire actuel de la fiche** : un compte Gmail commençant par `lapeste77...` — adresse exacte à obtenir précisément par Sabrina, volontairement notée partielle ici par prudence.
-- **Action en cours** : Kenzo doit valider l'ajout de `sublimnet33@gmail.com` comme gestionnaire de cette fiche, via Google Business Profile → Gérer les accès.
-- **Une fois l'accès obtenu** :
-  - Mettre à jour le site web associé sur la fiche : `sublimnet.com` (au lieu de l'ancien lien `sublimnet.fr`).
-  - Vérifier/corriger téléphone, adresse et horaires affichés.
-- **Ne pas relancer de nouvelle vérification vidéo** tant que cette fiche existante n'est pas correctement reprise en main — c'est elle qu'il faut utiliser, pas en créer une autre.
+- **Doublon résolu** : un deuxième doublon, vide et sans avis, a été identifié et supprimé/fusionné. Seule la fiche originale avec 6 avis clients (5,0★) subsiste désormais.
+- **Accès obtenu** : `sublimnet33@gmail.com` ajouté comme **Administrateur** sur cette fiche (propriétaire principal inchangé : `lapeste7710@gmail.com`). Invitation acceptée, accès confirmé.
+- **Vérification vidéo** : la demande en cours sous `sublimnet33@gmail.com` a été annulée pour éviter un nouveau conflit de doublon, maintenant que l'accès administrateur est obtenu sur la bonne fiche.
+- **Mise à jour du contenu de la fiche, en cours via `sublimnet33@gmail.com`** :
+  - Téléphone : déjà correct (07 79 72 60 76).
+  - Site web : à changer vers `sublimnet.com` (encore sur l'ancien lien) — pas encore fait.
+  - Horaires : actuellement affichés "Ouvert 24h/24" (incorrect) — à remplacer par les vrais horaires d'intervention (voir "Règles de créneaux" ci-dessus) — pas encore fait.
+  - Catégorie d'activité : sélection en cours (principale + catégories supplémentaires pour couvrir auto/canapé/tapis/matelas).
+  - Description : actuellement générique ("Service de nettoyage et d'entretien") — à réécrire pour s'aligner sur le ton du site.
 
 ## TODO — prochaine session
 
 1. `$seo-audit` — pas encore lancé.
 2. `$ai-seo` — pas encore lancé.
 3. GA4 — événements de conversion sur le tunnel de réservation (détail des événements à définir, voir "Ce qui n'existe pas encore" ci-dessus).
-4. GMB — obtenir l'accès gestionnaire sur la fiche existante (voir section dédiée ci-dessus), puis mettre à jour site/téléphone/adresse/horaires sur la fiche.
+4. GMB — sur la fiche existante (accès admin déjà obtenu) : changer le site web vers `sublimnet.com`, corriger les horaires, finaliser la catégorie d'activité, réécrire la description (voir section dédiée ci-dessus).
