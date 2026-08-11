@@ -1,10 +1,11 @@
-// Page Avis & Contact — pas de faux avis, pas de note inventée (voir CLAUDE.md :
-// aucune fiche Google Business Profile, aucun avis client réel pour le moment).
-import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK } from '../tokens';
+// Page Avis & Contact — note et nombre d'avis affichés uniquement depuis que la
+// fiche Google Business Profile est confirmée et reprise en main (voir CLAUDE.md
+// section GMB). Pas de contenu détaillé des avis, juste le rappel + lien source.
+import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../tokens';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
-import { WhatsAppIcon, PhoneIcon, MailIcon, PinIcon, CheckIcon, InstagramIcon, TiktokIcon } from '../components/Icons';
+import { WhatsAppIcon, PhoneIcon, MailIcon, PinIcon, CheckIcon, InstagramIcon, TiktokIcon, StarIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
 
 const HORAIRES = [
@@ -17,15 +18,21 @@ export default function ContactPage() {
     <>
       <PageHeaderBanner title="Avis & Contact" />
 
-      {/* ── AVIS — transparence, pas de faux avis ─────────────────────── */}
+      {/* ── AVIS — note et nombre réels, source Google, pas de contenu détaillé ── */}
       <section className="sec-p-sm">
         <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
           <FadeIn>
             <h2 style={{ fontFamily: F.heading, fontSize: 'clamp(1.4rem, 3vw, 1.8rem)', fontWeight: 700, color: C.dark, marginBottom: 14 }}>
               Avis clients
             </h2>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 10 }}>
+              {[...Array(5)].map((_, i) => <StarIcon key={i} size={20} color={C.primary} />)}
+            </div>
+            <p style={{ fontSize: 16, fontWeight: 700, color: C.dark, marginBottom: 10 }}>
+              {GOOGLE_RATING.toFixed(1)} sur Google — {GOOGLE_REVIEW_COUNT} avis
+            </p>
             <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7 }}>
-              Sublim Net vient tout juste de démarrer — on affichera ici les premiers avis clients dès qu'on en aura. En attendant, retrouvez de vraies photos avant/après sur notre <a href="/services" style={{ color: C.primary, fontWeight: 600 }}>page Services</a>.
+              Ils nous font confiance. <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" style={{ color: C.primary, fontWeight: 600 }}>Voir la fiche Google →</a>
             </p>
           </FadeIn>
         </div>

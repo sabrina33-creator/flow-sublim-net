@@ -1,9 +1,9 @@
-import { C, F, PHONE, PHONE_DISPLAY, WHATSAPP, CITY } from '../tokens';
+import { C, F, PHONE, PHONE_DISPLAY, WHATSAPP, CITY, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../tokens';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
 import FaqItem from '../components/FaqItem';
 import Logo from '../components/Logo';
-import { WhatsAppIcon, PhoneIcon, CheckIcon } from '../components/Icons';
+import { WhatsAppIcon, PhoneIcon, CheckIcon, StarIcon } from '../components/Icons';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 
 // Hero — versions optimisées web (redimensionnées/compressées) des photos originales
@@ -111,6 +111,19 @@ export default function HomePage() {
                 <WhatsAppIcon size={17} /> WhatsApp
               </Btn>
             </div>
+          </FadeIn>
+          <FadeIn delay={0.25}>
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 24, fontSize: 13, color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}
+            >
+              <span style={{ display: 'flex', gap: 1 }}>
+                {[...Array(5)].map((_, i) => <StarIcon key={i} size={13} color="#fff" />)}
+              </span>
+              {GOOGLE_RATING.toFixed(1)} sur Google ({GOOGLE_REVIEW_COUNT} avis)
+            </a>
           </FadeIn>
         </div>
       </section>

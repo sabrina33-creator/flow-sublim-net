@@ -31,6 +31,12 @@ export const INSTAGRAM = 'https://instagram.com/sublimnet';
 export const TIKTOK    = 'https://www.tiktok.com/@sublimnet';
 export const SNAPCHAT  = 'https://www.snapchat.com/add/sublimnett';
 
+// ── GOOGLE BUSINESS PROFILE ───────────────────────────────────────────────────
+// Fiche existante identifiée et reprise en main — voir CLAUDE.md section GMB.
+export const GOOGLE_REVIEWS_URL   = 'https://share.google/OO0MDj9rozdpL3ps7';
+export const GOOGLE_RATING        = 5.0;
+export const GOOGLE_REVIEW_COUNT  = 6;
+
 // ── ANALYTICS ─────────────────────────────────────────────────────────────────
 export const GA4_ID = 'G-KRYJ8JZ2QG';
 
