@@ -687,10 +687,34 @@ Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
 **État git en fin de session :** `ffb3e67` committé et poussé (4 fichiers : `tokens.js`, `ContactPage.jsx`, `HomePage.jsx`, `public/index.html`). Cette entrée de journal à committer séparément. Validation Google Rich Results Test à faire après le redéploiement Netlify — pas encore effectuée au moment de rédiger cette entrée.
 
 **Points ouverts :**
-- Valider le schema `aggregateRating` avec Google Rich Results Test une fois le déploiement Netlify terminé.
+- ~~Valider le schema `aggregateRating` avec Google Rich Results Test~~ — fait juste après cette entrée : l'utilisatrice a testé elle-même (résultat OK), confirmé en parallèle par une lecture directe du JSON-LD déployé sur `sublimnet.com` (`aggregateRating` correct, `areaServed` à 15 entrées).
 - Marquer `booking_completed` comme conversion dans l'interface GA4 — toujours en attente (voir entrée précédente).
 - GMB : finaliser site web / horaires / catégorie / description sur la fiche.
 - Bug UX du bouton "Confirmer" sans validation HTML5 native — toujours signalé, non corrigé.
 - Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
 - Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
-- `$impeccable ai-seo` — toujours pas commencé.
+
+---
+
+## 2026-08-11 (suite 3) — `/ai-seo` : resynchronisation FAQPage, mise à jour llms.txt, villes desservies visibles
+
+**Périmètre cadré explicitement par l'utilisatrice avant l'audit** : découverte par les IA génératives/assistants (llms.txt, structure de contenu lisible par un LLM, cohérence des informations factuelles) — pas les volets du skill `ai-seo` sans rapport avec un site vitrine local de cette taille (outils de suivi de citation IA payants, stratégie de contenu/backlinks, `/pricing.md` type SaaS). Audit mené avant toute modification, liste de constats présentée, traitement des 4 points dans l'ordre proposé par l'utilisatrice, diff global montré une seule fois pour validation groupée (pas un diff par point).
+
+**1. Schema `FAQPage` resynchronisé sur la FAQ réellement affichée sur `HomePage.jsx`.** Écart trouvé en comparant ligne à ligne le tableau `FAQ` du composant et le `mainEntity` du JSON-LD dans `public/index.html` : la question "Comment se passe le paiement ?" (5ᵉ sur 6 dans le composant) était **totalement absente** du schema, qui n'en comptait que 5. Trois autres réponses communes avaient un texte légèrement différent entre composant et schema (précision "(Express, Confort, combinés)" manquante sur le délai 24h, phrase sur l'affichage séparé des frais manquante, mention "parcours dédié" manquante sur la réponse Tapis). Schema aligné mot pour mot sur le composant (source de vérité, car c'est ce que voit réellement un visiteur), JSON revalidé par un parse avant diff.
+
+**2. `llms.txt` mis à jour.** Deux ajouts factuels devenus faux/incomplets par l'accumulation des sessions précédentes : la note Google (5,0★, 6 avis, absente alors qu'affichée sur le site depuis l'entrée précédente) et la liste complète des 15 villes desservies (le fichier ne disait que "Talence et alentours", sans détail, alors que le schema et la fiche GMB en listent 15 depuis le commit `34f2892`).
+
+**3. Villes desservies ajoutées en texte visible sur `ContactPage.jsx`, section "Zone d'intervention".** Jusqu'ici, la liste des 15 villes n'existait que dans le schema JSON-LD (invisible à l'œil) et dans `llms.txt` — aucun texte lisible sur le site lui-même ne les nommait, ce qui limite l'extractibilité pour des requêtes IA du type "nettoyage auto Cenon" ou "detailing Mérignac" (principe de couverture du cluster de requêtes/query fan-out). Nouvelle constante `AREA_SERVED_CITIES` centralisée dans `tokens.js` (avec commentaire de rappel : à garder alignée avec `areaServed` du schema) plutôt qu'une liste locale à `ContactPage.jsx`, pour limiter le risque de désynchronisation future. Vérifié par capture d'écran réelle : la carte "Zone d'intervention" s'agrandit proprement, pas de casse de mise en page.
+
+**4. Commentaire technique périmé corrigé dans `public/index.html`.** La ligne au-dessus du script GA4 affirmait encore "Bandeau de consentement cookies pas encore en place" — faux depuis la session du bandeau cookies, plusieurs sessions plus tôt. N'affecte aucun rendu ni comportement (commentaire HTML invisible), corrigé par cohérence documentaire pour ne pas induire en erreur une future session qui lirait ce fichier.
+
+**Ce qui a été examiné puis délibérément écarté** : `robots.txt` déjà conforme (tous les bots IA majeurs explicitement autorisés, aucune action nécessaire) ; pas de nouveau bloc "définition" ajouté au hero de l'accueil (le `<title>`/meta description et le schema portent déjà cette info clairement, réécrire le hero pour l'IA aurait dilué l'accroche marketing pour un gain marginal) ; pas de fichier `/pricing.md` séparé proposé (la grille tarifaire est déjà entièrement lisible dans `llms.txt`, un fichier dédié ferait doublon sur un site de cette taille).
+
+**État git en fin de session :** `73797d5` committé et poussé (4 fichiers : `public/index.html`, `public/llms.txt`, `src/tokens.js`, `src/pages/ContactPage.jsx`). Cette entrée de journal à committer séparément.
+
+**Points ouverts :**
+- Marquer `booking_completed` comme conversion dans l'interface GA4 — toujours en attente.
+- GMB : finaliser site web / horaires / catégorie / description sur la fiche.
+- Bug UX du bouton "Confirmer" sans validation HTML5 native — toujours signalé, non corrigé.
+- Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
