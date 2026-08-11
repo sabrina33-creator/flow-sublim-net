@@ -718,3 +718,40 @@ Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
 - Bug UX du bouton "Confirmer" sans validation HTML5 native — toujours signalé, non corrigé.
 - Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
 - Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+
+---
+
+## 2026-08-11 (suite 4) — Audit SEO technique manuel et correction des 5 écarts prioritaires
+
+**`/seo-audit` demandé, skill non installé dans cet environnement (contrairement à `/ai-seo`)** — vérifié dans `C:\Users\User\.claude\skills\`, absent malgré une utilisation passée de l'utilisatrice sur d'autres projets/postes. Audit technique standard mené directement (meta tags, structure de titres, vitesse perçue, liens internes/externes, sitemap, robots.txt), sans skill dédié, sur la base d'une checklist connue. Écarts listés par sévérité, aucune correction appliquée avant validation explicite — conforme à la demande initiale.
+
+**Constats de l'audit (avant correction) :**
+- 🔴 **Meta tags identiques sur toutes les pages, y compris le `canonical`** — SPA sans aucune gestion de title/meta par page (pas de `react-helmet` ni équivalent). Le plus grave : `<link rel="canonical">` pointait vers l'accueil sur **toutes** les sous-pages, ce qui peut empêcher leur indexation propre par Google.
+- 🔴 **Aucun `<h1>` sur la page d'accueil** — la page la plus importante du site n'avait aucun titre principal sémantique (hero basé sur le composant `Logo`, pas de texte).
+- 🟠 **~11 Mo d'images non compressées** pour 4 miniatures de 170px de haut sur l'accueil (`siege-beige-apres.png` 2,9 Mo, `tapis.png` 3,4 Mo, `matelas-apres.png` 2,4 Mo, `canape1-apres.png` 2,3 Mo) — jamais passées par le pipeline d'optimisation déjà établi pour le hero.
+- 🟡 Title partagé de 74 caractères (au-delà des ~50-60 recommandés).
+- 🟡 `sitemap.xml` avec des `lastmod` obsolètes (2026-07-26/28) malgré de nombreux changements depuis.
+- 🟡 Site 100% CSR (CRA, pas de SSR/SSG) — choix d'architecture déjà assumé, noté pour information.
+- 🟢 Aucun écart sur les liens internes (navigation header/footer cohérente sur les 5 pages) ni externes (`rel="noopener noreferrer"` correctement appliqué partout) ni sur `robots.txt` (déjà conforme, tous les bots IA autorisés).
+
+**Correction des 5 premiers points, dans l'ordre demandé par l'utilisatrice (commit `b99dc93`) :**
+
+1. **Nouveau composant `src/components/Seo.jsx`** — pas de nouvelle dépendance (`react-helmet-async` évité par prudence : risque de friction avec React 19 en peer dependency, alors que le besoin réel — title/description/canonical/OG simples sur 7 routes — ne justifie pas une librairie). Le composant met à jour au montage les balises déjà présentes dans `public/index.html` via `document.querySelector`, sans les dupliquer. Ajouté à chacune des 7 pages (y compris les 2 pages légales et les 2 états de `ReservationPage.jsx` — formulaire et écran de succès).
+2. **Titles uniques par page, tous sous 60 caractères** (29 à 58 car.), traité dans la même passe que le point 1.
+3. **H1 ajouté sur l'accueil** — la balise `<p>` du tagline hero (`ACCROCHE_SUB`) convertie en `<h1>`, texte et style strictement inchangés (pas de nouvelle rédaction, juste la sémantique HTML corrigée).
+4. **4 images compressées** via le même pipeline PowerShell/System.Drawing que les collages (redimensionnement à 700px de hauteur max, JPEG qualité 85), nouveaux fichiers `*-web.jpg` créés à côté des originaux **jamais supprimés** (convention déjà établie pour le hero : originaux conservés comme référence, seule la version utilisée dans le code change). Résultat : 37 à 222 Ko par image (~450 Ko au total contre ~11 Mo). **Vérification visuelle individuelle des 4 images demandée explicitement par l'utilisatrice avant le commit** (pas seulement un contrôle "se charge sans erreur") — faite après coup sur demande, cas le plus exigeant (`matelas-apres-web.jpg`, texture matelassée blanc sur blanc) confirmé sans artefact de bloc JPEG ni flou.
+5. **`sitemap.xml`** : les 7 `lastmod` mis à jour à 2026-08-11 — légitime, les 7 pages ont réellement été modifiées dans cette session (ajout du composant `Seo`).
+
+**Point 6 (CSR sans SSR/SSG) : non corrigé, ajouté en TODO `CLAUDE.md`** comme limitation architecturale connue et assumée, à réévaluer dans une future session seulement si le besoin devient réel (pas par principe) — corriger impliquerait une refonte vers Next.js ou équivalent, hors périmètre d'un audit technique ponctuel.
+
+**Vérification avant commit** : compilation propre (webpack sans erreur), script Playwright confirmant sur les 7 routes un title/description/canonical uniques et corrects et exactement un `<h1>` par page, zéro erreur console, capture d'écran de la section "Nos prestations" confirmant le chargement correct des 4 nouvelles images.
+
+**État git en fin de session :** `b99dc93` committé et poussé (14 fichiers). Cette entrée de journal à committer séparément.
+
+**Points ouverts :**
+- Marquer `booking_completed` comme conversion dans l'interface GA4 — toujours en attente.
+- GMB : finaliser site web / horaires / catégorie / description sur la fiche.
+- Bug UX du bouton "Confirmer" sans validation HTML5 native — toujours signalé, non corrigé.
+- Limitation CSR/pas de SSR — documentée, pas d'action prévue sauf besoin avéré.
+- Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
