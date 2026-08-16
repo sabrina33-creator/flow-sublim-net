@@ -22,6 +22,6 @@ export function trackLead(method, loc) {
 
 export function trackEvent(eventName, params = {}) {
   if (window.gtag) {
-    window.gtag('event', eventName, params);
+    window.gtag('event', eventName, { ...params, transport_type: 'beacon' }); // fiabilise l'envoi, y compris juste avant une navigation/fermeture
   }
 }
