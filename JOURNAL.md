@@ -755,3 +755,26 @@ Exécuté avec succès par l'utilisatrice (`Success. No rows returned`).
 - Limitation CSR/pas de SSR — documentée, pas d'action prévue sauf besoin avéré.
 - Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
 - Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
+
+---
+
+## 2026-08-16/20 — Correctif `transport_type: beacon` sur `trackEvent()` confirmé fonctionnel, `booking_completed` marqué comme conversion GA4
+
+**Rappel du problème (voir CLAUDE.md, entrée GA4 du 2026-08-11 suite 3) :** `booking_completed`/`booking_error` restaient invisibles dans GA4 → Admin → Événements 24h après leur premier déclenchement réel en production, alors que `service_selected`/`booking_started` s'y trouvaient normalement. Cause probable identifiée : `trackEvent()` (`src/analytics.js`) n'avait pas `transport_type: 'beacon'`, contrairement à `trackPageView()` (déjà corrigé le 2026-08-03 pour la même raison, voir entrée correspondante) — le hit pouvait être coupé si l'utilisateur ferme l'onglet ou navigue juste après, ce qui est précisément le cas pour ces deux événements (déclenchés à un moment de sortie du tunnel : écran de confirmation ou message d'erreur).
+
+**Correctif appliqué et poussé le 2026-08-16 (commit `88c6623`)** : ajout de `transport_type: 'beacon'` dans `trackEvent()`. `service_selected`/`booking_started` non concernés par ce correctif (déclenchés en milieu de parcours, pas à un moment de sortie).
+
+**Confirmé fonctionnel le 2026-08-20** : `booking_completed` et `booking_error` apparaissent désormais bien dans GA4 → Admin → Événements → "Événements récents", en tête de liste. Le test réalisé immédiatement après le déploiement du 2026-08-16 n'avait rien montré de nouveau, mais s'expliquait par le délai d'affichage connu de ce panneau (jusqu'à 24-48h pour un événement rare) — pas une preuve d'échec à l'époque, comme noté dans l'entrée CLAUDE.md correspondante.
+
+**Dernière étape du chantier GA4 réalisée par l'utilisatrice** : `booking_completed` marqué comme événement clé (conversion) dans l'interface GA4, en cliquant sur l'étoile à côté de l'événement. Choix délibéré de ne marquer **que** `booking_completed` — ni `booking_error`, ni `service_selected`, ni `booking_started` — cohérent avec la sémantique GA4 d'un événement clé (une conversion réelle, pas une étape intermédiaire ou un échec).
+
+**CLAUDE.md mis à jour en conséquence** : statut GA4 passé de "vérification en cours" à confirmé/validé dans "État actuel du projet" et dans la section "Identité de l'entreprise" ; TODO retiré (point GA4 clos).
+
+**Chantier GA4 (tracking + fiabilisation + conversion) : entièrement clos.**
+
+**Points ouverts :**
+- GMB : finaliser site web / horaires / catégorie / description sur la fiche.
+- Bug UX du bouton "Confirmer" sans validation HTML5 native — toujours signalé, non corrigé.
+- Limitation CSR/pas de SSR — documentée, pas d'action prévue sauf besoin avéré.
+- Réponse de Kenzo sur `sublimnet.fr`/"Pro Clean" et le "150+ avis" — toujours en attente.
+- Retour du frère de l'utilisatrice sur son test de réservation — toujours en attente.
