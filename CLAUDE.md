@@ -18,7 +18,7 @@ Le site est en ligne sur `sublimnet.com`, entièrement fonctionnel :
 - Bouton WhatsApp (nav + Devis Tapis) : conservé, décision confirmée par Kenzo.
 - Fiche Google Business Profile existante identifiée, doublon vide résolu, accès administrateur obtenu (`sublimnet33@gmail.com`) — mise à jour du contenu de la fiche en cours (voir section GMB).
 - GA4 — tracking des événements de conversion sur le tunnel de réservation en place et **entièrement validé** (`service_selected`, `booking_started`, `booking_error`, `booking_completed` sur `ReservationPage.jsx`), en plus du `page_view` de base. `booking_completed`/`booking_error` avaient été invisibles dans GA4 → Admin → Événements 24h après leur premier déclenchement réel — cause : `trackEvent()` (`src/analytics.js`) n'avait pas `transport_type: 'beacon'`, contrairement à `trackPageView()`, donc le hit pouvait être coupé si l'utilisateur ferme/navigue juste après (cas fréquent pour ces 2 événements, déclenchés à un moment de sortie). Correctif poussé le 2026-08-16 (commit `88c6623`), **confirmé fonctionnel le 2026-08-20** : les deux événements apparaissent désormais dans "Événements récents". `booking_completed` marqué comme événement clé (conversion) dans GA4 — `booking_error` et les autres volontairement laissés hors conversion.
-- Note Google (5,0★, 6 avis) affichée sur le site (hero + page Avis & Contact) avec lien vers la fiche, et `aggregateRating` ajouté au schema.org `LocalBusiness` — validation Google Rich Results Test à faire après déploiement.
+- Note Google (5,0★, 14 avis) affichée sur le site (hero + page Avis & Contact) avec lien vers la fiche, et `aggregateRating` ajouté au schema.org `LocalBusiness` — validation Google Rich Results Test à faire après déploiement.
 
 ## Identité de l'entreprise
 
@@ -101,14 +101,14 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 ## Ce qui n'existe pas encore (ne jamais inventer/afficher comme si ça existait)
 
-- **Fiche Google Business Profile : accès administrateur obtenu, contenu de la fiche pas encore entièrement à jour** — voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. La note réelle (5,0★, 6 avis, source fiche vérifiée) est affichée sur le site depuis le 2026-08-11 (hero + page Avis & Contact + `aggregateRating` schema.org) — ne jamais afficher de note différente de ces chiffres réels, ni de faux témoignage/contenu détaillé d'avis inventé. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé, sans rapport avec la vraie fiche).
+- **Fiche Google Business Profile : accès administrateur obtenu, contenu de la fiche pas encore entièrement à jour** — voir section dédiée "GMB — Google My Business" ci-dessous pour le détail complet. La note réelle (5,0★, 14 avis au 2026-10-13, source fiche vérifiée) est affichée sur le site depuis le 2026-08-11 (hero + page Avis & Contact + `aggregateRating` schema.org) — ne jamais afficher de note différente de ces chiffres réels, ni de faux témoignage/contenu détaillé d'avis inventé. Ne pas reprendre la mention "150+ avis Google" affichée sur `sublimnet.fr` (chiffre non confirmé, sans rapport avec la vraie fiche).
 - Aucune assurance professionnelle — ne jamais afficher de mention rassurante à ce sujet.
 
 ## GMB — Google My Business
 
 Une fiche Google Business Profile "Sublim Net" existait déjà avant ce projet, héritée d'un ancien prestataire — site associé `sublimnet.fr` sous le nom "Procline" (jamais terminé). **C'est cette fiche préexistante, et non une absence de fiche, qui causait le rejet répété des tentatives de vérification vidéo** (Google détectait un doublon et refusait).
 
-- **Doublon résolu** : un deuxième doublon, vide et sans avis, a été identifié et supprimé/fusionné. Seule la fiche originale avec 6 avis clients (5,0★) subsiste désormais.
+- **Doublon résolu** : un deuxième doublon, vide et sans avis, a été identifié et supprimé/fusionné. Seule la fiche originale avec ses avis clients (14 au 2026-10-13, 5,0★) subsiste désormais.
 - **Accès obtenu** : `sublimnet33@gmail.com` ajouté comme **Administrateur** sur cette fiche (propriétaire principal inchangé : `lapeste7710@gmail.com`). Invitation acceptée, accès confirmé.
 - **Vérification vidéo** : la demande en cours sous `sublimnet33@gmail.com` a été annulée pour éviter un nouveau conflit de doublon, maintenant que l'accès administrateur est obtenu sur la bonne fiche.
 - **Mise à jour du contenu de la fiche, en cours via `sublimnet33@gmail.com`** :

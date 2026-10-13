@@ -19,7 +19,7 @@ export default function ContactPage() {
     <>
       <Seo
         title="Avis clients et contact | Sublim Net"
-        description="5,0 sur Google (6 avis). Contactez Sublim Net par téléphone, WhatsApp ou email — zone d'intervention et créneaux de réservation."
+        description="5,0 sur Google (14 avis). Contactez Sublim Net par téléphone, WhatsApp ou email — zone d'intervention et créneaux de réservation."
         path="/contact"
       />
       <PageHeaderBanner title="Avis & Contact" />
