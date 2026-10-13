@@ -42,7 +42,7 @@ export const SNAPCHAT  = 'https://www.snapchat.com/add/sublimnett';
 // Fiche existante identifiée et reprise en main — voir CLAUDE.md section GMB.
 export const GOOGLE_REVIEWS_URL   = 'https://share.google/OO0MDj9rozdpL3ps7';
 export const GOOGLE_RATING        = 5.0;
-export const GOOGLE_REVIEW_COUNT  = 6;
+export const GOOGLE_REVIEW_COUNT  = 14;
 
 // ── ANALYTICS ─────────────────────────────────────────────────────────────────
 export const GA4_ID = 'G-KRYJ8JZ2QG';
