@@ -1,11 +1,11 @@
 // Page Avis & Contact — note et nombre d'avis affichés uniquement depuis que la
 // fiche Google Business Profile est confirmée et reprise en main (voir CLAUDE.md
 // section GMB). Pas de contenu détaillé des avis, juste le rappel + lien source.
-import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, AREA_SERVED_CITIES } from '../tokens';
+import { C, F, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, FACEBOOK, GOOGLE_REVIEWS_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, AREA_SERVED_CITIES } from '../tokens';
 import { RAYON_GRATUIT_KM, TARIF_KM_SUPPLEMENTAIRE } from '../lib/pricing';
 import FadeIn from '../components/FadeIn';
 import Btn from '../components/Btn';
-import { WhatsAppIcon, PhoneIcon, MailIcon, PinIcon, CheckIcon, InstagramIcon, TiktokIcon, StarIcon } from '../components/Icons';
+import { WhatsAppIcon, PhoneIcon, MailIcon, PinIcon, CheckIcon, InstagramIcon, TiktokIcon, FacebookIcon, StarIcon } from '../components/Icons';
 import PageHeaderBanner from '../components/PageHeaderBanner';
 import Seo from '../components/Seo';
 
@@ -159,6 +159,16 @@ export default function ContactPage() {
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: `${C.dark}12`, color: C.dark }}
               >
                 <TiktokIcon size={21} />
+              </a>
+              <a
+                href={FACEBOOK}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Sublim Net"
+                className="flow-social-icon flow-social-facebook"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: '50%', background: '#1877F218', color: '#1877F2' }}
+              >
+                <FacebookIcon size={20} />
               </a>
               {/* Snapchat retiré : compte SUBLIMNETT introuvable (ni web ni recherche in-app) — voir CLAUDE.md */}
             </div>
