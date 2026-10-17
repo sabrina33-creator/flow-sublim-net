@@ -36,6 +36,7 @@ export const AREA_SERVED_CITIES = [
 // ── RÉSEAUX SOCIAUX ───────────────────────────────────────────────────────────
 export const INSTAGRAM = 'https://instagram.com/sublimnet';
 export const TIKTOK    = 'https://www.tiktok.com/@sublimnet';
+export const FACEBOOK  = 'https://www.facebook.com/p/Sublimenet-61564028355076/';
 export const SNAPCHAT  = 'https://www.snapchat.com/add/sublimnett';
 
 // ── GOOGLE BUSINESS PROFILE ───────────────────────────────────────────────────

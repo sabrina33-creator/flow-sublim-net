@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { C, F, SITE_NAME, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK } from '../tokens';
-import { PhoneIcon, MailIcon, WhatsAppIcon, PinIcon, InstagramIcon, TiktokIcon } from './Icons';
+import { C, F, SITE_NAME, PHONE, PHONE_DISPLAY, EMAIL, WHATSAPP, CITY, INSTAGRAM, TIKTOK, FACEBOOK } from '../tokens';
+import { PhoneIcon, MailIcon, WhatsAppIcon, PinIcon, InstagramIcon, TiktokIcon, FacebookIcon } from './Icons';
 import Btn from './Btn';
 import Logo from './Logo';
 import badgeMascotte from '../images/badge-mascotte.png'; // Pictogramme validé — footer uniquement, ne pas déplacer sans confirmation explicite
@@ -48,6 +48,16 @@ export default function Footer() {
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}
               >
                 <TiktokIcon size={18} />
+              </a>
+              <a
+                href={FACEBOOK}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Sublim Net"
+                className="flow-social-icon flow-social-facebook"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}
+              >
+                <FacebookIcon size={17} />
               </a>
             </div>
           </div>
