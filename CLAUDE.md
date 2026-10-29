@@ -84,7 +84,7 @@ Sur devis uniquement — aucun prix fixe affiché, parcours dédié sans réserv
 
 ## Zone d'intervention et frais de déplacement
 
-- Point de départ du calcul : adresse interne (20 rue François Rabelais, Talence) — jamais affichée publiquement.
+- Point de départ du calcul : adresse interne (20 rue François Rabelais, Talence) — affichée seulement dans les pages légales (voir Identité de l'entreprise).
 - Méthode : distance à vol d'oiseau (Haversine) entre les coordonnées géocodées de l'adresse client et l'adresse interne.
 - Rayon gratuit : 20 km.
 - Au-delà : 0,75€/km appliqué uniquement sur le dépassement (ex. 30 km réels → 10 km facturés = 7,50€).
